@@ -7,7 +7,7 @@ demo() {
     (cd $Here; make)
     f=$1; shift
     time gauk -f $f.awk --source 'BEGIN { exit _'$f'(); }' $*
-	vars
+    vars
 }
 e() {
     if   [ "$DISPLAY" ]
