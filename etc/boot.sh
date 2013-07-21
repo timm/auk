@@ -6,7 +6,8 @@ dot=$PWD/etc/dotemacs
 demo() {
     (cd $Here; make)
     f=$1; shift
-    gauk -f $f.awk --source 'BEGIN { exit _'$f'(); }' $*
+    time gauk -f $f.awk --source 'BEGIN { exit _'$f'(); }' $*
+	vars
 }
 e() {
     if   [ "$DISPLAY" ]
@@ -15,8 +16,11 @@ e() {
     fi
 }
 vars() {
-    egrep -v '[A-Z][A-Z]' $Tmp/awkvars.out | 
-    sed 's/^/W> rogue local: /'
+    if [ -f "$Tmp/awkvars.out" ]
+    then
+		egrep -v '[A-Z][A-Z]' $Tmp/awkvars.out | 
+    	sed 's/^/W> rogue local: /'
+    fi
 }
 profile() {
     cat $Tmp/awkprof.out
