@@ -4,7 +4,7 @@ alias ls="ls --color"
 dot=$PWD/etc/dotemacs
 
 demo() {
-    (cd $Here; make)
+    (cd $Here; make -B)
     f=$1; shift
     time gauk -f $f.awk --source 'BEGIN { exit _'$f'(); }' $*
     vars

@@ -3,7 +3,7 @@
 function readcsv(f,z,_Table,   str,a,r) {
    FS=","; RS="\n"
    while(1) { 
-     str=line(f)
+     str = line(f)
      if (str == -1)  return 
      if (split(str,a,FS)) {
        r ? row(a,r,_Table[z]) : tables(a,z,_Table) 
@@ -11,9 +11,7 @@ function readcsv(f,z,_Table,   str,a,r) {
 }
 function tables(a,z,_Table,  c,x,nummy,isNum) {  
   for(c in a) {
-    print a[c]
     if (a[c] ~ /\?/) continue
-    print a[c]
     new3d(data,z,c) 
     x = name[z][c] = a[c]
     isNum = 1
@@ -33,8 +31,7 @@ function tables(a,z,_Table,  c,x,nummy,isNum) {
       most[z][c] = 0 }}
 }
 function row(a,r,_Table,   c,x,new,delta) {
-  for(c in a) 
-    if(c in name) {
+  for(c in name) { 
       x = data[r][c] = a[c] 
       if (x !~ /?/) {
 	if (c in wordp) { 
