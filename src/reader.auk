@@ -32,21 +32,21 @@ function tables(a,z,_Table,  c,x,nummy,isNum) {
 }
 function row(a,r,_Table,   c,x,new,delta) {
   for(c in name) { 
-      x = data[r][c] = a[c] 
-      if (x !~ /?/) {
-	if (c in wordp) { 
-	  new = ++count[c][x]
-	  if (new > most[c]) {
-	    mode[c] = x
-	    most[c] = new }
-	} else {
-	  x = data[r][c] = x + 0 # coercion to a number
-	  if (x > hi[c]) hi[c] = x
-	  if (x < lo[c]) lo[c] = x 
-	  n[c]  += 1
-	  delta  = x - mu[c]
-	  mu[c] += delta/n[c]
-	  m2[c] += delta*(x - mu[c])
-	  if (n[c] > 1) 
-	    sd[c] = (m2[c]/(n[c] - 1))^0.5 }}}
+    x = data[r][c] = a[c] 
+    if (x !~ /?/) {
+      if (c in wordp) { 
+	new = ++count[c][x]
+	if (new > most[c]) {
+	  mode[c] = x
+	  most[c] = new }
+      } else {
+	x = data[r][c] = x + 0 # coercion to a number
+	if (x > hi[c]) hi[c] = x
+	if (x < lo[c]) lo[c] = x 
+	n[c]  += 1
+	delta  = x - mu[c]
+	mu[c] += delta/n[c]
+	m2[c] += delta*(x - mu[c])
+	if (n[c] > 1) 
+	  sd[c] = (m2[c]/(n[c] - 1))^0.5 }}}
 }
