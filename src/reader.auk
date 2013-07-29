@@ -9,10 +9,12 @@ function readcsv(f,z,_Table,   str,a,r) {
        r ? row(a,r,_Table[z]) : tables(a,z,_Table) 
        r++  }}
 }
-function tables(a,z,_Table,  c,x,nummy,isNum) {  
-  for(c in a) {
+function tables(a,z,_Table,  c,x,isNum,j,max) {
+  max = length(a)
+  for(c=1;c<=max;c++) {
     if (a[c] ~ /\?/) continue
-    new3d(data,z,c) 
+    order[z][++j] = c
+    new3d(data,z,c)
     x = name[z][c] = a[c]
     isNum = 1
     if     (x~ /=/ ) {dep[z][c];   klass[z][c];isNum=0}
@@ -49,4 +51,19 @@ function row(a,r,_Table,   c,x,new,delta) {
 	m2[c] += delta*(x - mu[c])
 	if (n[c] > 1) 
 	  sd[c] = (m2[c]/(n[c] - 1))^0.5 }}}
+}
+function rowsprint(_Table,   max,i) {
+  max =length(data)
+  for(i=1;i<=max;i++)
+    print i, rowprint(i,_Table)
+}
+function rowprint(i,_Table,   max,j,c,str,sep) {
+  sep=FS
+  max = length(order)
+  for(j=1;j<=max;j++) {
+    c = order[j]
+    str = str sep data[i][c]
+    sep =","
+  }
+  return str
 }

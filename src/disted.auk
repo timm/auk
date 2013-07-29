@@ -1,11 +1,19 @@
 @include "reader.awk"
 @include "dist.awk"
 
-function _disted(    _Table) {
-  readcsv("data/weather1.csv",0,_Table)
+function disted(    _Table,i,j) {
+  readcsv("data/weather2.csv",0,_Table)
+  for(i in data[0]) 
+    for(j in data[0])
+      print apart(i,j,0,_Table) | "sort -n"
+}
+function _disted(  _Table,i,j,k) {
+  readcsv("data/weather2.csv",0,_Table)
   for(i in data[0]) {
-    o(data[0][i],i)
-    j= closest(i,0,indep,_Table)
-    k= furthest(i,0,indep,_Table)
-    o(data[0][j],j " <<= close")
-    o(data[0][j],k " <<= far")
+      j= closest(i,0,_Table)
+      k= furthest(i,0,_Table)
+      print ""
+      print i,rowprint(i,_Table[0])
+      print j,rowprint(j,_Table[0]), "<<= close"
+      print k,rowprint(k,_Table[0]), "<<= far"
+    }}

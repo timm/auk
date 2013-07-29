@@ -4,6 +4,7 @@ name   # name of i-th colum
 #
 # meta knowledge
 #
+order  # order of the columns
 nump   # is i-th column numeric
 wordp  # is i-th column non-numeric?
 indep  # list of indep columns

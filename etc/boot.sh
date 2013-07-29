@@ -4,9 +4,12 @@ alias ls="ls --color"
 dot=$PWD/etc/dotemacs
 
 demo() {
-    (cd $Here; make -B)
-    f=$1; shift
-    time gauk -f $f.awk --source 'BEGIN { exit _'$f'(); }' $*
+    (cd $Here; [ -f "Makefile" ] && make -B)
+    f=$1; com="_$1"; shift
+    if [ "$1" == ":" ]
+    then shift; com=$1; shift
+    fi
+    time gauk -f $f.awk --source 'BEGIN { exit '$com'(); }' $*
     vars
 }
 e() {

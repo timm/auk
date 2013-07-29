@@ -1,3 +1,17 @@
+function push(x,a,  i) {
+  i = 1 + length(a)
+  a[i] = x
+  return i
+}
+function pop(a,    i,j) {
+  i = length(a)
+  j = a[i]
+  delete a[i]
+  return j
+}
+function xsort(r1,x1,r2,x2) { return x1["x"] - x2["x"] }
+function ysort(r1,x1,r2,x2) { return x1["y"] - x2["y"] }
+
 function line(f,   str) {
   if ((getline str < f) > 0) {
     gsub(/[ \t\r]*/,"",str) 
@@ -9,6 +23,7 @@ function line(f,   str) {
   } else
     return -1
 }
+function new2d(a,b)   { a[b][""]; delete a[b] }
 function new3d(a,b,c) { a[b][c][""];  delete a[b][c] }
 function new(a) {
   split("",a,"")
