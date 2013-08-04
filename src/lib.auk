@@ -1,3 +1,6 @@
+function resetSeed() {
+  srand(Seed ? Seed : 1)
+}
 function push(x,a,  i) {
   i = 1 + length(a)
   a[i] = x
@@ -23,7 +26,7 @@ function line(f,   str) {
   } else
     return -1
 }
-function new2d(a,b)   { a[b][""]; delete a[b] }
+function new2d(a,b)   { a[b][""]; delete a[b][""] }
 function new3d(a,b,c) { a[b][c][""];  delete a[b][c] }
 function new(a) {
   split("",a,"")

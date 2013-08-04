@@ -9,3 +9,7 @@ function _readered(   _Table) {
   o(indep[0],"indep")
   tableprint(_Table[0])
 }
+
+function nasa93dem(    _Table) {
+  readcsv("data/nasa93dem.csv",0,_Table)
+}

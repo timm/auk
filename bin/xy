@@ -1,0 +1,74 @@
+#!/bin/bash
+
+
+Log=0
+Power=1
+Mult=5
+Z='=class'
+X='$_x'
+Y='$_y'
+C=gray
+while getopts "lo:t:x:y:z:c:m:p:d" opt; do
+  case $opt in
+    l) Log=1;;
+    t) Title=$OPTARG;;
+    m) Mult=$OPTARG;;
+    o) Stem=$OPTARG;;
+    d) Debug=1 ;;
+    p) Power=$OPTARG;;
+    c) C=$OPTARG;;
+    x) X=$OPTARG;;
+    y) Y=$OPTARG;;
+    z) Z=$OPTARG;;
+    \?) echo "usage: xy -ldocxyzmdp"
+	exit -1;;
+  esac
+done
+
+Dat=$Tmp/$$.dat
+cat - |
+gawk -F, '
+   function of(y, z) { z = (y - lo)/(hi - lo + 0.0001) + 0.5
+                       z = Log ? log(z+0.00001) : z
+                       return (z * Mult)**Pow }
+                    { gsub(/[ \t]/,"") }
+   /,/ && $0 ~ /_/  { lo = 10**32; hi = -1*lo
+                      for(i=1;i<=NF;i++) at[$i] = i }
+   /,/ && $0 !~ /_/ { n++
+                      x[n] = $at[X]
+                      y[n] = $at[Y]
+                      z[n] = $at[Z]
+                      if (z[n] < lo) lo = z[n]
+                      if (z[n] > hi) hi = z[n] }
+  END {  OFS="\t";
+         print "lo=" lo " hi=" hi
+         for(i=1;i<=n;i++)
+             print x[i],y[i] ,of(z[i]) }
+       ' X="$X" Y="$Y" Z="$Z" Pow=$Power Mult=$Mult Log=$Log > $Dat
+
+if [ -n "$Debug" ]
+then cat $Dat
+     rm -f $Tmp/$$.eps $Dat
+     exit
+fi
+gnuplot <<EOF
+set nokey
+set title "$Title
+set output "$Tmp/$$.eps
+set size 0.5,0.5
+set xrange [-0.05:]
+set yrange [-0.05:]
+set terminal postscript eps color enhanced "Helvetica" 15
+plot "$Dat" using 1:2:3 with points pointsize variable pointtype 7 linecolor rgb "$C"
+EOF
+
+epstopdf $Tmp/$$.eps
+if [ -n "$Stem" ]
+then  mv $Tmp/$$.pdf $Stem
+      evince $Stem &
+else
+      echo $Tmp/$$.eps 
+fi
+
+rm -f $Tmp/$$.eps $Dat
+

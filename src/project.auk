@@ -5,6 +5,7 @@ BEGIN { FS=OFS=","}
 @include "dist.awk"   
 
 function project(_Table,  d,east,west) {
+  resetSeed()
   d    = anyi(data) 
   east = furthest(d,   _Table)
   west = furthest(east,_Table)

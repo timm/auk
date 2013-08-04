@@ -1,24 +1,31 @@
 @include "lib.awk"
 
 function readcsv(f,z,_Table,   str,a,r) {
-   FS=","; RS="\n"
-   while(1) { 
-     str = line(f)
-     if (str == -1)  return 
-     if (split(str,a,FS)) {
-       r ? row(a,r,_Table[z]) : tables(a,z,_Table) 
-       r++  }}
+  FS=","; RS="\n"
+  while(1) { 
+    str = line(f)
+    if (str == -1)  {
+      if (!r) print "WARNING: empty or missing file " f
+      return 
+    }
+    if (split(str,a,FS)) {
+      if (r)
+	addRow(a,r,_Table[z]) 
+      else 
+	makeTable(a,z, _Table) 
+    r++  }}
 }
-function tables(a,z,_Table,  c,x,isNum,j,max) {
+function makeTable(a,z,_Table,  c,x,isNum,j,max) {
   max = length(a)
+  new2d(wordp,z)
   for(c=1;c<=max;c++) {
-    if (a[c] ~ /\?/) continue
+   if (a[c] ~ /\?/) continue
     order[z][++j] = c
     new3d(data,z,c)
     x = name[z][c] = a[c]
     isNum = 1
     if     (x~ /=/ ) {dep[z][c];   klass[z][c];isNum=0}
-    else if(x~ /\+/) {dep[z][c];   more[z][c]         }
+    else if(x~ /+/) {dep[z][c];   more[z][c]         }
     else if(x~ /-/ ) {dep[z][c];   less[z][c]         }
     else if(x~ /\$/) {indep[z][c]; num[z][c]          }
     else             {indep[z][c]; term[z][c]; isNum=0}
@@ -32,7 +39,7 @@ function tables(a,z,_Table,  c,x,isNum,j,max) {
       new3d(mode,z,c)
       most[z][c] = 0 }}
 }
-function row(a,r,_Table,   c,x,new,delta) {
+function addRow(a,r,_Table,   c,x,new,delta) {
   for(c in name) { 
     x = data[r][c] = a[c] 
     if (x !~ /?/) {

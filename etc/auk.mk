@@ -16,3 +16,4 @@ $(Tmp)/aukh.sed : $(Hs)  $(Etc)/h2sed.awk
 	@$(foreach f, $(Hs), \
 		(echo "" ; cat $f ; echo "") >> $(Tmp)/aukh.all;  )	
 	@gawk  -f $(Etc)/h2sed.awk $(Tmp)/aukh.all > $@
+
