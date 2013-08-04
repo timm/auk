@@ -7,4 +7,5 @@ function _readered(   _Table) {
   o(sd,"sd")
   o(dep[0],"dep")
   o(indep[0],"indep")
+  tableprint(_Table[0])
 }

@@ -51,8 +51,18 @@ function o(l,prefix,order,   indent,   old,i) {
    PROCINFO["sorted_in"]  = old 
 }
 
-
-
+function rowprint(a,lst,   sep,max,j,c,str) {
+  max = length(lst)
+  for(j=1;j<=max;j++) {
+    c = lst[j]
+    str = str sep a[c]
+    sep = ","
+  }
+  return str
+}
+function malign() {
+  return "gawk -f malign.awk # " rand()
+}
 function wme(  _Table){
     oo(name,"name"); #oo(score,"score"); 
     oo(klass,"klass")

@@ -1,5 +1,5 @@
 outlook,       # forecast
-+$temperature, # degrees Farenheit,
+?+$temperature, # degrees Farenheit,
 -$humidity,    # % of dewpoint
 windiy,        # boolean
 !play          # goal

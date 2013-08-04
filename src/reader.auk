@@ -52,18 +52,12 @@ function row(a,r,_Table,   c,x,new,delta) {
 	if (n[c] > 1) 
 	  sd[c] = (m2[c]/(n[c] - 1))^0.5 }}}
 }
-function rowsprint(_Table,   max,i) {
+function tableprint(_Table,   com,max,i) {
+  com = malign()
+  print rowprint(name,order) ",$_x,$_y" | com
   max =length(data)
   for(i=1;i<=max;i++)
-    print i, rowprint(i,_Table)
+    print rowprint(data[i],order) | com
+  close(com)
 }
-function rowprint(i,_Table,   max,j,c,str,sep) {
-  sep=FS
-  max = length(order)
-  for(j=1;j<=max;j++) {
-    c = order[j]
-    str = str sep data[i][c]
-    sep =","
-  }
-  return str
-}
+
