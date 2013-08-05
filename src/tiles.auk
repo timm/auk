@@ -1,5 +1,8 @@
 @include "project.awk"
 
+# give tiles a working memory
+# pass round a table and create stuff
+
 function tiles(_Table) {
   print 11
   project(_Table,"tiles1")
