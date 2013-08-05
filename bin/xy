@@ -28,7 +28,8 @@ done
 Dat=$Tmp/$$.dat
 cat - |
 gawk -F, '
-   function of(y, z) { z = (y - lo)/(hi - lo + 0.0001) + 0.5
+   function of(y, z) { z = (y - lo)/(hi - lo + 0.0001) 
+                       z = int(100*z)
                        z = Log ? log(z+0.00001) : z
                        return (z * Mult)**Pow }
                     { gsub(/[ \t]/,"") }
@@ -52,14 +53,22 @@ then cat $Dat
      exit
 fi
 gnuplot <<EOF
-set nokey
+
 set title "$Title
 set output "$Tmp/$$.eps
 set size 0.5,0.5
 set xrange [-0.05:]
 set yrange [-0.05:]
+set xtics (0,0.2,0.4,0.6,0.8,1.0)
+set ytics (0,0.2,0.4,0.6,0.8,1.0)
+set palette rgb 3,11,6;
+set nokey
 set terminal postscript eps color enhanced "Helvetica" 15
-plot "$Dat" using 1:2:3 with points pointsize variable pointtype 7 linecolor rgb "$C"
+#plot "$Dat" using 1:2:3 with points pointsize variable pointtype 7 linecolor rgb "$C"
+plot "$Dat" using 1:2:3 with points pointsize 1 pointtype 7 palette
+#linecolor "$$3"
+#linecolor rgb "$C"
+# color $4
 EOF
 
 epstopdf $Tmp/$$.eps

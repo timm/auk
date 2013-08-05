@@ -4,34 +4,35 @@ BEGIN { FS=OFS=","}
 @include "reader.awk" 
 @include "dist.awk"   
 
-function project(_Table,  d,east,west) {
+function project(_Table,then,  d,east,west) {
   resetSeed()
+  then = then ? then : "projections"
   d    = anyi(data) 
   east = furthest(d,   _Table)
   west = furthest(east,_Table)
-  project0(east,west,  _Table)
+  project0(east,west,then,_Table)
 }
-function project0(east,west,_Table,    
-	      a,b,c,d,x,xs,m,at,some) {
+function project0(east,west,then,_Table,   
+	      a,b,c,d,x,m,at,some) {
   printf("+")
   some = 0.000001
   c = dist(east,west,_Table)
   for(d in data) {
     a = dist(d,east,_Table)
     b = dist(d,west,_Table)
-    if (b > c) return project0(east,d,_Table)
-    if (a > c) return project0(d,west,_Table)
+    if (b > c) return project0(east,d,then,_Table)
+    if (a > c) return project0(d,west,then,_Table)
     printf(".")
     m++
     at[m]["d"]= d
     at[m]["x"]= x= (a^2 + c^2 - b^2) / (2*c + some)
     at[m]["y"]=    (a^2 - x^2)^0.5   
   }
-  asort(at,xs,"xsort")
-  projections(xs,_Table)
+  @then(at,_Table)
 }
-function projections(xs,_Table,    
-		     i,d,com,max) {
+function projections(at,_Table,    
+		     xs,i,d,com,max) {
+  asort(at,xs,"xsort")
   com = malign()
   max = length(xs)
   print ""
