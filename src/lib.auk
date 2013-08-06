@@ -1,5 +1,5 @@
 function resetSeed() {
-  srand(Seed ? Seed : 1)
+  srand(SEed ? SEed : 1)
 }
 function push(x,a,  i) {
   i = 1 + length(a)
@@ -34,6 +34,14 @@ function new(a) {
 function isnum(x) { 
   return x=="" ? 0 : x == (0+strtonum(x)) 
 }
+function appendn(a1,a2,a3,   max,i,n) {
+  split("",a3,"")
+  n = length(a1)
+  for(i=1;i<=n;i++) a3[++max] = a1[i]
+  n = length(a2)
+  for(i=1;i<=n;i++) a3[++max] = a2[i]
+  return max
+}
 function o(l,prefix,order,   indent,   old,i) {
   if(!order)
     for(i in l) { 
@@ -54,14 +62,17 @@ function o(l,prefix,order,   indent,   old,i) {
    PROCINFO["sorted_in"]  = old 
 }
 
-function rowprint(a,lst,   sep,max,j,c,str) {
-  max = length(lst)
+function rowprint(a,   max,j,str,sep) {
+  max = length(a)
   for(j=1;j<=max;j++) {
-    c = lst[j]
-    str = str sep a[c]
+    str = str sep a[j] 
     sep = ","
   }
   return str
+}
+function nchars(n,c,    out) {
+  while(n> 0) { n--; out = out c }
+  return out
 }
 function malign() {
   return "gawk -f malign.awk # " rand()

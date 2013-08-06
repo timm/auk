@@ -4,7 +4,7 @@
 function disted(    _Table,i,j) {
   readcsv("data/weather2.csv",0,_Table)
   for(i in data[0]) 
-    for(j in data[0])
+    for(j in data[0]) 
       print dist(i,j,_Table[0]) | "sort -n"
 }
 function _disted(  _Table,i,j,k) {
@@ -13,7 +13,8 @@ function _disted(  _Table,i,j,k) {
       j= closest(i,_Table[0])
       k= furthest(i,_Table[0])
       print ""
-      print i,rowprint(i,_Table[0])
-      print j,rowprint(j,_Table[0]), "<<= close"
-      print k,rowprint(k,_Table[0]), "<<= far"
+      print i,rowprint(data[0][i])
+      print j,rowprint(data[0][j]), "<<= close"
+      print k,rowprint(data[0][k]), "<<= far"
+     
     }}

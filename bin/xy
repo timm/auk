@@ -3,7 +3,7 @@
 
 Log=0
 Power=1
-Mult=5
+Mult=1
 Z='=class'
 X='$_x'
 Y='$_y'
@@ -28,10 +28,19 @@ done
 Dat=$Tmp/$$.dat
 cat - |
 gawk -F, '
-   function of(y, z) { z = (y - lo)/(hi - lo + 0.0001) 
+   function of(y, z) { up   = hi
+                       down = lo
+                       up   = (up  *Mult)**Pow
+                       down = (down*Mult)**Pow
+                       y    = (y   *Mult)**Pow
+                       if (Log) {
+                         up   = log(up   + 0.0001)
+                         down = log(down + 0.0001)
+                         y    = log(y    + 0.0001) 
+                       }
+                       z = (y - down)/(up - down + 0.0001) 
                        z = int(100*z)
-                       z = Log ? log(z+0.00001) : z
-                       return (z * Mult)**Pow }
+                       return z }
                     { gsub(/[ \t]/,"") }
    /,/ && $0 ~ /_/  { lo = 10**32; hi = -1*lo
                       for(i=1;i<=NF;i++) at[$i] = i }
@@ -66,9 +75,6 @@ set nokey
 set terminal postscript eps color enhanced "Helvetica" 15
 #plot "$Dat" using 1:2:3 with points pointsize variable pointtype 7 linecolor rgb "$C"
 plot "$Dat" using 1:2:3 with points pointsize 1 pointtype 7 palette
-#linecolor "$$3"
-#linecolor rgb "$C"
-# color $4
 EOF
 
 epstopdf $Tmp/$$.eps

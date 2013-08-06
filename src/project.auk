@@ -36,10 +36,10 @@ function projections(at,_Table,
   com = malign()
   max = length(xs)
   print ""
-  print rowprint(name,order) ",$_x,$_y" | com
+  print rowprint(name) ",$_x,$_y" | com
   for(i=1;i<=max;i++) {
     d = xs[i]["d"]
-    print rowprint(data[d], order),
+    print rowprint(data[d]),
           xs[i]["x"],xs[i]["y"] | com
   }
   close(com)
