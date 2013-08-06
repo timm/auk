@@ -37,7 +37,6 @@ function tiles4(x0,x2,y0,y2,_Table0,_Tile,_Tables,c,
 }
 function tile1(x0,x2,y0,y2, _Table0,_Tile,_Tables,c,    
 		x,y,here) {
-  split("",here,"")
   for(x=x0; x<=x2; x++) 
     for(y=y0; y<=y2; y++) 
       if (xs[x]["d"] == ys[y]["d"])
