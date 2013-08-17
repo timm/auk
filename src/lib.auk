@@ -43,6 +43,9 @@ function appendn(a1,a2,a3,   max,i,n) {
   return max
 }
 function o(l,prefix,order,   indent,   old,i) {
+  if(! isarray(l)) {
+    print "not array",prefix,l
+    return 0}
   if(!order)
     for(i in l) { 
       if (isnum(i))

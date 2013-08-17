@@ -12,8 +12,11 @@ dep    # list of dep columns
 less   # numeric goal to be minimized
 more   # numeric goal to be maximized
 klass  # non-numeric goal
-num    # numeric     non-goal
 term   # non-numeric non-goal
+num    # numeric non-goal
+# 
+# for all cols
+n      # count of things in this col
 #
 # for wordp columns:
 #
@@ -27,5 +30,4 @@ hi     # upper bound
 lo     # lower bound
 mu     # mean
 m2     # sum of all nums
-n      # count of nums
 sd     # standard deviation

@@ -6,7 +6,7 @@ BEGIN {FS="\n"; RS=""}
     if ($i)               # if anything left...
       if (i==1)           # first word is LHS
 	#lhs= "\\<"$i"\\([][a-zA-Z0-9_]*\\)\\>"
-	lhs= ""$i"\\([][a-zA-Z0-9_]*\\)"
+	lhs= ""$i"\\([][a-zA-Z0-9_\"]*\\)"
       else                # other words are RHS
 	rhs = (rhs ? rhs "," : "") $i "\\1"
   }

@@ -1,20 +1,20 @@
 @include "lib.awk"
 @include "table.awk"
 
-function readcsv(f,z,_Table,   str,a,r) {
+function readcsv(f,z,_Table,   str,a,seen) {
   FS=","; RS="\n"
   while(1) { 
     str = line(f)
     if (str == -1)  {
-      if (!r) print "WARNING: empty or missing file " f
-      return 
+      if (!seen) 
+	print "WARNING: empty or missing file " f
+      return -1
     }
     if (split(str,a,FS)) {
-      if (r)
-	addRow(a,r,_Table[z]) 
+      if (seen++)
+	addRow(a,_Table[z]) 
       else 
-	makeTable(a,z, _Table) 
-    r++  }}
+	makeTable(a,z, _Table) }}
 }
 function makeTable(a,z,_Table,  c,x,isNum,from,max) {
   max = length(a)
@@ -31,21 +31,23 @@ function makeTable(a,z,_Table,  c,x,isNum,from,max) {
     else if(x~ /-/ ) {dep[z][c];   less[z][c]         }
     else if(x~ /\$/) {indep[z][c]; num[z][c]          }
     else             {indep[z][c]; term[z][c]; isNum=0}
+    n[z][c] = 0
     if (isNum) {
       nump[z][c]
       hi[z][c] = -1 * (lo[z][c] = 10**32)
-      n[z][c]  = mu[z][c] = m2[z][c] = sd[z][c] = 0 
+      mu[z][c] = m2[z][c] = sd[z][c] = 0 
     } else { 
       wordp[z][c]
       new3d(count,z,c) 
       new3d(mode,z,c)
       most[z][c] = 0 }}
 }
-function addRow(a,r,_Table,   c,x,new,delta,from) {
+function addRow(a,_Table,   r,c,x,new,delta,from) {
+  r=length(data)+1
   for(c in name) {
     from = order[c]
     x = data[r][c] = a[from] 
-    if (x !~ /?/) {
+    if (x !~ /\?/) {
       n[c]  += 1
       if (c in wordp) { 
 	new = ++count[c][x]

@@ -1,20 +1,23 @@
 @include "reader.awk"
 
-function tableprint(_Table,stats,   com,max,i,c,row) {
+function tableprint(_Table,stats,   com,max,i,c,row,old) {
   print ""
+  old=CONVFMT
+  CONVFMT = stats
   com = malign()
-  print rowprint(name)   | com 
+  print rowprint(name) ", #     notes"   | com 
   if (stats) {
     centroid(_Table,row)
-    print "# "rowprint(row) | com
+    print "# "rowprint(row)", #  expected" | com
     for(c in name)
-      row[c] = c in nump ? sd[c] : int(100* (1 - most[c]/n[c]))
-    print "# " rowprint(row) | com
+      row[c] = c in nump ? sd[c] : most[c]/n[c]
+    print "# " rowprint(row) ", # certainty" | com
     }
   max =length(data)
   for(i=1;i<=max;i++)
-    print rowprint(data[i])  | com
-  close(com)
+    print rowprint(data[i]) ", #"  | com
+  close(com) 
+  CONVFMT=old
 }
 function centroid(_Table,out,   c) {
   new(out)
