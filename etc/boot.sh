@@ -31,7 +31,7 @@ profile() {
 here() { 
    cd $1; basename $PWD 
 }
-export PROMPT_COMMAND='echo  -ne "\033]0;$(here ../..)/$(here ..)/$(here .)\007";PS1="$(here ../..)/$(here ..)/$(here .) \! "'
+export PROMPT_COMMAND='echo  -ne "\033]0;AUK:$(here ../..)/$(here ..)/$(here .)\007";PS1="AUK:$(here ../..)/$(here ..)/$(here .) \! "'
 
 [ -f "$Bin/egs" ] && . $Bin/egs
 

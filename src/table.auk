@@ -1,5 +1,18 @@
 @include "reader.awk"
 
+function klasses(z,_Table,     seen,d,this) {
+  for (d in data[z]) {
+    this = klass1(d,_Table[z])
+    if(! (this in seen)) {
+      seen[this]
+      makeTable(name[z],this,_Table)
+    }
+    addRow(data[z][d],_Table[this])
+}}
+function klass1(d,_Table,    k) {
+  for(k in klass)
+    return data[d][k]
+}
 function tableprint(_Table,stats,   com,max,i,c,row,old) {
   print ""
   old=CONVFMT
@@ -28,4 +41,12 @@ function expected(what,_Table,    c) {
   for(c in name)
     if (name[c] == what)
       return c in nump ? mu[c] : mode [c]
+}
+function _table(     _Table,   seen,x,f){
+  readcsv("data/weather1.csv", 0, _Table)
+  klasses(0,_Table)
+  f="%4.2f"
+  tableprint(_Table[0],f)
+  tableprint(_Table["yes"],f)
+  tableprint(_Table["no"], f)
 }

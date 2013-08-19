@@ -47,7 +47,7 @@ export PATH="$Bin:$PATH"
 
 if    [ -z "$*" ] 
 then  echo "This is Auk (copyleft 2013 tim@menzies.us)"
-	  echo "(and a little auk goes a long way)"
+	  echo "(and a little auk goes a long, long way)"
 	  echo ""
 	  bash --init-file $Etc/boot.sh -i
 else  bash  -c ". $Etc/boot.sh; $*"
