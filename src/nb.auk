@@ -13,9 +13,9 @@ function nb(test,data,hypotheses,_Table0,a,
      total += length(data0[h])
   where = klassAt(_Table0)
   for(t in test) {
-     want = data0[t][where]
+    want  = data0[t][where]
     print "[",want,"]"
-    got  = likelihood(data0[t],total,hypotheses,l,_Table0,
+    got   = likelihood(data0[t],total,hypotheses,l,_Table0,
 		      a["-k"],a["-m"])
     acc  += want == got
   }
