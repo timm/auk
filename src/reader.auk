@@ -42,11 +42,12 @@ function makeTable(a,z,_Table,  c,x,isNum,from,max) {
       new3d(mode,z,c)
       most[z][c] = 0 }}
 }
-function addRow(a,_Table,   r,c,x,new,delta,from) {
+function addRow(a,_Table,skip,   r,c,x,new,delta,from) {
   r=length(data)+1
   for(c in name) {
     from = order[c]
-    x = data[r][c] = a[from] 
+    x = a[from] 
+    if (!skip) data[r][c] = x
     if (x !~ /\?/) {
       n[c]  += 1
       if (c in wordp) { 
@@ -55,7 +56,8 @@ function addRow(a,_Table,   r,c,x,new,delta,from) {
 	  mode[c] = x
 	  most[c] = new }
       } else {
-	x = data[r][c] = x + 0 # coercion to a number
+	x = x + 0 # coercion to a number
+	if (!skip) data[r][c] = x
 	if (x > hi[c]) hi[c] = x
 	if (x < lo[c]) lo[c] = x 
 	delta  = x - mu[c]

@@ -1,5 +1,47 @@
-function resetSeed() {
-  srand(SEed ? SEed : 1)
+@include "args.awk"
+
+ BEGIN { 
+         _     = SUBSEP 
+         Q     = "\"" 
+         PI    = 3.1415926535
+         EE    = 2.7182818284 
+         INF   = 10^17
+	 NINF  = -1*INF
+         PINCH = 1 / INF
+       }
+
+function norm(x,m,s) {
+    s = s + PINCH
+    return 1/sqrt(2*PI*s^2)*EE^(-1*(x-m)^2/(2*s^2))
+ }
+function pairs(str,lst,   i,tmp,n) {
+  split("",lst,"")
+  n=split(str,tmp,",")
+  for(i=1;i<n;i+=2)
+    lst[tmp[i]]=tmp[i+1]
+}
+function indexes(lst,out,    i) {
+  new(out)
+  for(i in lst) 
+    out[i]=i
+  return length(out)
+}
+
+function shuffle(lst) {
+  asort(lst,lst,"rsort")
+}
+function numberp(x) {
+  return x=="" ? 0 : x == (0+strtonum(x))
+}
+function barph(x) {
+  printf("#E> " x "\n")>"/dev/stderr"
+  fflush("/dev/stderr")
+  return 0
+}
+function resetSeed(seed) {
+  if      (seed) srand(seed)
+  else if (SEED) srand(SEED)
+  else           srand(1)
 }
 function push(x,a,  i) {
   i = 1 + length(a)
@@ -14,6 +56,7 @@ function pop(a,    i,j) {
 }
 function xsort(r1,x1,r2,x2) { return x1["x"] - x2["x"] }
 function ysort(r1,x1,r2,x2) { return x1["y"] - x2["y"] }
+function rsort(r1,x1,r2,x2) { return (2 - 4 * rand())  }
 
 function line(f,   str) {
   if ((getline str < f) > 0) {
@@ -82,7 +125,7 @@ function malign() {
 }
 function wme(  _Table){
     oo(name,"name"); #oo(score,"score"); 
-    oo(klass,"klass")
+    #oo(klass,"klass")
     oo(num,"num");   oo(term,"term");   oo(nump,"nump")
     oo(hi,"hi");     oo(lo,"lo");       #oo(s,"s");
     #oo(s2,"s2");     

@@ -1,17 +1,25 @@
 @include "reader.awk"
 
-function klasses(z,_Table,     seen,d,this) {
-  for (d in data[z]) {
-    this = klass1(d,_Table[z])
-    if(! (this in seen)) {
-      seen[this]
-      makeTable(name[z],this,_Table)
-    }
-    addRow(data[z][d],_Table[this])
-}}
+function klasses(z,_Table,seen,   d) {
+  for (d in data[z]) 
+    klasses1(d,z,_Table,seen)
+}
+function klasses1(d,z,_Table,seen,    this) {
+  this = klass1(d,_Table[z])
+  if (! (this in seen)) {
+    seen[this]
+    makeTable(name[z],this,_Table)
+  }
+  addRow(data[z][d],_Table[this])
+}
 function klass1(d,_Table,    k) {
   for(k in klass)
     return data[d][k]
+}
+function klassAt(_Table,   k,t) {
+  for(t in klass)
+    for(k in klass[t])
+      return k
 }
 function tableprint(_Table,stats,   com,max,i,c,row,old) {
   print ""
