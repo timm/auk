@@ -50,11 +50,14 @@ function expected(what,_Table,    c) {
     if (name[c] == what)
       return c in nump ? mu[c] : mode [c]
 }
-function _table(     _Table,   seen,x,f){
-  readcsv("data/weather1.csv", 0, _Table)
+function _table(     _Table,   seen,x,f,a){
+  o(ARGV,"argv")
+  args("-d,data/weather.csv,-s,1",a)
+  
+  o(a,"a")
+  print a["-d"]
+  readcsv(a["-d"], 0, _Table)
   klasses(0,_Table)
   f="%4.2f"
   tableprint(_Table[0],f)
-  tableprint(_Table["yes"],f)
-  tableprint(_Table["no"], f)
 }

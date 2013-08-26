@@ -24,11 +24,13 @@ function xval(start,stop,rows,_Table,f,a,
 	makeTable(name,x,_Tables)
       addRow(data[d],_Tables[x])
   }}
-  print @f(test,data,hypotheses,_Tables,a)
+  @f(test,data,hypotheses,_Tables,a)
 }
 function _xval(    _Table, a) {
-  readcsv("data/weather1.csv",0,_Table)
-  xvals(_Table[0],2,2,"xvalTest1",a)
+  args("-d,data/weather1.csv,-x,2,-b,2,-s,1",a)
+  resetSeed(a["-s"])
+  readcsv(a["-d"],0,_Table)
+  xvals(_Table[0],a["-x"],a["-b"],"xvalTest1",a)
 }
 function xvalTest1(test,data,hypotheses,_Tables,a,    h) {
   print "\n========================="

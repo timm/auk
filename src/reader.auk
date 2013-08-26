@@ -24,6 +24,10 @@ function makeTable(a,z,_Table,  c,x,isNum,from,max) {
     c++
     order[z][c] = from
     new3d(data,z,c)
+    new3d(num,z,c)
+    new3d(term,z,c)
+    new3d(nump,z,c)
+    new3d(wordp,z,c)
     x = name[z][c] = a[from]
     isNum = 1
     if     (x~ /=/ ) {dep[z][c];   klass[z][c];isNum=0}
