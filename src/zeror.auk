@@ -2,7 +2,6 @@
 @include "xval.awk"
 
 function _zeror(    _Table,a,seen) {
-  o(ARGV,"argv")
   args("-d,data/weather1.csv,-s,1,-x,5,-b,5,-p,4.1",a)
   resetSeed(a["-s"])
   readcsv(a["-d"],0,_Table)
