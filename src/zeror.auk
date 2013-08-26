@@ -3,7 +3,7 @@
 
 function _zeror(    _Table,a,seen) {
   o(ARGV,"argv")
-  args("-d,data/weather1.csv,-s,1,-x,5,-b,5",a)
+  args("-d,data/weather1.csv,-s,1,-x,5,-b,5,-p,4.1",a)
   resetSeed(a["-s"])
   readcsv(a["-d"],0,_Table)
   xvals(_Table[0],a["-x"],a["-b"],"zeror",a)
@@ -22,5 +22,6 @@ function zeror(test,data,hypotheses,_Tables,a,
     want  = data[t][where]
     acc  += want == got
   }
-  print 100 * acc/length(test) | "sort -n"
+  printf("%" a["-p"] "f\n",
+	100 * acc/length(test)) | "sort -n | fmt"
 }

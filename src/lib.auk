@@ -60,7 +60,7 @@ function rsort(r1,x1,r2,x2) { return (2 - 4 * rand())  }
 
 function line(f,   str) {
   if ((getline str < f) > 0) {
-    gsub(/[ \t\r\&]*/,"",str) 
+    gsub(/[ \t\r]*/,"",str) 
     gsub(/#.*$/,"",str)
     if ( str ~ /,[ \t]*$/ )
       return str line(f)

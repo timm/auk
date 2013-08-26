@@ -3,7 +3,7 @@
 
 function _nb(    _Table,a,seen) {
   o(ARGV,"argv")
-  args("-d,data/weather1.csv,-s,1,-x,5,-b,5,-m,2,-k,1",a)
+  args("-d,data/weather1.csv,-s,1,-x,5,-b,5,-m,2,-k,1,-p,4.1",a)
   resetSeed(a["-s"])
   readcsv(a["-d"],0,_Table)
   xvals(_Table[0],a["-x"],a["-b"],"nb",a)
@@ -20,7 +20,8 @@ function nb(test,data,hypotheses,_Tables,a,
 		      a["-k"],a["-m"])
     acc  += want == got
   }
-  print 100 * acc/length(test) | "sort -n"
+  printf("%" a["-p"] "f\n",
+    	100 * acc/length(test)) | "sort -n | fmt"
 }
 function likelihood(row,total,hypotheses,l,_Tables,k,m,
 		    like,h,nh,prior,tmp,c,x,y,best) {
