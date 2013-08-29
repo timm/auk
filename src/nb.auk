@@ -1,22 +1,19 @@
 @include "reader.awk"
-@include "xval.awk"
+@include "uxval.awk"
 
-function _nb(    _Table,a,seen) {
+function _knn(    _Table,a,seen) {
   o(ARGV,"argv")
-  args("-d,data/weather1.csv,-s,1,-x,5,-b,5,-m,2,-k,1,-p,4.1",a)
+  args("-d,data/weather1.csv,-s,1,-x,2,-b,2,-k,1,-p,4.1",a)
   resetSeed(a["-s"])
   readcsv(a["-d"],0,_Table)
-  xvals(_Table[0],a["-x"],a["-b"],"nb",a)
+  uxvals(_Table[0],a["-x"],a["-b"],"knn",a)
 }
-function nb(test,data,hypotheses,_Tables,a,  
+function knn(test,data,_Tables,a,  
 	    h,total,where,t,want,got,acc,l) {
-  for(h in hypotheses) { 
-     total += length(datas[h])
-  }
   where = klassAt(_Tables)
   for(t in test) {
     want  = data[t][where]
-    got   = likelihood(data[t],total,hypotheses,l,_Tables,
+    got   = closestlikelihood(data[t],total,hypotheses,l,_Tables,
 		      a["-k"],a["-m"])
     acc  += want == got
   }

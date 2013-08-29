@@ -27,19 +27,19 @@ function dist0(i,j,what,_Table, \
   }}
   return sum^0.5 / length(what)^0.5
 }
-function closest(i,_Table,   d,min,out,j) {
-  min = 1.1
-  for(j in data) 
-    if (j != i) 
-      if (( d = dist(i,j,_Table)) < min) { 
-	min= d; out= j }
+function closest(i,_Table,self,   d,min,out,j) {
+  min = INF
+  for(j in data) {
+    if (i == j && ! self) continue
+    if (( d = dist(i,j,_Table)) < min) { 
+      min= d; out= j }
+  }
   return out
 }
 function furthest(i,_Table,   d,max,out,j) {
-  max = 0
-  for(j in data)
-    if (j != i)
-      if ((d = dist(i,j,_Table)) > max) { 
-	max = d; out = j }
+  max = NINF
+  for(j in data)   
+    if ((d = dist(i,j,_Table)) > max) { 
+      max = d; out = j }
   return out
 }
