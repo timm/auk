@@ -2,7 +2,7 @@ outlook,       # forecast
 $temperature, # degrees Farenheit,
 $humidity,    # % of dewpoint
 windy,        # boolean
-!play          # goal
+=play          # goal
 #################################################
 sunny		,85		,85		,FALSE	,no
 sunny		,80		,90		,TRUE	,no

@@ -25,7 +25,7 @@ function uxval(start,stop,rows,_Table,f,a,
   @f(test,data,_Tables["train"],a)
 }
 function _uxval(    _Table, a) {
-  args("-d,data/weather1.csv,-x,2,-b,2,-s,1",a)
+  args("-d,data/weather2.csv,-x,2,-b,2,-s,1",a)
   resetSeed(a["-s"])
   readcsv(a["-d"],0,_Table)
   uxvals(_Table[0],a["-x"],a["-b"],"uxvalTest1",a)

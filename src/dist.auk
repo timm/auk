@@ -1,11 +1,11 @@
-function dist(i,j,_Table) {
-  return dist0(i,j,indep,_Table)
+function dist(this,that,_Table) {
+  return dist0(this,that,indep,_Table)
 }
-function dist0(i,j,what,_Table, \
+function dist0(this,that,what,_Table, \
 	      sum,k,v1,v2,aLittle) {
   for(k in what)  {
-    v1 = data[i][k]
-    v2 = data[j][k]
+    v1 = this[k]
+    v2 = that[k]
     if (v1 == "?" && v2 == "?") 
       sum += 1
     else if (k in nump) { 
@@ -31,7 +31,7 @@ function closest(i,_Table,self,   d,min,out,j) {
   min = INF
   for(j in data) {
     if (i == j && ! self) continue
-    if (( d = dist(i,j,_Table)) < min) { 
+    if (( d = dist(data[i],data[j],_Table)) < min) { 
       min= d; out= j }
   }
   return out
@@ -39,7 +39,7 @@ function closest(i,_Table,self,   d,min,out,j) {
 function furthest(i,_Table,   d,max,out,j) {
   max = NINF
   for(j in data)   
-    if ((d = dist(i,j,_Table)) > max) { 
+    if ((d = dist(data[i],data[j],_Table)) > max) { 
       max = d; out = j }
   return out
 }
