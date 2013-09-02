@@ -79,6 +79,7 @@ function new(a) {
 function isnum(x) { 
   return x=="" ? 0 : x == (0+strtonum(x)) 
 }
+function abs(x) { return x < 0 ? -1*x : x }
 function appendn(a1,a2,a3,   max,i,n) {
   split("",a3,"")
   n = length(a1)
