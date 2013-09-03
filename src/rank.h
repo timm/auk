@@ -9,6 +9,7 @@ label
 name
 
 _Div
+total
 tiny
 order
 level
