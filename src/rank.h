@@ -10,6 +10,8 @@ name
 
 _Div
 total
-tiny
+cohen
+mittas
+a12
 order
 level

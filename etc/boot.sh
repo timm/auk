@@ -9,7 +9,7 @@ demo() {
     if [ "$1" == ":" ]
     then shift; com=$1; shift
     fi
-    time Run -f $f.awk --source 'BEGIN { exit '$com'(); }' $*
+    time Run -f $f.awk --source 'BEGIN { exit '$com'(); }' -- $*
     vars
 }
 e() {

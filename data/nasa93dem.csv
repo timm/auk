@@ -24,9 +24,9 @@ tool, #{n,h}
 site, #{n}
 sced, #{n,l,h}
 $kloc,#thousands lines of code
--effort,  # development effort in months (one month =152 hours. includes development+ management)
--defects, # observed defects
--months   # calendar months to develop (so staff = effort/months)
+<effort,  # development effort in months (one month =152 hours. includes development+ management)
+<defects, # observed defects
+<months   # calendar months to develop (so staff = effort/months)
 #######################################################
 1,2,1979,        h,h,h,vh,h,h,l,h,n,n,n,n,l,n,n,n,n,n,h,n,n,l,25.9,117.6,808,15.3
 2,2,1979,        h,h,h,vh,h,h,l,h,n,n,n,n,l,n,n,n,n,n,h,n,n,l,24.6,117.6,767,15

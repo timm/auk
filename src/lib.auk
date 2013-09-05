@@ -119,6 +119,9 @@ function rowprint(a,   max,j,str,sep) {
   }
   return str
 }
+function bars(n) {
+  return nchars(n,"|-- ")
+}
 function nchars(n,c,    out) {
   while(n> 0) { n--; out = out c }
   return out

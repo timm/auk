@@ -15,7 +15,7 @@ function args1(str,a,n,opts,    i,j,x,val,tmp) {
     if (x=="--") continue 
     if (x !~ /^-/)  break
     if (! (x in opts)) 
-      return barph(x" : undefined flag")
+      return barph(x" : undefined flag")    
     if (x ~ /^--/) {
        opts[x]= 1 - opts[x]
        continue

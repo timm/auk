@@ -7,11 +7,11 @@ function obs(f,all,_Nums,_Div,   now,i,v)  {
       if ($i ~ /^([^0-9]|\.)/) 
 	now = $i
       else {
-	print "[",v,"]"
 	v = $i+0
 	inc(v, now,_Nums)
 	inc(v, all, _Nums)
       }}
+  close(f)
   for(i in names) 
     if (i != all) {
       order[i]["="] = i
@@ -30,94 +30,102 @@ function inc(v,k,_Num,   all,delta) {
   m2[k]    += delta*(v - mu[k])
   var[k]    = m2[k]/ (all - 1 + PINCH)
 }
-
-function _rank() {
-  ranks("sk1.txt")
-  ranks("sk1.txt")
-  ranks("sk0.txt")
+function _rank(    a) {
+  args("-d,data/skb.txt,-cohen,0.3,--mittas,1,-a12,0.6",a)
+  ranks("data/ska.txt",a)
+  ranks("data/skb.txt",a)
+  ranks("data/skp.txt",a)
+  ranks("data/skc.txt",a)
+  ranks("data/skd.txt",a)
+  ranks("data/ske.txt",a)
+ }
+ function ranks(f,a,    _Nums,_Div,i,k,max) {
+   print "\n----|", f,"|---------------------"
+   obs(f,0,_Nums,_Div)
+   rank(0,_Nums,_Div,a)
+   max = length(order)
+   for(i=1;i<=max;i++) {
+     k = order[i]["="]
+     print k, names[k], ":mu", mus[k], ":rank",labels[k] }
+ }
+ function rank(all,_Nums,_Div,a,    i) {
+     cohen  = a["-cohen"]*sqrt(vars[all])
+     mittas = a["--mittas"]
+     a12    = a["-a12"]
+     level  = 0
+     total  = ns[all]
+     rdiv(1,length(order),1,_Nums,_Div)
+ }
+ function rdiv(lo,hi,c,_Nums,_Div,    i,cut) {
+     cut = div(lo,hi,_Nums,_Div)
+     if (cut) {
+       level++
+       c = rdiv(lo,cut-1,c, _Nums,_Div) + 1
+       c = rdiv(cut,hi  ,c, _Nums,_Div)
+     } else 
+	 for(i=lo; i<=hi; i++) 
+	     labels[order[i]["="]] = c
+     return c
+ }
+ function div(lo,hi,_Nums,_Div,   
+		_Num0, _Num1,max,b,i,left,
+		muLeft,right,muRight,e,cut,
+		muAll ) {
+   muAll = divInits(lo,hi,_Nums,_Div,_Num0,_Num1)
+   max   = -1
+   for(i=lo+1;i<=hi;i++) {
+     b       = order[i]["="]
+     n0[i]   = n0[i-1]   + ns[b]
+     sum0[i] = sum0[i-1] + sums[b] 
+     left    = n0[i] 
+     muLeft  = sum0[i]  / left
+     right   = n1[i]
+     muRight = sum1[i]  / right
+     e = errDiff(muAll,left,muLeft,right,muRight)
+     if (cohen)
+       if (abs(muLeft - muRight) <= cohen)
+	 continue
+     if (mittas) 
+       if (e < max)
+	 continue
+     if (a12)
+       if(bigger(lo,i,hi,_Nums,_Div) < a12)
+	 continue
+     max = e
+     cut = i
+   }	
+   return cut 
+ }
+function divInits(lo,hi,_Nums,_Div,_Num0,_Num1,   b,i) {
+  b= order[lo]["="]; n0[lo]= ns[b]; sum0[lo]= sums[b];
+  b= order[hi]["="]; n1[hi]= ns[b]; sum1[hi]= sums[b]
+  for(i=hi-1; i>=lo;  i--) {
+     b       = order[i]["="]
+     n1[i]   = n1[i+1]   +  ns[b]
+     sum1[i] = sum1[i+1] +  sums[b]
+   }
+  return sum1[lo]/n1[lo]
 }
-function ranks(f,    _Nums,_Div,i,k,max) {
-  print "\n----|",f,"|---------------------"
-  obs(f,0,_Nums,_Div)
-  rank(0,_Nums,_Div)
-  max = length(order)
-  for(i=1;i<=max;i++) {
-    k = order[i]["="]
-    print k, names[k], ":mu", mus[k], ":rank",labels[k] }
+function errDiff(mu,n0,mu0,n1,mu1) {
+  return n0*(mu - mu0)^2 + n1*(mu - mu1)^2
 }
-function rank(all,_Nums,_Div,    i) {
-    tiny = 0.3*sqrt(vars[all])
-    level = 0
-    total = ns[all]
-    div(1,length(order),1,_Nums,_Div)
-}
-function bars(x) { return nchars(x,"|-- ") }
-function div(lo,hi,c,_Nums,_Div,    i,cut) {
-    print bars(level) ":lo",lo,":hi",hi,":c",c
-    cut = slice(lo,hi,_Nums,_Div)
-    if (cut) {
-      print bars(level)"cutting",lo,"to",cut - 1,"then",cut,"to",hi
-      level++
-      c = div(lo,cut-1,c, _Nums,_Div) + 1
-      c = div(cut,hi  ,c, _Nums,_Div)
-    } else {
-	for(i=lo; i<=hi; i++) 
-	    labels[order[i]["="]] = c
+function bigger(lo,mid,hi,_Nums,_Div, 
+		below,above,i,j,m,more,same) {
+  values(below, lo,   mid-1, _Nums,_Div)
+  values(above ,mid,  hi, _Nums,_Div)
+  for(j in above) 
+    for(i in below) {
+      m++
+      more += above[j] >  below[i]
+      same += above[j] == below[i]
     }
-    return c
+  return (more + 0.5*same)/m
 }
-function slice(lo,hi,_Nums,_Div,   
-	       _Num0, _Num1,max,b,i,left,
-	       muLeft,right,muRight,e,cut,
-               muAll ) {
-     b = order[lo]["="] ; n0[lo] = ns[b]; sum0[lo] = sums[b]; 
-     b = order[hi]["="] ; n1[hi] = ns[b]; sum1[hi] = sums[b]
-     for(i=hi-1; i>=lo;  i--) {
-       b       = order[i]["="]
-       n1[i]   = n1[i+1]   +  ns[b]
-       sum1[i] = sum1[i+1] +  sums[b]
-     }
-     max = -1
-     muAll = sum1[lo]/n1[lo]
-     for(i=lo+1;i<=hi;i++) {
-       print bars(level) "considering",i,order[i]["="]
-       b      = order[i]["="]
-       n0[i]  = n0[i-1]   + ns[b]
-       sum0[i]= sum0[i-1] + sums[b] 
-       left    = n0[i]
-       right   = n1[i]
-       muLeft  = sum0[i]  / left
-       muRight = sum1[i]  / right
-       e = left*(muAll - muLeft)^2 + right*(muAll - muRight)^2	
-       if (abs(muLeft - muRight) > tiny && e >  max) {
-	 max = e
-	 cut = i
-	 print bars(level) "cut",cut
-	 print bars(level)":cut",cut,":max",max,":muLeft",muLeft,	\
-	                ":muRight",muRight
-       }
-	print  bars(level)":tiny",tiny,":max",max,":e",e,			\
-	  ":b",b,":left",left,":right",right,	\
-	  ":muLeft",muLeft,":muRight",muRight,":muAll",muAll
-	
-      }
-     if(level==1) {
-       o(sum0,"sum0")
-       o(sum1,"sum1")
-     }
-    return cut 
-}
-
-function bigger(x,b,lo,hi,  
-		i,j,k,l,v1,v2,less,same) {
-    for(i=lo;i<=b;i++) 
-	for(j in x[i])  {
-	    v1 = x[i][j]
-	    for(k=b+1;k<=hi;k++) 
-		for(l in x[k]) {
-		    v2    = x[k][l]
-		    less += v1 > v2 
-		    same += v2 == v1 }
-    }
-    return less + 0.5*same
+function values(out,i,j,_Nums,_Div,   k,b,l,m) {
+  for(k=i;k<=j;k++) {
+    b = order[k]["="]
+    for (l in xs[b]) 
+      out[++m] = xs[b][l]
+  }
+  return m
 }
