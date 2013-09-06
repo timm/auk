@@ -1,5 +1,7 @@
 @include "lib.awk"
  
+#
+
 function obs(f,all,_Nums,_Div,   now,i,v)  {
   now = all
   while((getline  < f ) > 0) {
