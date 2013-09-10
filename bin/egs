@@ -1,0 +1,42 @@
+#!/bin/bash
+
+ready() {
+      . $Bin/egs
+}
+
+eg0() { 
+    demo projected | xy -t "weather2" -z '$humidity' -o $Tmp/weather2.pdf 
+}
+eg1() {
+      demo projected : proj1c | 
+      xy  -o $Tmp/auto.pdf -t "autompg mpg" -z '-mpg' 
+}
+eg2() {
+      demo projected : proj2d |
+      xy  -o $Tmp/nasa93demDefects.pdf -t "nasa93dem log(defects)" -z '-defects' -l  #2
+}
+eg3() {
+      demo projected : proj2d |
+      xy  -o $Tmp/nasa93demEffort.pdf -t "nasa93dem log(effort)" -z '-effort' -l #2
+}
+eg4() {
+      demo projected : proj2d |
+      xy  -o $Tmp/nasa93demMonths.pdf -t "nasa93dem log(months)" -z '-months'  -l
+}
+eg5() {
+      demo projected : proj2e |
+      xy  -o $Tmp/iris.pdf -t "iris class" -z '=class' 
+}
+eg6() {
+      demo projected : proj2f |
+      xy  -o $Tmp/housing.pdf -t "housing class" -z '+class' 
+}
+eg7() {
+      demo projected : proj2g |
+      xy  -o $Tmp/poi-30.pdf -t "poi-3.0 log(bugs)" -z '-bugs' -l
+}
+eg8() {
+    #Dat=$Tmp/$$
+    demo tiles # | grep ',' | grep -v cluster | 
+    #gawk -F, '{OFS="\t"; print $(NF-2),$(NF-1),$(NF)}' 
+}

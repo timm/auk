@@ -16,3 +16,5 @@ Auk also supports a set of conventions that make it easier to build and document
 + Command line flags (not POSIX compliant, but similar and simpler).
 
 For example, this repo contains numerous data mining tools, written in Auk.
+
+Todo: xval and zeror
