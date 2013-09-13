@@ -2,7 +2,7 @@ function dist(this,that,_Table) {
   return dist0(this,that,indep,_Table)
 }
 function dist0(this,that,what,_Table, \
-	      sum,k,v1,v2,aLittle) {
+	      sum,k,v1,v2,aLittle,mid) {
   for(k in what)  {
     v1 = this[k]
     v2 = that[k]
@@ -11,11 +11,12 @@ function dist0(this,that,what,_Table, \
     else if (k in nump) { 
       aLittle = 0.0000001
       if (v1 == "?") 
-	v1= v2 < 0.5 ? 1 : 0
+    mid = (hi[k] - lo[k]/2
+	v1= v2 < mid ? hi[k] : lo[k]
       else
 	v1= (v1- lo[k]) / (hi[k]- lo[k]+ aLittle)
       if (v2 == "?") 
-	v2= v1 < 0.5 ? 1 : 0
+	v2= v1 < mid ? hi[k] : lo[k]
       else
 	v2= (v2- lo[k]) / (hi[k]- lo[k]+ aLittle)
       sum += (v2 - v1)^2 

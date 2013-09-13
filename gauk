@@ -1,1 +1,1 @@
-xfce4-terminal -T Auk -x './auk' &
+xfce4-terminal -T Auk -x './auk'  &
