@@ -4,7 +4,7 @@ alias ls="ls --color"
 dot=$PWD/etc/dotemacs
 
 demo() {
-    (cd $Here; [ -f "Makefile" ] && make)
+    (cd $Here; [ -f "Makefile" ] && make -B hsed && make)
     f=$1; com="_$1"; shift
     if [ "$1" == ":" ]
     then shift; com=$1; shift

@@ -16,6 +16,13 @@ function norm(x,m,s) {
     s = s + PINCH
     return 1/sqrt(2*PI*s^2)*EE^(-1*(x-m)^2/(2*s^2))
  }
+function adda(a1,a2, i){ 
+  for(i in a1) a2[i] += a1[i] 
+}
+function adda2(k1,a1,k2,a2, i){ 
+  for(i in a1[k1]) 
+    a2[k2][i] += a1[k1][i] 
+}
 function pairs(str,lst,   i,tmp,n) {
   split("",lst,"")
   n=split(str,tmp,",")

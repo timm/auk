@@ -12,6 +12,7 @@ $(Lib)/%.awk : $(Src)/%.auk
 Hs=$(shell ls $(Src)/*.h)
 hsed         : $(Tmp)/aukh.sed
 $(Tmp)/aukh.sed : $(Hs)  $(Etc)/h2sed.awk
+	@echo "making headers ..."
 	-@rm -f $(Tmp)/aukh.all	
 	@$(foreach f, $(Hs), \
 		(echo "" ; cat $f ; echo "") >> $(Tmp)/aukh.all;  )	

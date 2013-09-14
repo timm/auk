@@ -10,8 +10,8 @@ function dist0(this,that,what,_Table, \
       sum += 1
     else if (k in nump) { 
       aLittle = 0.0000001
+      mid     = (hi[k] - lo[k])/2
       if (v1 == "?") 
-    mid = (hi[k] - lo[k]/2
 	v1= v2 < mid ? hi[k] : lo[k]
       else
 	v1= (v1- lo[k]) / (hi[k]- lo[k]+ aLittle)
