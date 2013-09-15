@@ -1,17 +1,18 @@
 function incE(v,k,_Ent,r) {
   r = r ? r : 1
-  label[k]  = 0
+  labels[k]  = 0
   n[k] += r
   count[k][v] += r
 }
-function entE(k,_Ent,   v,p,out) {
-  for(v in count[k]) {
+function entE(k,vs,_Ent,   v,p,out) {
+  for(v in vs) {
     p    = count[k][v]/n[k]
-    out -= p*log(p)/log(2)
+    if (p> 0) 
+      out -= p*log(p)/log(2)
   }
   return out
 }
-function copyE(_Ent1,_Ent2,   k) {
+function copyE(_Ent1,_Ent2,   k,v) {
   for(k in count1) 
     for(v in count1[k]) 
       incE(v,k,_Ent2,count1[k,v])

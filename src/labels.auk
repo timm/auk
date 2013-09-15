@@ -12,8 +12,7 @@ function glabel(k,val,bins,b,_Table,   i) {
       return i
   return bins
 }
-function ewdlabel(k,val,bins,b,_Table,   i,old) {
-  old= val
+function ewdlabel(k,val,bins,b,_Table,   i) {
   val = (val - lo[k]) / (hi[k] - lo[k] + 0.00001)
   for(i=1;i < bins;i++) 
     if (val <= b[i]) 

@@ -1,0 +1,23 @@
+outlook,       # forecast
+$temperature, # degrees Farenheit,
+$humidity,    # % of dewpoint
+windy,        # boolean
+=play          # goal
+#################################################
+overcast	,64		,65		,TRUE	,yes
+rainy		,65		,80		,FALSE	,no
+rainy		,65		,96		,FALSE	,yes
+rainy		,65		,96		,FALSE	,no
+#################################################
+overcast	,67		,90		,TRUE	,yes
+rainy		,68		,80		,FALSE	,no
+sunny		,69		,70		,TRUE	,yes
+sunny		,69		,70		,TRUE	,no
+#################################################
+sunny		,70		,90		,TRUE	,yes
+overcast	,71		,75		,FALSE	,no
+overcast	,72		,86		,FALSE	,yes
+sunny		,73		,85		,FALSE	,no
+#################################################
+sunny		,74		,85		,FALSE	,yes
+sunny		,75		,85		,FALSE	,no
