@@ -24,7 +24,6 @@ function sdiscrete(_Table0,_Table1,tiny,bins,
 		   k,breaks) {
   for(k in num0) 
     print "\n" sdiscrete1(k,_Table0,tiny,bins,breaks)
-  o(breaks,"breaks")
   slabels(_Table0,_Table1,breaks)
 }
 function slabels(_Table,_Table1,breaks,
@@ -42,13 +41,28 @@ function slabels(_Table,_Table1,breaks,
     addRow(a,_Table1) 
 }}
     
-function slabel(val,k,breaks,    max,i){
-  max = length(breaks)
+function slabel(val,k,breaks,    max,i,last,this){
+  max = length(breaks);print val, "mmax",max
+  o(breaks,"breaks")
+  last = -1*10^32
   if (max == 1) return 1
-  for(i=1;i <max;i++) 
-    if (val <= breaks[i+1]["x"])
+  for(i=1;i <= max;i++) {
+    if(k==2)
+      print ":k",k,":i",i,":max",max,":val",val,":b",breaks[i]["x"]
+    if (i < max && breaks[i]["="] == breaks[i+1]["="]) {      
+      o(breaks,"breaks11"); 
+      continue
+    }
+    this = breaks[i]["x"]
+    print "======> :last",last,":this", this,":val",val,":=",breaks[i]["="]
+    if (val >= last && val <= this) {
+      if (k==2)
+	print "xxx",val,"=",breaks[i]["="]
       return breaks[i]["="]
- return breaks[max]["="]
+    }
+    last = this
+  }
+ return  breaks[max]["="]
 }
 function sdiscrete1(k,_Table0,tiny,bins,breaks,
                     _Ent,cut1,cut2,d,key,val,i,keys,max) {
