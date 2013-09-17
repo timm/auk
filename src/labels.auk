@@ -1,3 +1,13 @@
+"""
+
+DiscreteNames
+-------------
+
+Generate new columns headers with the independent columns switched to 
+non-numeric.
+
+"""
+
 function discreteNames(names,num,out,   k,tmp) {
   for(k in names) {
     tmp = names[k]
@@ -5,13 +15,40 @@ function discreteNames(names,num,out,   k,tmp) {
       gsub(/[\$\-\+]/,"",tmp)
     out[k] = tmp }
 }
+
+"""
+
+Unsupervised Discretization
+---------------------------
+
+The following two functions place `val` from column `k` of `_Table` into one of `bins` number of bins
+(with breaks stored in in `b`). 
+
+### Glabel
+
+`val` is mapped into some number from -3  to 3 representing it x value on
+a normalized gaussian.
+
+
+"""
+
 function glabel(k,val,bins,b,_Table,   i) {
   val = (val - mu[k]) / sd[k]
-  for(i=1;i < bins;i++) 
-    if (val <= b[i]) 
+  for(i=1;i < bins;i++)  
+   if (val <= b[i]) 
       return i
   return bins
 }
+
+"""
+
+### EwdLabel
+
+`val` is mapped into some number from 0 to 1 according to the `lo` and the `hi` value
+of the column `k`.
+
+"""
+
 function ewdlabel(k,val,bins,b,_Table,   i) {
   val = (val - lo[k]) / (hi[k] - lo[k] + 0.00001)
   for(i=1;i < bins;i++) 
@@ -19,6 +56,17 @@ function ewdlabel(k,val,bins,b,_Table,   i) {
       return i
   return bins
 }
+
+"""
+
+## Support Code
+
+### Ewdbreaks
+
+For equal-width discretization, return the breaks needed to 2 to 16 bins in the array `a`.
+
+"""
+
 function ewdbreaks(a) {
   breaks0(a,"                                     0.50                                   ")
   breaks0(a,"                                0.33      0.67                              ") 
@@ -36,6 +84,21 @@ function ewdbreaks(a) {
   breaks0(a,"  0.07 0.13 0.20 0.27 0.33 0.40 0.47      0.53 0.60 0.67 0.73 0.80 0.87 0.93") 
   breaks0(a,  "0.06 0.12 0.19 0.25 0.31 0.38 0.44 0.50 0.56 0.62 0.69 0.75 0.81 0.88 0.94")
 }
+
+function breaks0(a,str,    i,tmp,n) {
+  n = 1 + split(str,tmp," ")
+  for(i in tmp)
+    a[n][i] = tmp[i]
+}
+
+"""
+
+### Gbreaks
+
+For Gaussian discretization, return the breaks needed to 2 to 16 bins in the array `a`.
+
+"""
+
 function gbreaks(a) {
   breaks0(a,"                        0                    ")
   breaks0(a,"                  -0.43   0.43               ")
@@ -46,9 +109,4 @@ function gbreaks(a) {
   breaks0(a,"      -1.15 -0.67 -0.32 0 0.32 0.67 1.15     ")
   breaks0(a,"-1.22 -0.76 -0.43 -0.14   0.14 0.43 0.76 1.22")
   breaks0(a,"-1.28 -0.84 -0.52 -0.25 0 0.25 0.52 0.84 1.28")
-}
-function breaks0(a,str,    i,tmp,n) {
-  n = 1 + split(str,tmp," ")
-  for(i in tmp)
-    a[n][i] = tmp[i]
 }

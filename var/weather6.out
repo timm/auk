@@ -1,0 +1,38 @@
+making headers ...
+>>  data/weather6.csv
+
+  outlook, $temperature, $humidity,  windy,  =play,  #     notes
+  # rainy,        83.14,     81.64,  FALSE,     no,  #  expected
+ # 0.3571,        69.39,     10.29, 0.5714, 0.5714,  # certainty
+ overcast,           14,        65,   TRUE,    yes,            #
+    rainy,           15,        70,   TRUE,     no,            #
+    rainy,           16,        80,  FALSE,    yes,            #
+    sunny,           17,        70,  FALSE,     no,            #
+    rainy,           18,        96,  FALSE,    yes,            #
+    rainy,           69,        91,   TRUE,    yes,            #
+ overcast,           70,        90,   TRUE,     no,            #
+    sunny,           71,        95,  FALSE,    yes,            #
+    rainy,           72,        80,  FALSE,     no,            #
+    sunny,           73,        70,   TRUE,    yes,            #
+    sunny,          180,        90,   TRUE,     no,            #
+ overcast,          181,        75,  FALSE,     no,            #
+ overcast,          183,        86,  FALSE,     no,            #
+    sunny,          185,        85,  FALSE,     no,            #
+
+  outlook, temperature,  humidity, windy, =play,  #     notes
+ overcast,       <=171, <=82.6667,  TRUE,   yes,            #
+    rainy,       <=171, <=82.6667,  TRUE,    no,            #
+    rainy,       <=171, <=82.6667, FALSE,   yes,            #
+    sunny,       <=171, <=82.6667, FALSE,    no,            #
+    rainy,       <=171,  >82.6667, FALSE,   yes,            #
+    rainy,       <=171,      <=93,  TRUE,   yes,            #
+ overcast,       <=171,      <=93,  TRUE,    no,            #
+    sunny,       <=171,  >82.6667, FALSE,   yes,            #
+    rainy,       <=171, <=82.6667, FALSE,    no,            #
+    sunny,       <=171, <=82.6667,  TRUE,   yes,            #
+    sunny,        >171,      <=93,  TRUE,    no,            #
+ overcast,        >171, <=82.6667, FALSE,    no,            #
+ overcast,        >171,      <=93, FALSE,    no,            #
+    sunny,        >171,      <=93, FALSE,    no,            #
+W> rogue local: Q: "\""
+W> rogue local: _: "\034"

@@ -10,7 +10,7 @@ rainy		,65.01		,96		,FALSE	,yes
 
 overcast	,67		,90		,TRUE	,yes
 rainy		,68		,80		,FALSE	,yes
-sunny		,69		,70		,TRUE	,yes
+sunny		,68		,70		,TRUE	,yes
 
 sunny		,70		,90		,TRUE	,no
 overcast	,71		,75		,FALSE	,no

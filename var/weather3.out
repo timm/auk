@@ -1,0 +1,39 @@
+making headers ...
+making sdiscrete.awk ...
+>>  data/weather3.csv
+
+  outlook, $temperature, $humidity,  windy,  =play,  #     notes
+  # rainy,        73.57,     81.64,  FALSE,     no,  #  expected
+ # 0.3571,        6.572,     10.29, 0.5714, 0.6429,  # certainty
+ overcast,           64,        65,   TRUE,    yes,            #
+    rainy,           65,        70,   TRUE,     no,            #
+    rainy,           68,        80,  FALSE,    yes,            #
+    sunny,           69,        70,  FALSE,     no,            #
+    rainy,           70,        96,  FALSE,    yes,            #
+    rainy,           71,        91,   TRUE,     no,            #
+ overcast,           72,        90,   TRUE,    yes,            #
+    sunny,           72,        95,  FALSE,     no,            #
+    rainy,           75,        80,  FALSE,    yes,            #
+    sunny,           75,        70,   TRUE,     no,            #
+    sunny,           80,        90,   TRUE,     no,            #
+ overcast,           81,        75,  FALSE,     no,            #
+ overcast,           83,        86,  FALSE,     no,            #
+    sunny,           85,        85,  FALSE,     no,            #
+
+  outlook, temperature,  humidity, windy, =play,  #     notes
+ overcast,        <=77, <=82.6667,  TRUE,   yes,            #
+    rainy,        <=77, <=82.6667,  TRUE,    no,            #
+    rainy,        <=77, <=82.6667, FALSE,   yes,            #
+    sunny,        <=77, <=82.6667, FALSE,    no,            #
+    rainy,        <=77,  >82.6667, FALSE,   yes,            #
+    rainy,        <=77,      <=93,  TRUE,    no,            #
+ overcast,        <=77,      <=93,  TRUE,   yes,            #
+    sunny,        <=77,  >82.6667, FALSE,    no,            #
+    rainy,        <=77, <=82.6667, FALSE,   yes,            #
+    sunny,        <=77, <=82.6667,  TRUE,    no,            #
+    sunny,         >77,      <=93,  TRUE,    no,            #
+ overcast,         >77, <=82.6667, FALSE,    no,            #
+ overcast,         >77,      <=93, FALSE,    no,            #
+    sunny,         >77,      <=93, FALSE,    no,            #
+W> rogue local: Q: "\""
+W> rogue local: _: "\034"

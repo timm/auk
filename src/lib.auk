@@ -10,6 +10,7 @@
          INF   = 10^17
 	 NINF  = -1*INF
          PINCH = 1 / INF
+	 CONVFMT="%.6g"
        }
 
 function norm(x,m,s) {
