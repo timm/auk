@@ -24,7 +24,7 @@ function klassAt(_Table,   k,t) {
 function tableprint(_Table,stats,   com,max,i,c,row,old) {
   print ""
   old=CONVFMT
-  CONVFMT = stats
+  CONVFMT = stats ? stats : "%.6f"
   com = malign()
   print rowprint(name) ", #     notes"   | com 
   if (stats) {

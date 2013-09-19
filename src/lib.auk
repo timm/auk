@@ -150,6 +150,10 @@ function nchars(n,c,    out) {
 function malign() {
   return "gawk -f malign.awk # " rand()
 }
+function copy(a1,a2,    i) {
+  new(a2)
+  for(i in a1) a2[i] = a1[i]
+}
 function wme(  _Table){
     oo(name,"name"); #oo(score,"score"); 
     #oo(klass,"klass")

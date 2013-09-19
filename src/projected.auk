@@ -1,8 +1,13 @@
 @include "project.awk"
 
-function _projected(   _Table) {
-  readcsv("data/weather2.csv",0, _Table)
-  project(_Table[0])
+function _projected() {
+  resetSeed()
+  projected1("data/autompg.csv")
+}
+function projected1(f,  _Table,w) {
+  readcsv(f,0, _Table)
+  w = project(_Table,0)
+  tableprint(_Table[w])
 }
 function proj1c(   _Table) {
   readcsv("data/autompg.csv",0, _Table)

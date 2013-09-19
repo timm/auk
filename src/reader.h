@@ -1,13 +1,14 @@
 _Table
 data   # data[row][col] holds 1 cell of datum
 name   # name of i-th colum
+colnum # reverse index on name
 #
 # meta knowledge
 #
 order  # order of the columns
 nump   # is i-th column numeric
 wordp  # is i-th column non-numeric?
-indep  # list of indep columns
+indep  # list of indep columns 
 dep    # list of dep columns
 less   # numeric goal to be minimized
 more   # numeric goal to be maximized

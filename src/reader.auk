@@ -29,6 +29,7 @@ function makeTable(a,z,_Table,  c,x,isNum,from,max) {
     new3d(nump,z,c)
     new3d(wordp,z,c)
     x = name[z][c] = a[from]
+    colnum[z][x] = c
     isNum = 1
     if     (x~ /=/ ) {dep[z][c];   klass[z][c];isNum=0}
     else if(x~ /+/)  {dep[z][c];   more[z][c]         }
