@@ -3,29 +3,37 @@
 @include "labels.awk"
 @include "ent.awk" 
 
-function _sdiscrete(_Table,b,bins,newNames,i,
-                   labels,tiny,f) {
-  f="data/weather3.csv";  bins = 3
+function _sdiscrete(    _Table,bins,tiny,f,t1) {
+  #f="data/weather3.csv";  bins = 3
+  f="data/diabetes.csv";  bins = 3 
   #f="data/weather4.csv";  bins = 4
   # f="data/weather5.csv";  bins = 2
   #f="data/weather6.csv";  bins = 3
   print(">> ",f)
   readcsv(f,0,_Table)
-  labels="ewdlabel"
-  ewdbreaks(b)
   tiny=0.3
-  discreteNames(name[0],num[0],newNames)
-  makeTable(newNames, 1, _Table)
-  sdiscrete(_Table[0],_Table[1],tiny,bins)
+  t1 = sdiscrete(_Table, 0, bins, tiny)
   tableprint(_Table[0],"%.4g")
-  tableprint(_Table[1])
+  tableprint(_Table[t1])
 }
 
-function sdiscrete(_Table0,_Table1,tiny,bins,
-		   k,breaks) {
+function sdiscrete(_Table,t,bins,tiny,  t1,newNames,b) {
+  t1="D_ t"
+  ewdbreaks(b)
+  discreteNames(name[t],num[t],newNames)
+  makeTable(newNames, t1, _Table)
+  sdiscrete1(_Table[t],_Table[t1],tiny,bins)
+  
+  return t1
+}
+function sdiscrete1(_Table0,_Table1,tiny,bins,
+		   k,breaks,i,j) {
+  new(breaks)
   for(k in num0) 
-    sdiscrete1(k,_Table0,tiny,bins,breaks)
+    sdiscrete2(k,_Table0,tiny,bins,breaks)
   slabels(_Table0,_Table1,breaks)
+  #o(breaks,"breaks" k)
+  
 }
 
 function slabels(_Table,_Table1,breaks,
@@ -42,16 +50,20 @@ function slabels(_Table,_Table1,breaks,
     addRow(a,_Table1) 
 }}
     
-function slabel(val,b,   bins,i) {
+function slabel(val,b,   bins,i,last) {
+  
   bins = length(b) + 1
   if(bins==1)
     return 1
-  for(i=1;i < bins;i++) 
-    if (val <= b[i]) 
-      return "<="b[i]
-  return ">"b[length(bins)]
+  for(i=1;i < bins;i++)  {
+    if(i in b) {
+      last = b[i]
+      if (val <= b[i]) 
+	return "<="b[i]
+  }}
+  return ">"last #b[length(bins)]
 }
-function sdiscrete1(k,_Table0,tiny,bins,breaks,
+function sdiscrete2(k,_Table0,tiny,bins,breaks,
                     _Ent,cut1,cut2,d,key,val,i,keys,max,breaks0) {
   cut1 = (hi0[k] - lo0[k])/bins
   cut2 = tiny * sd0[k]
@@ -74,8 +86,10 @@ function sdiscrete1(k,_Table0,tiny,bins,breaks,
   }
   packBreaks(k,breaks0,breaks)
   
+ 
+  
 }
-function packBreaks(k,breaks0,breaks,   i,max){
+function packBreaks(k,breaks0,breaks,   i,max,m){
  max = length(breaks0[k])
   for(i=1;i<max;i++)  
     if (breaks0[k][i]["="] != breaks0[k][i+1]["="])

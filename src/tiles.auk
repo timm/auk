@@ -19,13 +19,13 @@ function tiles(_Tables,t,    _Tile,m,cl,name,xy) {
   tiles4(1,m,1,m,_Tables[xy],_Tile,_Tables,cl)
   tableprint(_Tables[centers],"%5.3f")
   for(name in names) 
-      if(name != t)
-	tableprint(_Tables[name],"%5.3f")
+     	if(name != t)
+	  tableprint(_Tables[name],"%5.3f")
 }
 function tiles0(_Table0,_Tile,  x,y,z,d,at) {
   x = colnum0["$_XX"]
   y = colnum0["$_YY"]
-  z = colnum0["$_ZZ"]  
+  z = colnum0["_ZZ"]  
   for(d in data0) {
     at[d]["d"] = d
     at[d]["x"] = data0[d][x]
@@ -63,7 +63,7 @@ function tile1(x0,x2,y0,y2, _Table0,_Tile,_Tables,cl,
 function makeNewTable(has,cl,_Table0,_Tile,_Tables, 
 		 z,one,d,row1,row2) {
   makeTable(name0,cl,_Tables)
-  z = colnum0["$_ZZ"]  
+  z = colnum0["_ZZ"]  
   for(one in has) {
     d = has[one]
     copy(data0[d],row1)
@@ -71,7 +71,7 @@ function makeNewTable(has,cl,_Table0,_Tile,_Tables,
     addRow(row1,_Tables[cl])
   }
   centroid(_Tables[cl],row2)
-  row2[z] = -1
+  row2[z] = ">" cl
   addRow(row2,_Tables[centers])
 }
 function _tiles(   _Table) {

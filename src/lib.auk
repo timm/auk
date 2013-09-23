@@ -79,6 +79,8 @@ function pop(a,    i,j) {
 }
 function xsort(r1,x1,r2,x2) { return x1["x"] - x2["x"] }
 function ysort(r1,x1,r2,x2) { return x1["y"] - x2["y"] }
+function zsort(r1,x1,r2,x2) { return x1["z"] - x2["z"] }
+function zsortdown(r1,x1,r2,x2) { return x2["z"] - x1["z"] }
 function rsort(r1,x1,r2,x2) { return (2 - 4 * rand())  }
 
 function line(f,   str) {

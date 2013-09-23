@@ -28,17 +28,19 @@ function project0(east,west,_Table,x,y,
     y[d]=  (a^2 - x[d]^2)^0.5   
   }
 }
-function widen(_Table,t,x,y,   w,d,wider) {
-  copy(name[t],more)
-  push("$_XX",more)
-  push("$_YY",more)
-  push("$_ZZ",more)
+function widen(_Table,t,x,y,   w,d,wider,adds,c) {
+  copy(name[t],adds)
+  push("$_XX",adds)
+  push("$_YY",adds)
+  push("$_Hell",adds)
+  push("_ZZ",adds)
   w = "_" t
-  makeTable(more,w,_Table)
+  makeTable(adds,w,_Table)
   for(d in data[t]) {
     copy(data[t][d],wider)
     push(x[d],      wider)
     push(y[d],      wider)
+    push(fromHell(data[t][d],_Table[t]),wider)
     push(0,         wider)
     addRow(wider,_Table[w])
   }

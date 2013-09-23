@@ -1,5 +1,40 @@
 @include "reader.awk"
 
+function tables(_Table,_Tables,  d,k,seen) {
+  for(d in data) {
+    k = klass1(d,_Table)
+    if(++seen[k] == 1)
+      makeTable(name,k,_Tables)
+    addRow(data[d],_Tables[k]) 
+  }
+}
+function rowsWith(this,_Table,   out,   d) {
+  for(d in data)
+    if (rowHas(this,data[d]))
+      out[d]
+  return length(out)
+}
+function rowHas(this,row,    col,val,has) {
+  for(col in this) {
+    for(val in this[col])
+      if (row[col]== val) 
+	has[col]++
+     if (has[col]<1) return 0 }
+  return 1
+}
+function fromHell(row,_Table,  out,c,m) { 
+  for(c in more) 
+    if (row[c] != "?") {
+      m++
+      out += ((row[c] - hi[c]) / (hi[c] - lo[c] + PINCH ))^2
+  }
+  for(c in less) 
+    if (row[c] != "?") {
+      m++
+      out += ((row[c] - hi[c]) / (hi[c] - lo[c] + PINCH ))^2
+  }
+  return m ? sqrt(out)/sqrt(m) : 1
+}
 function klasses(z,_Table,seen,   d) {
   for (d in data[z]) 
     klasses1(d,z,_Table,seen)
@@ -22,7 +57,7 @@ function klassAt(_Table,   k,t) {
       return k
 }
 function tableprint(_Table,stats,   com,max,i,c,row,old) {
-  print ""
+  print " --" 
   old=CONVFMT
   CONVFMT = stats ? stats : "%.6f"
   com = malign()

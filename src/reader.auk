@@ -24,6 +24,8 @@ function makeTable(a,z,_Table,  c,x,isNum,from,max) {
     c++
     order[z][c] = from
     new3d(data,z,c)
+    new3d(more,z,c)
+    new3d(less,z,c)
     new3d(num,z,c)
     new3d(term,z,c)
     new3d(nump,z,c)
