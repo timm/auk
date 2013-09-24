@@ -4,7 +4,7 @@
 # give tiles a working memory
 # pass round a table and create stuff
 
-function tiles(_Tables,t,    _Tile,m,cl,name,xy) {
+function tiles(_Tables,t,    _Tile,m,cl,xy) {
   xy = project(_Tables,t)
   tiny = 4
   pre  = ""
@@ -14,13 +14,9 @@ function tiles(_Tables,t,    _Tile,m,cl,name,xy) {
   watch= 1
   centers="centroids"
   makeTable(names[xy],centers,_Tables)
-  print ">>", tiny,pre,m,big,cl,watch,xy
   tiles0(_Tables[xy],_Tile)
   tiles4(1,m,1,m,_Tables[xy],_Tile,_Tables,cl)
-  tableprint(_Tables[centers],"%5.3f")
-  for(name in names) 
-     	if(name != t)
-	  tableprint(_Tables[name],"%5.3f")
+  return centers
 }
 function tiles0(_Table0,_Tile,  x,y,z,d,at) {
   x = colnum0["$_XX"]
@@ -62,6 +58,7 @@ function tile1(x0,x2,y0,y2, _Table0,_Tile,_Tables,cl,
 }
 function makeNewTable(has,cl,_Table0,_Tile,_Tables, 
 		 z,one,d,row1,row2) {
+  cl = cl*100
   makeTable(name0,cl,_Tables)
   z = colnum0["_ZZ"]  
   for(one in has) {
@@ -71,13 +68,18 @@ function makeNewTable(has,cl,_Table0,_Tile,_Tables,
     addRow(row1,_Tables[cl])
   }
   centroid(_Tables[cl],row2)
-  row2[z] = ">" cl
+  row2[z] = cl
   addRow(row2,_Tables[centers])
 }
-function _tiles(   _Table) {
+function _tiles(   _Tables, t,centers,name) {
   resetSeed()
-  readcsv("data/nasa93dem.csv",0,_Table)
-  tiles(_Table,0)
+  t=0
+  readcsv("data/nasa93dem.csv",t,_Tables)
+  centers= tiles(_Tables,t)
+  tableprint(_Tables[centers],"%5.3f")
+  for(name in names) 
+    if(name != t)
+      tableprint(_Tables[name],"%5.3f")
 }
 function _tiles1(   _Table) {
   readcsv("data/autompg.csv",0,_Table)

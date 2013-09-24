@@ -57,21 +57,21 @@ function klassAt(_Table,   k,t) {
       return k
 }
 function tableprint(_Table,stats,   com,max,i,c,row,old) {
-  print " --" 
+  print "" 
   old=CONVFMT
   CONVFMT = stats ? stats : "%.6f"
   com = malign()
-  print rowprint(name) ", #     notes"   | com 
+  print "_row,"rowprint(name) ", #     notes"   | com 
   if (stats) {
     centroid(_Table,row)
-    print "# "rowprint(row)", #  expected" | com
+    print "_row,# "rowprint(row)", #  expected" | com
     for(c in name)
       row[c] = c in nump ? sd[c] : most[c]/n[c]
-    print "# " rowprint(row) ", # certainty" | com
+    print "_row,# " rowprint(row) ", # certainty" | com
     }
   max =length(data)
   for(i=1;i<=max;i++)
-    print rowprint(data[i]) ", #"  | com
+    print i,rowprint(data[i]) ", #"  | com
   close(com) 
   CONVFMT=old
 }
