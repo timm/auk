@@ -1,4 +1,4 @@
-making headers ...
+
 >>  data/weather6.csv
 
   outlook, $temperature, $humidity,  windy,  =play,  #     notes
@@ -34,5 +34,3 @@ making headers ...
  overcast,        >171, <=82.6667, FALSE,    no,            #
  overcast,        >171,      <=93, FALSE,    no,            #
     sunny,        >171,      <=93, FALSE,    no,            #
-W> rogue local: Q: "\""
-W> rogue local: _: "\034"

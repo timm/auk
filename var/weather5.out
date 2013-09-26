@@ -1,5 +1,8 @@
-making headers ...
-making sdiscrete.awk ...
+
+
+
+
+
 >>  data/weather5.csv
 
   outlook, $temperature, $humidity,  windy, =play,  #     notes
@@ -35,5 +38,3 @@ making sdiscrete.awk ...
     sunny,           1,        1, FALSE,    no,            #
     sunny,           1,        1, FALSE,   yes,            #
     sunny,           1,        1, FALSE,    no,            #
-W> rogue local: Q: "\""
-W> rogue local: _: "\034"
