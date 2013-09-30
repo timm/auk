@@ -2,9 +2,10 @@
 @include "lib.awk"
 
 """
-
 Background
 ----------
+
+
 
 This file implements a Scott-Knott procedure which recursively divides
 a population if Cohen's rule says they are not similiar

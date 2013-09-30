@@ -6,8 +6,8 @@ mkdir -p $HOME/tmp
 
 gnuplot<<EOF
 set size square
-set terminal postscript eps color "Helvetica" 10
-set size 0.33,0.33
+set terminal postscript eps color "Helvetica" 15
+#set size 0.33,0.33
 #set noxtics 
 #set noytics 
 #set xrange [0:1]
