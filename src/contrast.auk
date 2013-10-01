@@ -2,51 +2,74 @@
 @include "tiles.awk"
 
 function _contrast(   _Tables,t,centers,pairs,
-                      what,better) {
+                      what,better,worse) {
   t=0
   readcsv("data/nasa93dem.csv",t,_Tables)
   centers= tiles(_Tables,t)
   what[colnums[centers]["$_XX"]]
   what[colnums[centers]["$_YY"]]
-  
   neighbors0(_Tables[centers],pairs,what,1)
-    #o(indeps[centers],"indep")
-   o(pairs,"pairs")
   tableprint(_Tables[centers],"%.6g")
-  deltas(_Tables,centers,pairs,better)
-  o(better,"better")
-#   for(name in names) {
- #   print "\n-----| "name" |-----------------------------------"
-  #  tableprint(_Tables[name],"%.6g")
-   #}
-  #print "centroids",length(datas[centers])
-  
+  deltas(_Tables,what,centers,pairs,better,worse)
+  o(better,"better1")
+  o(worse,"worse1")
 }
-#better[200]
-#|   [300] = (0.10281) means make 200 better by going to 300
 
-function deltas(_Tables,mid,pairs,better,
-		hell,table,tiny,from,tmp,table1,table2,to) {
-  hell = colnums[mid]["$_Hell"]
+function deltas(_Tables,what,mid,pairs,better,worse,
+		hell,table,tiny,from,tmp0,tmp1,table1,table2,to) {
+  #hell = colnums[mid]["$_Hell"]
   table  = colnums[mid]["_ZZ"]
-  tiny = 0.3 * sds[mid][hell]
+  #tiny = 0.3 * sds[mid][hell]
   for(from in pairs) 
-    delta1(length(pairs[from]),
-	   pairs,hell,from,mid,tiny,datas,tmp)   
- for(from in tmp)
-  for(to in tmp[from]) {
+    dominates(length(pairs[from]),what,pairs,from,_Tables[mid],tmp0,tmp1)
+  join2table(tmp0,better,datas,mid,table)
+  join2table(tmp1,worse, datas,mid,table)
+}
+function join2table(lst,out,datas,mid,table,    from,to,table1,table2) {
+ for(from in lst)
+  for(to in lst[from]) {
     table1 = datas[mid][from][table]
     table2 = datas[mid][to][table]
-     better[table1][table2] = tmp[from][to]
-     }
+    out[table1][table2] = lst[from][to]
+  }
 }
-function delta1(max,pairs,hell,from,mid,tiny,datas,better,
-		i,to,hell1,hell2) {
-  hell1 = datas[mid][from][hell]
+function dominates(max,what,pairs,from,_Table,better,worse,
+                 i,to,diff,space,b4) {
   for(i=1;i<=max;i++) {
-    to     = pairs[from][i]["to"]
-    hell2  = datas[mid][to][hell]
-    if (abs(hell2 - hell1) > tiny)
-      if (hell2 > hell1) 
-	return better[from][to] = hell2 - hell1
-  }}
+    to   = pairs[from][i]["to"]
+    space= dist0(data[from],data[to],what,_Table)
+    diff = dominate(from,to,_Table)
+    if (diff > 0) {
+      b4 = priorD(better,from,1000000)
+      if (space < b4) 
+	{delete better[from]; better[from][to] = space}
+      b4 = priorD(worse,to,100000)
+      if (space < b4)
+	{delete worse[to]; worse[to][from] = space} 
+}}}
+
+function priorD(lst,x,z,   y) {
+  if (x in lst) {
+    for(y in lst[x])
+      return lst[x][y] 
+  } else
+    return z
+}
+ 
+function dominate(from,to,_Table, 
+		  k,delta,inc,tiny,diff,good) {
+  for(k in less) 
+    delta[k] = data[from][k] - data[to][k]
+  for(k in more) 
+    delta[k] = data[to][k] - data[from][k]
+  for(k in delta) {
+    diff = delta[k]
+    inc = diff/(hi[k] - lo[k]) 
+    tiny = 0.3 * sd[k]
+    if (diff < -1*tiny) 
+      return 0
+    if (diff > tiny)
+      good += inc
+  }
+  return good / sqrt(length(delta))
+}

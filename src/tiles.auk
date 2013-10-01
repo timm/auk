@@ -121,26 +121,39 @@ after all the cluster values `cl` are updated.
 """
 
 function tile1(x0,x2,y0,y2, _Table0,_Tile,_Tables,cl,    
-		x,y,has) {
+                x,y,has) {
+  #-----------------
+  # search : find things inside x0..x2 and y0..y2
   for(x=x0; x<=x2; x++) 
     for(y=y0; y<=y2; y++) 
       if (xs[x]["d"] == ys[y]["d"])
-	has[x] = xs[x]["d"]
+        has[x] = xs[x]["d"]
+  #-------------------
+  # show : some debug info (optional)
   if (watch)
     print sprintf("%3s:  ",cl) pre x0,x2,y0,y2, "#" length(has)
+  #-------------------
+  # recurse : when there is enough data 
   if (length(has) >= big) {
     pre = pre "|.."
     return tiles4(x0,x2,y0,y2,_Table0,_Tile,_Tables,cl)
   } 
+  # ------------------
+  # otherwise, new cluster: make a new leaf, only when there is enough data
   if (length(has) > tiny)  
-    makeNewTable(has, ++cl,_Table0,_Tile,_Tables)
+    makeNewTable(has, 
+                 ++cl, # <=== we are now making a new cluster
+                 _Table0,_Tile,_Tables)
+  #------------------
+  # keep track of the number of leaf clusters seen so far
   return cl
 }
 
 """
 
 Note the trace when  `watch=1` over a data set with  93 rows.
-Observe how, at the top-level, it works from _1,47_ then _48,93_.
+Observe how, at the top-level, it works from _1,47_ then _48,93_
+(the last number of each line is the number of examples in that split):
 
       1:  1,47,1,47,#22
       1:  |..1,24,1,24,#8
@@ -243,15 +256,16 @@ Sample plotting data in a file called `mydata.sh`:
     epstopdf "mydata.eps"
 
 Works on three column tab-separated data:
-
-     0.108	0.00135895	7.82978
-     0.271	0.0388626	5.96581
-     0.348	0.0388626	5.98299
-     0.316	0.0517694	6.16121
-     0.364	0.0789048	6.70094
-     0.431	0.0424838	6.03548
-     0.699	6.14656e-07	5.44781
-     0.463	0.0535279	5.22709
-     0.438	0.0789048	6.32316
+    
+     # $_XX     $_YY            log($_ZZ)
+     0.108      0.00135895      7.82978
+     0.271      0.0388626       5.96581
+     0.348      0.0388626       5.98299
+     0.316      0.0517694       6.16121
+     0.364      0.0789048       6.70094
+     0.431      0.0424838       6.03548
+     0.699      6.14656e-07     5.44781
+     0.463      0.0535279       5.22709
+     0.438      0.0789048       6.32316
 
 """
