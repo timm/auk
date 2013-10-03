@@ -2,7 +2,7 @@
 @include "sdiscrete.awk"
 
 function _bore(  _Table, f,t1,bins,tiny,
-		 want,_Tables,t,out,enough,some,best,m,good) {
+		 want,_Tables,t,out,enough,some,best,m,good,skip) {
   #f="data/weather0.csv";  bins = 3; tiny=0.3; want="yes";enough=0.5
   f="data/diabetes.csv";  bins = 7; tiny=0.3; enough=0.25; want="tested_negative"
   readcsv(f,0,_Table)  
@@ -11,21 +11,24 @@ function _bore(  _Table, f,t1,bins,tiny,
   tables(_Table[t1],_Tables)
   #for(t in names) 
   #  tableprint(_Tables[t])
-  m=bore(_Tables,names,want,enough,good)
+  #skip[5]
+  m=bore(_Tables,names,want,enough,good,skip)
+  o(colnum[t1],"nums")
   o(good,"good")
   forwardSelect(length(datas[want]),-1,1,m,names,want,good,_Tables,best)
   o(best,"best")
 }  
-function bore(_Tables,all,want,enough,out,   
+function bore(_Tables,all,want,enough,out,skip,
 	      t,yes,no,best,rest,x,y,b,r,tmp,max,inc,m,items) {
  for(t in all)  {
    items = length(datas[t])
    t == want ? best += items : rest += items
-   for(x in indeps[t]) 
-     for(y in counts[t][x]) {
-       inc = counts[t][x][y]
-       t == want ? yes[x][y] += inc : no[x][y] += inc
-     }}
+   for(x in indeps[t])
+     if(! (x in skip))
+       for(y in counts[t][x]) {
+	 inc = counts[t][x][y]
+	 t == want ? yes[x][y] += inc : no[x][y] += inc
+       }}
  for(x in yes)
    for(y in yes[x]) {
      b = yes[x][y]/ best
@@ -42,9 +45,10 @@ function bore(_Tables,all,want,enough,out,
      delete out[m]
  return asort(out,out,"zsortdown")
 }
-function forwardSelect(seen,b4,lo,hi,all,want,good,_Tables,out,
-		       support,t,m,total,score,some,tmp,best,rest) {
-  support = 0.25 * length(datas[want])
+function forwardSelect(seen,b4,lo,hi,all,want,good,_Tables,out,support,
+		       t,m,total,score,some,tmp,best,rest) {
+  support = support ? support : 0.25
+  support = support * length(datas[want])
   if (lo > hi)        return somes(good,lo-1,out)
   if (seen < support) return somes(good,lo-1,out)
   somes(good,lo,some)
@@ -55,7 +59,7 @@ function forwardSelect(seen,b4,lo,hi,all,want,good,_Tables,out,
     t == want ? best += tmp : rest += tmp 
   }
   score = best/(best+rest)
-  print best,support
+  #print "Got", best,support
   if (best > support && score > b4)
     return forwardSelect(best,score,lo+1,hi,all,want,good,_Tables,out)
   else

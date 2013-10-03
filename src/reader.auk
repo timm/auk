@@ -48,6 +48,7 @@ function makeTable(a,z,_Table,  c,x,isNum,from,max) {
       new3d(count,z,c) 
       new3d(mode,z,c)
       most[z][c] = 0 }}
+  return z
 }
 function addRow(a,_Table,skip,   r,c,x,new,delta,from) {
   r=length(data)+1

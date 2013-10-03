@@ -1,5 +1,13 @@
 @include "reader.awk"
 
+function newTableName(_Tables,   tmp,t) {
+  tmp = "T" int(rand() * 1000)
+  for(t in names)
+    if (t == tmp)
+      return newTableName(_Tables)
+  return tmp
+}
+  
 function tables(_Table,_Tables,  d,k,seen) {
   for(d in data) {
     k = klass1(d,_Table)
