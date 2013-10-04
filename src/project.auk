@@ -132,7 +132,7 @@ function widen(_Table,t,x,y,   w,d,wider,adds,c) {
 
 ## Output
 
-Here's the 26 dimensions of [nasa93demo
+Here's the 26 dimensions of [nasa93demo](https://raw.github.com/timm/auk/master/data/nasa93dem.csv)
 
 <img width=500 src="http://unbox.org/open/trunk/573/13/fall/doc/img/nasa9326.png">
 
