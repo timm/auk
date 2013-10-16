@@ -68,6 +68,7 @@ function sdiscrete2(k,_Table0,tiny,bins,breaks,
   cut1 = (hi0[k] - lo0[k])/bins
   cut2 = tiny * sd0[k]
   if (cut1 < cut2) cut1 = cut2
+  print k,name0[k],cut1,cut2
   for(d in data0) {
     key  = int(data0[d][k]/cut1)*cut1
     if (key > hi0[k])
@@ -85,9 +86,6 @@ function sdiscrete2(k,_Table0,tiny,bins,breaks,
     breaks0[k][i]["="] = labels[order[i]]
   }
   packBreaks(k,breaks0,breaks)
-  
- 
-  
 }
 function packBreaks(k,breaks0,breaks,   i,max,m){
  max = length(breaks0[k])

@@ -33,7 +33,7 @@ function bore(_Tables,all,want,enough,out,skip,
    for(y in yes[x]) {
      b = yes[x][y]/ best
      r = no[ x][y]/ rest
-     if (b > r) {
+     if (b > r && b > 0.5) {
        m++
        out[m]["x"] = x
        out[m]["y"] = y
@@ -47,7 +47,7 @@ function bore(_Tables,all,want,enough,out,skip,
 }
 function forwardSelect(seen,b4,lo,hi,all,want,good,_Tables,out,support,
 		       t,m,total,score,some,tmp,best,rest) {
-  support = support ? support : 0.25
+  support = support ? support : 0.33
   support = support * length(datas[want])
   if (lo > hi)        return somes(good,lo-1,out)
   if (seen < support) return somes(good,lo-1,out)
@@ -59,7 +59,7 @@ function forwardSelect(seen,b4,lo,hi,all,want,good,_Tables,out,support,
     t == want ? best += tmp : rest += tmp 
   }
   score = best/(best+rest)
-  #print "Got", best,support
+  print "Got", best,int(100*score),"%"
   if (best > support && score > b4)
     return forwardSelect(best,score,lo+1,hi,all,want,good,_Tables,out)
   else

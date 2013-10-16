@@ -3,10 +3,15 @@
 @include "sdiscrete.awk"
 @include "bore.awk"
 
-function _contrast(   _Tables,t,centers,pairs,
+function _contrast() {
+  #contrasts("data/nasa93dem.csv")
+  contrasts("/home/timm/svns/mine/mine/trunk/doc/13/fraun/fraun-oct15-2013.csv")
+}
+function contrasts(f,   _Tables,t,centers,pairs,
                       what,better,worse,cache,x,to,from,todo) {
+  resetSeed(1)
   t=0
-  readcsv("data/nasa93dem.csv",t,_Tables)
+  readcsv(f,t,_Tables)
   centers= tiles(_Tables,t)
   what[colnums[centers]["$_XX"]]
   what[colnums[centers]["$_YY"]]
@@ -16,12 +21,21 @@ function _contrast(   _Tables,t,centers,pairs,
   deltas(_Tables[centers],what,better,worse,cache)
   o(better,"better")
   #o(worse,"worse")
-  #contrast1(1,2,centers,_Tables)
-  #contrast1(2,3,centers,_Tables)
-  contrast1(3,8,centers,_Tables)
-  #contrast1(4,6,centers,_Tables)
-  #contrast1(5,9,centers,_Tables)
-  #contrast1(6,8,centers,_Tables)
+
+#better[1] = (3)
+#better[2] = (8)
+#better[3] = (6)
+#better[4] = (6)
+#better[5] = (8)
+#better[6] = (7)
+#better[7] = (8)
+
+  contrast1(1,3,centers,_Tables)
+  #contrast1(2,8,centers,_Tables)
+  #contrast1(3,6,centers,_Tables)
+  #contrast1(5,8,centers,_Tables)
+  #contrast1(6,7,centers,_Tables)
+  #contrast1(7,8,centers,_Tables)
 }
 BEGIN {CID=0}
 function contrast1(from0,to0,centers,_Tables,
@@ -45,7 +59,7 @@ function contrast1(from0,to0,centers,_Tables,
     copy(datas[to][d],wider)
     push(yes,wider)
     addRow(wider,_Tables[space]) }
-  t1 = sdiscrete(_Tables,space,4,0.3)
+  t1 = sdiscrete(_Tables,space,3,0.3)
   tables(_Tables[t1],_Tables)
   print("envied =" to0);   tableprint(_Tables[yes],"%.2g")
   print("feared =" from0);    tableprint(_Tables[no],"%.2g")
@@ -59,7 +73,7 @@ function contrast1(from0,to0,centers,_Tables,
   skip[colnums[t1]["_contrast"]]
   skip[colnums[t1]["center"]]
   m=bore(_Tables,all,want,0.5,good,skip)
-  o(good,"good")
+  #o(good,"good")
   forwardSelect(length(datas[want]),-1,1,m,all,want,good,_Tables,best,0.66)
   o(best,"best")
   for(i in best)

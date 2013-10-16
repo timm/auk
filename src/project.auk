@@ -85,16 +85,18 @@ row number _d_.
 """
 
 function project0(east,west,_Table,x,y,
-	      a,b,c,d,some) {
+	      a,b,c,d,some,bigger) {
   printf("+")
+  bigger = 1.05
   some = 0.000001 # handles a tedious div/zero error
   c = dist(data[east],data[west],_Table)
   for(d in data) {
     a = dist(data[d],data[east],_Table)
     b = dist(data[d],data[west],_Table)
-    if (b > c) 
+   # print a,b,c
+    if (b > c*bigger) 
       return project0(east,d,_Table,x,y)
-    if (a > c) 
+    if (a > c*bigger) 
       return project0(d,west,_Table,x,y)
     printf(".")
     x[d]=  (a^2 + c^2 - b^2) / (2*c + some)
@@ -109,7 +111,7 @@ Once these _(x,y)_ values are calculated for each example, we can
 
 """
 
-function widen(_Table,t,x,y,   w,d,wider,adds,c) {
+function widen(_Table,t,x,y,   w,d,wider,adds,c,hell) {
   copy(name[t],adds)
   push("$_XX",adds)
   push("$_YY",adds)
@@ -118,10 +120,11 @@ function widen(_Table,t,x,y,   w,d,wider,adds,c) {
   w = "_" t
   makeTable(adds,w,_Table)
   for(d in data[t]) {
+    hell= fromHell(data[t][d],_Table[t])
     copy(data[t][d],wider)
     push(x[d],      wider)
     push(y[d],      wider)
-    push(fromHell(data[t][d],_Table[t]),wider)
+    push(hell,wider)
     push(0,         wider)
     addRow(wider,_Table[w])
   }

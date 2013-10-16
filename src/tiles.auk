@@ -215,9 +215,14 @@ table.
 
 """
 function _tiles(   _Tables, t,centers,name) {
+#  tilesMain("data/nasa93dem.csv")
+  tilesMain("/home/timm/svns/mine/mine/trunk/doc/13/fraun/fraun-oct15-2013.csv")
+}
+
+function tilesMain(f,  _Tables, t,centers,name) {
   resetSeed()
   t=0
-  readcsv("data/nasa93dem.csv",t,_Tables)
+  readcsv(f,t,_Tables)
   centers= tiles(_Tables,t)
   tableprint(_Tables[centers],"%5.3f")
   for(name in names) 
@@ -225,6 +230,7 @@ function _tiles(   _Tables, t,centers,name) {
       tableprint(_Tables[name],"%5.3f")
 }
 
+#
 # function _tiles1(   _Table) {
 #  readcsv("data/autompg.csv",0,_Table)
 #  tiles(_Table[0])

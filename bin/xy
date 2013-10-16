@@ -5,8 +5,8 @@ Log=0
 Power=1
 Mult=1
 Z='=class'
-X='$_x'
-Y='$_y'
+X='$_XX'
+Y='$_YY'
 C=gray
 while getopts "lo:t:x:y:z:c:m:p:d" opt; do
   case $opt in
@@ -47,11 +47,11 @@ gawk -F, '
    /,/ && $0 !~ /_/ { n++
                       x[n] = $at[X]
                       y[n] = $at[Y]
-                      z[n] = $at[Z]
+                      z[n] = $at[Z]; ###print n, z[n]
                       if (z[n] < lo) lo = z[n]
                       if (z[n] > hi) hi = z[n] }
   END {  OFS="\t";
-         print "lo=" lo " hi=" hi
+         print "#lo=" lo " hi=" hi
          for(i=1;i<=n;i++)
              print x[i],y[i] ,of(z[i]) }
        ' X="$X" Y="$Y" Z="$Z" Pow=$Power Mult=$Mult Log=$Log > $Dat

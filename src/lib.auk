@@ -62,6 +62,7 @@ function barph(x) {
   return 0
 }
 function resetSeed(seed) {
+  print ":seed",seed,":SEED",SEED
   if      (seed) srand(seed)
   else if (SEED) srand(SEED)
   else           srand(1)
