@@ -8,8 +8,9 @@ data 1000 > /tmp/dat
  
  gnuplot<<EOF
  set title  "x**1.1/(x+y)"
- set terminal pdf
- set output "x1_1.pdf"
+ set size 0.33,0.5
+ set terminal postscript eps enhanced color "Helvetica"
+ set output "x1_1.eps"
  set yrange[0:1]
  set xrange[0:1]
  set nokey
@@ -17,3 +18,4 @@ data 1000 > /tmp/dat
  set style fill solid 1 noborder
  plot "/tmp/dat"  with circles linecolor palette
 EOF
+epstopdf x1_1.eps
