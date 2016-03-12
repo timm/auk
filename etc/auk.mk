@@ -4,33 +4,36 @@ Stems=$(subst .awk,,$(Awks))
 
 MAKEFLAGS= --no-print-directory
 
-all : files 
-
-files: gauk $(Tmp)/prep.sed $(Files) filesall
-
-gauk : $(Etc)/auk.mk
-	@echo "make files; AWKPATH='$(Tmp)' gawk --dump-variables='$(Tmp)/awkvars.out' --profile='$(Tmp)/awkprof.out' " "$$""*" > $@
-	@chmod +x $@
-
-$(Tmp)/prep.sed : $(Etc)/h2sed.awk $(Awks)
-	@cat $(Awks) | grep '^#_ ' | gawk  -f $(Etc)/h2sed.awk  > $@
-
-$(Tmp)/%.awk : %.awk $(Tmp)/prep.sed
-	@sed -f $(Tmp)/prep.sed $< > $@
+all : $(Lib)/gauk $(Tmp)/prep.sed $(Files) filesall
 
 vars :
-	@if  [ -f "$(Tmp)/awkvars.out" ] \
-	then                             \
-	  egrep -v '[A-Z][A-Z]' $(Etc)/awkvars.out | sed 's/^/W> rogue local: /' ; \
+	@if  [ -f "$(Tmp)/awkvars.out" ]             \
+	then egrep -v '[A-Z][A-Z]' $(Etc)/awkvars.out \
+             | sed 's/^/W> rogue local: /' ;           \
 	fi
 
 filesall:
-	-@ $(foreach f,$(Stems), \
-		[ "$f.awk" -nt "$(Lib)/$f" ] &&  $(MAKE) -f $(Etc)/auk.mk src=$f file ; )
+	@- $(foreach f,$(Stems), \
+		if [ "$f.awk" -nt "$(Lib)/$f" ]; \
+                then $(MAKE) -f $(Etc)/auk.mk src=$f file; \
+		fi; )                
 
 file :
-	@(echo "#!$(Gawk) -f "; cat $(src).awk ) > $(Lib)/$(src)
-	@chmod +x $(Lib)/$(src)
+	@-(echo "#!$(Gawk) -f "; cat $(src).awk ) > $(Lib)/$(src)
+	@-chmod +x $(Lib)/$(src)
+
+$(Lib)/gauk : $(Etc)/auk.mk 
+	@echo "make -f $(Etc)/auk.mk all; AWKPATH='$(Tmp)' gawk --dump-variables='$(Tmp)/awkvars.out' --profile='$(Tmp)/awkprof.out' " "$$""*" > $@
+	@chmod +x $@
+
+$(Tmp)/prep.sed : $(Etc)/h2sed.awk $(Awks)
+	@cat $(Awks)             \
+        | grep '^#_ '             \
+        | gawk -f $(Etc)/xpand.awk \
+        | gawk  -f $(Etc)/h2sed.awk  > $@
+
+$(Tmp)/%.awk : %.awk $(Tmp)/prep.sed
+	@sed -f $(Tmp)/prep.sed $< > $@
 
 typo:  ready 
 	@- git status
@@ -58,4 +61,3 @@ your:
 timm:
 	@git config --global user.name "Tim Menzies"
 	@git config --global user.email tim.menzies@gmail.com
-

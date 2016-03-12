@@ -1,0 +1,4 @@
+BEGIN { 
+  IgnoreC = "^?"
+  NumC    = "^$"
+}

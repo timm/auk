@@ -1,3 +1,12 @@
+cat <<'EOF'
+This is Auk (copyleft 2016 tim@menzies.us)
+(and a little auk goes a long, long way).
+      _      _      _
+   __(.)< __(.)> __(.)=
+   \___)  \___)  \___)   hjw
+
+EOF
+
 export Here=$(pwd)
 export Etc="$Here/etc"
 export Src="$Here"
@@ -13,6 +22,10 @@ mkdir -p $Lib $Tmp $Bin
 here() { cd $1; basename $PWD; }
 
 PROMPT_COMMAND='echo  -ne "AUX:\033]0;$(here ../..)/$(here ..)/$(here .)\007";PS1="$(here ../..)/$(here ..)/$(here .) \!> "'
+
+me() {
+    /Applications/Emacs.app/Contents/MacOS/Emacs -q -l "$Dot" $* &
+}
 
 e() {
     if   [ "$DISPLAY" ]
@@ -39,6 +52,3 @@ fake() {
     /usr/bin/make $*
   fi
 }
-echo "This is Auk (copyleft 2013 tim@menzies.us)"
-echo "(and a little auk goes a long, long way)"
-echo ""

@@ -1,13 +1,13 @@
-function line(f,   str) {
-  f = f ? f : "/dev/stdin"
-  if ((getline str < f) > 0) {
-    gsub(/[ \t\r]*/,"",str) 
-    gsub(/#.*$/,"",str)
-    if ( str ~ /,[ \t]*$/ )
-      return str line(f)
-    else
-      return str 
-  } else
-    return -1
-}
- { print line() }
+{ gsub(/[ \t\r]*/,"") 
+  gsub(/#.*$/,    "") }
+
+/^$/ { next }
+
+$0 ~ /,$/ { 
+  b4 = b4 $0; next }
+
+{ print b4 $0
+  b4 = ""  }
+
+END { if (b4) print b4 }
+ 
