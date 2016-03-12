@@ -1,1 +1,1 @@
-include $(Etc)/auk.mk
+include etc/auk.mk

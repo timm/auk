@@ -5,14 +5,14 @@
 (transient-mark-mode t)
 (put 'downcase-region 'disabled nil)
 (setq-default  ; file name in buffer
-  frame-title-format
-  (list '((buffer-file-name "Emacs: %f" 
-  	  (dired-directory 
-          	   dired-directory
-	            (revert-buffer-function 
-	    " %b"   
+ frame-title-format
+ (list '((buffer-file-name "Emacs: %f" 
+	  (dired-directory 
+	   dired-directory
+	   (revert-buffer-function 
+	    " %b"
 	    ("%b - Dir:  " default-directory)))))))
-            
+
 ;;; auk stuff
 (setq make-backup-files nil)  ; keep the repo clean
 (global-font-lock-mode t)     ; syntax highlight
@@ -30,3 +30,16 @@
 	 (setq c-basic-offset 2)
 	 (c-toggle-electric-state -1)
 	 )))
+
+; useful for markdown in awk
+(defun auk-fill-paragraph ()
+ (interactive)
+ (save-excursion
+	 (let (pt1 pt2 num)
+		 (setq-default fill-column 52)
+		 (forward-paragraph)
+		 (setq pt1 (point))
+		 (backward-paragraph)
+		 (setq pt2 (point))
+		 (set-mark pt1)
+		 (fill-region pt1 pt2))))

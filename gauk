@@ -1,1 +1,1 @@
-xfce4-terminal -T Auk -x './auk'  &
+make files; AWKPATH='/Users/timm/tmp' gawk --dump-variables='/Users/timm/tmp/awkvars.out' --profile='/Users/timm/tmp/awkprof.out'  $*
