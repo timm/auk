@@ -4,6 +4,7 @@
 
 BEGIN {
    Gold["dot"] = sprintf("%c",46) 
+   Gold["dots"] = Gold["dot"] Gold["dot"]
    Gold["pi"]  = 3.1415926535
    Gold["e"]   = 2.7182818284
    Gold["id"]  = 0 }

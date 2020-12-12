@@ -113,7 +113,7 @@ elif [ -n "$1" ]; then
   fi
 else
   alias auk='$Auk/auk.sh '                 # short cut to this code
-  alias gp='ga;git commit -am save;git push;gs' # end-of-day actions
+  alias gp='git add *; git commit -am save;git push;git status' # end-of-day actions
   alias gs='git status'                         # status 
   alias ls='ls -G'                              # ls
   alias reload='. $Auk/auk.sh'                     # reload these tools

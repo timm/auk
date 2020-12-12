@@ -7,6 +7,7 @@ SCALE: StoChAstic LandscapE analysis
 Optimization via discretization and contrast sets.
 #>
 
+#-------------------------------------------
 ### shortcuts
 function add(i,x,  f) { f= i.is"Add"; return @f(i,x) }
 function dom(i,x,  f) { f= i.is"Dom"; return @f(i,x) }
@@ -25,7 +26,7 @@ function Col(i,pos,txt) {
 function Skip(i,pos,txt) { Col(i,pos,txt); i.is = "Skip" }
 function _Add(i,x)       { return x }
 
-### columns of symbols
+### columns of symbols which we will summaries
 function Sym(i,pos,txt) {
   Col(i, pos,txt)
   i.is = "Sym"
@@ -38,12 +39,12 @@ function _Add(i,x,    d,n) {
    if(n>i.most) { i.most=n; i.mode=x} }
   return x }
 
-### columns of numbers
+### columns of numbers, from which we will keep a sample
 function Some(i,pos,txt) {
   Col(i,pos,txt)
   i.is="Some"
   i.ok= 1
-  i.max=128
+  i.want=128 # number of samples
   i.lo =  1E30
   i.hi = -1E30
   has(i,"all") }
@@ -52,8 +53,8 @@ function _Add(i,x,    len,pos) {
   if (x != "?") {
     i.n++
     len=length(i.all)
-    if (i.n <= i.max) pos=len + 1
-    else  {if (rand() < i.max/i.n) pos=int(len*rand())}
+    if        (i.n < i.want)        pos=len + 1
+    else  {if (rand() < i.want/i.n) pos=int(len*rand())}
     if (pos) {
       if (x < i.lo) i.lo = x
       if (x > i.hi) i.hi = x
@@ -61,7 +62,7 @@ function _Add(i,x,    len,pos) {
       i.all[pos]=x }}
   return x }
 
-function _Ok(i) { if (!i.ok) i.ok=asort(i.all) }
+function _Ok(i) { i.ok = i.ok ? i.ok : asort(i.all) }
 
 function _Norm(i,x) {
   if (x=="?") return x
@@ -125,9 +126,10 @@ function _Read(i,f,  a) {  while(csv(a,f)) add(i,a) }
 #---------------------------------
 function main(f,    i) {
   Tab(i)
-  TabRead(i,f ? f : "weather" Gold.dot "csv") 
+  TabRead(i,f ? f : data("weather") )
   #dom(i)
   #  oo(i)
 }
+function data(f) { return Gold.dots "/data/" f Gold.dot "csv" }
 
 BEGIN {  main(); rogues() }
