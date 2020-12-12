@@ -1,2 +1,0 @@
-demo projected : proj1d | 
-xy -m 0.03  -o $Tmp/auto.pdf  -t "autompg"

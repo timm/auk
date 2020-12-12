@@ -1,1 +1,0 @@
-include $(Etc)/auk.mk
