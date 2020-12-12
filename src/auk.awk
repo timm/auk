@@ -80,7 +80,7 @@ function rogues(   s,ignore) {
 function csv(a, f,       b4, g,txt,i,old,new) {
   f = f ? f : "-"             
   g = getline < f
-  if (g< 0) { print "#E> Missing f ["f"]"; exit 1 } # file missing
+  if (g< 0) { print "#E> Missing file ["f"]"; exit 1 } # file missing
   if (g==0) { close(f) ; return 0 }       # end of file                   
   txt = b4 $0                             # combine with prior
   gsub(/[ \t]+/,"",txt)

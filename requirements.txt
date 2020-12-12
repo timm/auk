@@ -1,3 +1,4 @@
 gawk > 5.1
+curl
 vim 
 tmux
