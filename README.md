@@ -1,4 +1,4 @@
-<img align=right 
+<img align=right width=250
 src="https://raw.githubusercontent.com/timm/auk/master/etc/img/littleauk.png">
 
 # AUK= AWK + Goodies
