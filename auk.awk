@@ -42,6 +42,21 @@ function HAS(i,k,f,x,y,z) {new(i,k);       @f(i[k],x,y,z)}
 ## push to end of list
 function push(x,a) { a[length(a)+1]=x; return x }
 
+## return  end of list
+function last(a)  { return a[length(a)] }
+
+### sort a list on some named field `k`
+# `keysort` modifies the urinal list while `keysorT` returns
+# a sorted copy.
+function keysort(a,k)   {Gold["keysort"]=k; return asort(a,a,"keysrt")}
+function keysorT(a,b,k) {Gold["keysort"]=k; return asort(a,b,"keysrt")}
+
+function keysrt(i1,x,i2,y) {
+  return keysrtCompare(x[ Gold["keysort"] ] + 0,
+                     y[ Gold["keysort"] ] + 0) } 
+
+function keysrtCompare(x,y) { return x<y ? -1 : (x==y?0:1) }
+
 ## flat list to string. optionally, show `prefix`
 function o(a, prefix,     i,sep,s) {
   for(i in a) {s = s sep prefix a[i]; sep=","}

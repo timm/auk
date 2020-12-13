@@ -16,7 +16,6 @@ BEGIN {
 ### shortcuts
 function add(i,x,  f) { f= i.is"Add"; return @f(i,x) }
 
-
 ### columns
 ## generic column
 function Col(i,pos,txt) {
@@ -72,7 +71,8 @@ function _Ok(i) { i.ok = i.ok ? i.ok : asort(i.all) }
 
 function _Mid(i,lo,hi) { return _Per(i,.5,lo,hi) }
 
-function _Sd(i,lo,hi) {return( _Per(i,.9,lo,hi) - _Per(i,.1,lo,hi))/2.54}
+function _Sd(i,lo,hi) {
+  return ( _Per(i,.9,lo,hi) - _Per(i,.1,lo,hi))/2.54 }
 
 function _Per(i,p,lo,hi) { 
   _Ok(i)
@@ -85,24 +85,25 @@ function _Norm(i,x,   n) {
   x= (x-i.lo) / (i.hi - i.lo +1E-32)
   return x<0 ? 0 : (x>1 ? 1 : x) }
 
-function _Div(i,x,bins) { _Div1(i,x,Gold.scale.Some.div) }
-
-function _Div1(i,x,the,         b,n,lo,hi,b4,len,eps) {
+function _Div(i,x,bins,     eps,min,b,n,lo,hi,b4,len) {
   _Ok(i)
-  eps = _Sd(i)*the.epsilon
+  eps = Gold.scale.Some.div.epsilon
+  min = Gold.scale.Some.div.min
+  eps = _Sd(i)*eps
   len = length(i.all)
-  n   = len^the.min
+  n   = len^min
   while(n < 4 && n < len/2) n *= 1.2
   n   = int(n)
   lo  = 1
-  b4  = b = 0
+  b   = b4 = 0
   for(hi=n; hi <= len-n; hi++) {
     if (hi - lo > n) 
       if (i.all[hi] != i.all[hi+1]) 
-        if (b==0 || ( _Mid(i,lo,hi) - b4) > eps) {
-          i.bins[++b] = i.all[hi]
-          b4 = _Mid(i,lo,hi)
-          lo = hi }}}
+        if (b4==0 || (  _Mid(i,lo,hi) - b4) >= eps) {
+          i.bins[++b]   = i.all[hi]
+          b4  = _Mid(i,lo,hi)
+          lo  = hi
+          hi += n }}}
 
 ### rows of data
 function Row(i,a,t,     j) {
@@ -149,32 +150,15 @@ function _Add(i,a,    j) {
     for(j in a)
       hAS(i.cols, j, _What(i,j,a[j]), j, a[j]) }
 
-function _Dom(i,   n,j,k) {
+function _Dom(i,order,   n,j,k) {
   for(j in i.rows) {
     n= Gold.scale.Tab.samples
     for(k in i.rows) {
        if(--n<0) break
       if(i.rows[j].id > i.rows[k].id) 
         i.rows[j].dom += RowDom(i.rows[j], i.rows[k],i)}}
+  return keysorT(i.rows, order,"dom") 
  }
    
 
-function _Read(i,f,  a) {  while(csv(a,f)) add(i,a) }
-
-### main
-function main(f,    c,i,bins) {
-  Tab(i)
-  TabRead(i,data(f ? f : "weather") )
-  TabDom(i)
-  for(c in i.cols)  {
-    if (i.cols[c].is=="Some") {
-      delete bins
-      SomeDiv(i.cols[c])
-      oo(i.cols[c].bins,c) }}}
-
-function data(f) { return Gold.dots "/data/" f Gold.dot "csv" }
-
-BEGIN { srand(Gold.seed ? Gold.seed : 1) 
-        main("auto93")
-        rogues()  }
-
+function _Read(i,f,  a) {  while(csv(a,f)) add(i,a) }  
