@@ -26,9 +26,9 @@ function auk2awk(f,  klass,tmp) {
                   "[\"\\1\\2\"]","g", $0) }}
 
 ### object creation stuff
-function new(i,k) { i[k]["\127"]; delete i[k]["\127"] }
-
 function Obj(i)   { i["id"] = ++Gold["id"] }
+
+function new(i,k) { i[k]["\127"]; delete i[k]["\127"] }
 
 ## add a nested list to `i` at `k` using constructor `f` (if supplied)
 ## the haS and hAS and HAS variants are the same, 
@@ -37,6 +37,15 @@ function has(i,k,     f)  {new(i,k); if(f) @f(i[k])      }
 function haS(i,k,f,x)     {new(i,k);       @f(i[k],x)    }
 function hAS(i,k,f,x,y)   {new(i,k);       @f(i[k],x,y)  }
 function HAS(i,k,f,x,y,z) {new(i,k);       @f(i[k],x,y,z)}
+
+## using constructor `f`, add to the end of nested list `i`
+# Note: `i` must already be a list.
+## the morE and moRE and mORE variants are the same, 
+## but constructors have 1 or 2 or 3 args
+function more(i,f)       { has(i,length(i)+1,f)       }
+function morE(i,f,x)     { haS(i,length(i)+1,f,x)     }
+function moRE(i,f,x,y)   { hAS(i,length(i)+1,f,x,y)   }
+function mORE(i,f,x,y,z) { HAS(i,length(i)+1,f,x,y,z) }
 
 ### list stuff
 ## push to end of list
@@ -87,7 +96,16 @@ function rogues(   s,ignore) {
       print "#W> Rogue: "  s>"/dev/stderr" }
 
 ### file stuff
-## looping over file stuff
+## looping over files 
+function rows(a, f,       g,txt) {
+  f = f ? f : "-"             
+  g = getline < f
+  if (g< 0) { print "#E> Missing file ["f"]"; exit 1 } # file missing
+  if (g==0) { close(f) ; return 0 }       # end of file                   
+  split($0, a, ",")                      # split on "," into "a"
+  return 1 } 
+
+## looping over csvs
 function csv(a, f,       b4, g,txt,i,old,new) {
   f = f ? f : "-"             
   g = getline < f

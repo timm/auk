@@ -1,4 +1,7 @@
+# essential
 gawk > 5.1
 curl
+
+# optional. useful for command-line junkies
 vim 
 tmux
