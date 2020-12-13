@@ -5,19 +5,16 @@
 BEGIN {
    Gold["dot"] = sprintf("%c",46) 
    Gold["dots"] = Gold["dot"] Gold["dot"]
+   Gold["seed"] = 1
    Gold["pi"]  = 3.1415926535
    Gold["e"]   = 2.7182818284
    Gold["id"]  = 0 }
 
-#--------------------------------------------------------------------
 ### transpile stuff
 function auk2awk(f,  klass,tmp) {
   while (getline <f) {
     # multi line comments delimited with #< ... >#
-    if(/^#</) {  
-      print $0; 
-      while(getline<f)  { print "# "$0; if(/^#>/) break } 
-    }
+    if(/^#</) {  while(getline<f)  { print "# "$0; if(/^#>/) break } }
     # grab class name so we can expand "_" to current class
     if (/^function[ \t]+[A-Z][^\(]*\(/) {  # new class name
       split($0,tmp,/[ \t\(]/); klass = tmp[2] 
@@ -28,19 +25,19 @@ function auk2awk(f,  klass,tmp) {
     print  gensub(/\.([^0-9\\*\\$\\+])([a-zA-Z0-9_]*)/, 
                   "[\"\\1\\2\"]","g", $0) }}
 
-#--------------------------------------------------------------------
 ### object creation stuff
-function nested(i,k) { i[k]["\001"]; delete i[j]["\001"] }
+function new(i,k) { i[k]["\127"]; delete i[k]["\127"] }
 
-function Obj(i)  {  i["id"] = ++Gold["id"] }
+function Obj(i)   { i["id"] = ++Gold["id"] }
 
-## add a nested list to `i` at `k` using constructor `f` (defaults to `Obj`)
-## the haS and hAS variants are the same, but constructors have 1 or 2 args
-function has(i, k, f)       { f=f?f:"Obj"; nested(i,k); @f(i[k])      }
-function haS(i, k, f, x)    {              nested(i,k); @f(i[k],x)    }
-function hAS(i, k, f, x, y) {              nested(i,k); @f(i[k],x,y)  }
+## add a nested list to `i` at `k` using constructor `f` (if supplied)
+## the haS and hAS and HAS variants are the same, 
+## but constructors have 1 or 2 or 3 args
+function has(i,k,     f)  {new(i,k); if(f) @f(i[k])      }
+function haS(i,k,f,x)     {new(i,k);       @f(i[k],x)    }
+function hAS(i,k,f,x,y)   {new(i,k);       @f(i[k],x,y)  }
+function HAS(i,k,f,x,y,z) {new(i,k);       @f(i[k],x,y,z)}
 
-#--------------------------------------------------------------------
 ### list stuff
 ## push to end of list
 function push(x,a) { a[length(a)+1]=x; return x }
@@ -67,7 +64,6 @@ function ooSortOrder(a, i) {
    return PROCINFO["sorted_in"] =\
      typeof(i+1)=="number" ? "@ind_num_asc" : "@ind_str_asc" }
 
-#--------------------------------------------------------------------
 ### meta stuff
 ## hunt down rogue local variabes
 function rogues(   s,ignore) { 
@@ -75,7 +71,6 @@ function rogues(   s,ignore) {
     if (s ~ /^[_a-z]/) 
       print "#W> Rogue: "  s>"/dev/stderr" }
 
-#--------------------------------------------------------------------
 ### file stuff
 ## looping over file stuff
 function csv(a, f,       b4, g,txt,i,old,new) {

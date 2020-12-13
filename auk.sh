@@ -33,16 +33,16 @@ INSTALL:
    chmod +x auk.sh; ./auk.sh -i
 
 USAGE:
-  ./auk.sh                converts all .auk files to .awk 
+  ./auk.sh                converts all local .awk files to shared/.awk 
   ./auk.sh -h             as above, also prints this help text
-  ./auk.sh xx.auk         as above, then runs xx.awk
+  ./auk.sh xx.awk         as above, then runs xx.awk
   ./auk.sh xx             ditto
-  Com | ./auk.sh xx.auk   as above, taking input from Com
+  Com | ./auk.sh xx.awk   as above, taking input from Com
   Com | ./auk.sh xx       ditto
   . auk.sh                adds some bash tools to local enviroment
 
-Alternatively, to execute your source file directly using ./xx.auk,
-chmod +x xx.auk and add the top line:
+Alternatively, to execute your source file directly using ./xx.awk,
+chmod +x xx.awk and add the top line:
 
   #!/usr/bin/env path2auk.sh
 
@@ -60,7 +60,7 @@ exists() {
   else
     echo "Downloading $1..."
     mkdir -p $(dirname $want) 
-    curl -s $Repo/$1 -output $want
+    curl -s $Repo/$1 -o $want
   fi
 }
 
@@ -69,7 +69,7 @@ mkdir -p $Lib
 exists src/auk.awk
 cp $Auk/src/auk.awk $Lib
 
-for i in *.auk $Auk/src/*.auk $Auk/tests/*.auk ; do
+for i in $(find . -name "*.awk"); do
   f=$i
   g=$(basename $f)
   g=$Lib/${g%.*}.awk
@@ -83,13 +83,13 @@ if [ "$1" == "-h" ]; then
   usage
 elif [ "$1" == "-t" ]; then
   cd $Auk/tests
-  $Auk/auk.sh $2.auk
+  $Auk/auk.sh $2.awk
 elif [ "$1" == "-T" ]; then
   cd $Auk/tests
-  $Auk/auk.sh tests.auk
+  $Auk/auk.sh tests.awk
 elif [ "$1" == "-i" ]; then
   exists src/auk.awk
-  exists tests/tests.auk
+  exists tests/tests.awk
   exists .travis.yml
   exists .gitignore
   exists etc/.tmux.conf
