@@ -1,5 +1,3 @@
-#!/usr/bin/env bash
-
 #  INSTALL
 
 # Install everything in [requirements.txt](requirements.txt).
