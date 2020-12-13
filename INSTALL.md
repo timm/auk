@@ -7,7 +7,7 @@
     mkdir src tests data
     auk="http://raw.githubusercontent.com/timm/auk/master"
     all="auk.sh auk.awk src/happy.awk tests/happys.awk data/happy.csv"
-
+    
     for f in $all
     do
       [ -f "$f" ] || curl -s $auk/$f -o $f
