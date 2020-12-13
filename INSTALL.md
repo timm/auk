@@ -2,7 +2,7 @@
 
 ###### Install the tools from [requirements.txt](requirements.txt).
 
-###### Run the following code (either type it in or use `bash INSTALL.md`),
+###### Run the following code (which you can run via `bash INSTALL.md`):
  
     mkdir src tests data
     auk="http://raw.githubusercontent.com/timm/auk/master"
