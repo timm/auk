@@ -1,37 +1,15 @@
-# SCALE: StoChAstic LandscapE analysis
+<img align=right src="https://www.iconexperience.com/_img/v_collection_png/256x256/shadow/keys.png">    
 
-(c) 2020 MIT License, Tim Menzies timm@ieee.org   
-Optimization via discretization and contrast sets.
+# AUK= 
 
-Definition SCALE (v):
-
--   To climb up or reach by means of a ladder;
--   To attack with or take by means of scaling ladders;
--   To reach the highest point of (see also SURMOUNT).
-
-              _    .  ,   .           .
-              *  / \_ *  / \_      .  *        *   /\'__        *  
-                /    \  /    \,             .    _/  /  \  *'.    
-           .   /\/\  /\/ :' __ \_  `          _^/  ^/    `--.  
-              /    \/  \  _/  \-'\      *    /.' ^_   \_   .'\  *  
-            /\  .-   `. \/     \ /==~=-=~=-=-;.  _/ \ -. `_/   \   
-           /  `-.__ ^   / .-'.--\ =-=~_=-=~=^/  _ `--./ .-'  `-  
-          /jgs     `.  / /       `.~-^=-=~=^=.-'      '-._ `._  
-
-"I think the highest and lowest points are the important ones. 
- Anything else is just... in between."    
--- Jim Morrison
-
-## Specification
-
-- input -->  rows of `X`+,`Y`+  
-  -  `X` --> `num`|`skip`|`sym`   marked `:`|`?`|`_` respectively
-  - `Y` --> minimize|maximize marked `<`|`>` respectively
-  - (and these marks appear in row1 of the data)
-- output = `rule`+
-  - `rule` --> `Range`+ _score_
-  - `Range` --> 
-    - `X` _value_ (for `sym` columns) 
-    -  `X` _lo hi_ (for `num` columns)
-
+[![DOI](https://zenodo.org/badge/318809834.svg)](https://zenodo.org/badge/latestdoi/318809834)  
+![](https://img.shields.io/badge/platform-osx%20,%20linux-orange)    
+![](https://img.shields.io/badge/language-gawk,bash-blue)  
+![](https://img.shields.io/badge/purpose-ai%20,%20se-blueviolet)  
+[![Build Status](https://travis-ci.com/timm/keys.svg?branch=main)](https://travis-ci.com/timm/keys)   
+![](https://img.shields.io/badge/license-mit-lightgrey)  
+[home](http://menzies.us/auk)  ::
+[about](http://menzies.us/keys/about.html) ::
+[lib](http://menzies.us/keys/lib.html) ::
+[tips](http://menzies.us/keys/tips.html) 
 
