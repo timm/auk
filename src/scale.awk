@@ -72,8 +72,11 @@ function _Add(i,x,    len,pos) {
   if (x != "?") {
     i.n++
     len=length(i.all)
-    if        (i.n < i.want)        pos=len + 1
-    else  {if (rand() < i.want/i.n) pos=int(len*rand())}
+    if  (i.n < i.want)   
+       pos=len + 1 
+    else 
+       if (rand() < i.want/i.n) 
+         pos=int(len*rand()) ;
     if (pos) {
       if (x < i.lo) i.lo = x
       if (x > i.hi) i.hi = x
@@ -174,4 +177,4 @@ function _Dom(i,order,   n,j,k) {
   return keysorT(i.rows, order,"dom") 
  }
 
-unction _Read(i,f,  a) {  while(csv(a,f)) add(i,a) }  
+function _Read(i,f,  a) {  while(csv(a,f)) add(i,a) }  
