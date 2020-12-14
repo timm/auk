@@ -11,41 +11,14 @@ def. SCALE (v):
 -   To attack with or take by means of scaling ladders;
 -   To reach the highest point of (see also SURMOUNT)
 
-
-                                                        ,:
-                                                      ,' |
-                                                     /   :
-                                                  --'   /
-                                                  \/ />/
-                                                  / <//_\
-                                               __/   /
-                                               )'-. /
-                                               ./  :\
-                                                /.' '
-                                              '/'
-                                              +
-                                             '
-                                           `.
-                                       .-"-
-                                      (    |
-                                   . .-'  '.
-                                  ( (.   )8:
-                              .'    / (_  )
-                               _. :(.   )8P  `
-                           .  (  `-' (  `.   .
-                            .  :  (   .a8a)
-                           /_`( "a `a. )"'
-                       (  (/  .  ' )=='
-                      (   (    )  .8"   +
-                        (`'8a.( _(   (
-                     ..-. `8P    ) `  )  +
-                   -'   (      -ab:  )
-                 '    _  `    (8P"Ya
-               _(    (    )b  -`.  ) +
-              ( 8)  ( _.aP" _a   \( \   *
-            +  )/    (8P   (88    )  )
-               (a:f   "     `"       `
-
+                              Hooray!   .
+                                 -.` O /
+                                    ` '
+                                    / \
+                                    ())
+        ``     `..--.. .-'`-.     .-d-b-.
+     --'  ``.-'       ``..`. `  .'       `.  `.
+        .-'                  a:f          ,-'
 #>
 
 BEGIN {   
@@ -69,7 +42,7 @@ function Col(i,pos,txt) {
 
 ## columns whose data we will ignore
 function Skip(i,pos,txt) { Col(i,pos,txt); i.is = "Skip" }
-function _Add(i,x)       { return x }
+function `Add(i,x)       { return x }
 
 ## columns of symbols which we will summaries
 function Sym(i,pos,txt) {
@@ -79,7 +52,7 @@ function Sym(i,pos,txt) {
   has(i,"bins")
   i.mode=i.most="" }
 
-function _Add(i,x,    d,n) {
+function `Add(i,x,    d,n) {
   if (x!="?") {
     n = ++i.some[x]
    if(n>i.most) { i.most=n; i.mode=x} }
@@ -95,7 +68,7 @@ function Some(i,pos,txt) {
   i.hi = -1E30
   has(i,"all") }
 
-function _Add(i,x,    len,pos) {
+function `Add(i,x,    len,pos) {
   if (x != "?") {
     i.n++
     len=length(i.all)
@@ -108,29 +81,29 @@ function _Add(i,x,    len,pos) {
       i.all[pos]=x }}
   return x }
 
-function _Ok(i) { i.ok = i.ok ? i.ok : asort(i.all) }
+function `Ok(i) { i.ok = i.ok ? i.ok : asort(i.all) }
 
-function _Mid(i,lo,hi) { return _Per(i,.5,lo,hi) }
+function `Mid(i,lo,hi) { return `Per(i,.5,lo,hi) }
 
-function _Sd(i,lo,hi) {
-  return ( _Per(i,.9,lo,hi) - _Per(i,.1,lo,hi))/2.54 }
+function `Sd(i,lo,hi) {
+  return ( `Per(i,.9,lo,hi) - `Per(i,.1,lo,hi))/2.54 }
 
-function _Per(i,p,lo,hi) { 
-  _Ok(i)
+function `Per(i,p,lo,hi) { 
+  `Ok(i)
   lo = lo?lo:1
   hi = hi?hi:length(i.all)
   return i.all[ int(lo + p*(hi-lo)) ] }
 
-function _Norm(i,x,   n) {
+function `Norm(i,x,   n) {
   if (x=="?") return x
   x= (x-i.lo) / (i.hi - i.lo +1E-32)
   return x<0 ? 0 : (x>1 ? 1 : x) }
 
-function _Div(i,x,bins,     eps,min,b,n,lo,hi,b4,len) {
-  _Ok(i)
+function `Div(i,x,bins,     eps,min,b,n,lo,hi,b4,len) {
+  `Ok(i)
   eps = Gold.scale.Some.div.epsilon
   min = Gold.scale.Some.div.min
-  eps = _Sd(i)*eps
+  eps = `Sd(i)*eps
   len = length(i.all)
   n   = len^min
   while(n < 4 && n < len/2) n *= 1.2
@@ -140,9 +113,9 @@ function _Div(i,x,bins,     eps,min,b,n,lo,hi,b4,len) {
   for(hi=n; hi <= len-n; hi++) {
     if (hi - lo > n) 
       if (i.all[hi] != i.all[hi+1]) 
-        if (b4==0 || (  _Mid(i,lo,hi) - b4) >= eps) {
+        if (b4==0 || (  `Mid(i,lo,hi) - b4) >= eps) {
           i.bins[++b]   = i.all[hi]
-          b4  = _Mid(i,lo,hi)
+          b4  = `Mid(i,lo,hi)
           lo  = hi
           hi += n }}}
 
@@ -154,7 +127,7 @@ function Row(i,a,t,     j) {
   has(i,"cells") 
   for(j in a) i.cells[j] = add(t.cols[j], a[j]) }
 
-function _Dom(i,j,t,   
+function `Dom(i,j,t,   
                  n,e,c,w,x,y,sum1,sum2) {
   n = length(t.ys)
   for(c in t.ys) {
@@ -175,7 +148,7 @@ function Tab(i) {
   has(i,"rows")
   has(i,"cols") }
 
-function _What(i,pos,txt,  x,where) {
+function `What(i,pos,txt,  x,where) {
   x="Sym"
   if (txt ~ /[<>:]/) x="Some"
   if (txt ~ /\?/)    x="Skip"
@@ -184,14 +157,14 @@ function _What(i,pos,txt,  x,where) {
     i[where][pos] }
   return x }
  
-function _Add(i,a,    j) {
+function `Add(i,a,    j) {
   if (length(i.cols)>1) 
     hAS(i.rows, int(1E9 * rand()) ,"Row",a,i)
   else 
     for(j in a)
-      hAS(i.cols, j, _What(i,j,a[j]), j, a[j]) }
+      hAS(i.cols, j, `What(i,j,a[j]), j, a[j]) }
 
-function _Dom(i,order,   n,j,k) {
+function `Dom(i,order,   n,j,k) {
   for(j in i.rows) {
     n= Gold.scale.Tab.samples
     for(k in i.rows) {
@@ -200,6 +173,5 @@ function _Dom(i,order,   n,j,k) {
         i.rows[j].dom += RowDom(i.rows[j], i.rows[k],i)}}
   return keysorT(i.rows, order,"dom") 
  }
-   
 
-function _Read(i,f,  a) {  while(csv(a,f)) add(i,a) }  
+function `Read(i,f,  a) {  while(csv(a,f)) add(i,a) }  

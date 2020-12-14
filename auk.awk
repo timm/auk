@@ -14,13 +14,13 @@ BEGIN {
 function auk2awk(f,  klass,tmp) {
   while (getline <f) {
     # multi line comments delimited with #< ... >#
-    if(/^#</) {  while(getline<f)  { print "# "$0; if(/^#>/) break } }
+    if(/^#</) {do {print "# " $0} while((getline<f) && (! /^#>/));  print $0}
     # grab class name so we can expand "_" to current class
     if (/^function[ \t]+[A-Z][^\(]*\(/) {  # new class name
       split($0,tmp,/[ \t\(]/); klass = tmp[2] 
     }
-    # expand "_" to the current class
-    gsub(/ _/," " klass)
+    # expand "`" to the current class
+    gsub(/`/," " klass)
     # turn a.b.c[1] into a["b"]["c"][2]
     print  gensub(/\.([^0-9\\*\\$\\+])([a-zA-Z0-9_]*)/, 
                   "[\"\\1\\2\"]","g", $0) }}
