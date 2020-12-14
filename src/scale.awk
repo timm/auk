@@ -59,7 +59,7 @@ function `Add(i,x,    d,n) {
   return x }
 
 ##columns of numbers, from which we will keep a sample
-function Some(i,pos,txt) {
+func Some(i,pos,txt) {
   Col(i,pos,txt)
   i.is="Some"
   i.ok= 1
