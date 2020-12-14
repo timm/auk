@@ -28,11 +28,11 @@ BEGIN {
 }
 
 ### shortcuts
-func add(i,x,  f) { f= i.is"Add"; return @f(i,x) }
+function add(i,x,  f) { f= i.is"Add"; return @f(i,x) }
 
 ### columns
 ## generic column
-func Col(i,pos,txt) {
+function Col(i,pos,txt) {
   Obj(i)
   i.is="Col"
   i.pos=pos
@@ -41,25 +41,25 @@ func Col(i,pos,txt) {
   i.w  =txt ~ /</ ? -1 : 1 }
 
 ## columns whose data we will ignore
-func Skip(i,pos,txt) { Col(i,pos,txt); i.is = "Skip" }
-func _Add(i,x)       { return x }
+function Skip(i,pos,txt) { Col(i,pos,txt); i.is = "Skip" }
+function _Add(i,x)       { return x }
 
 ## columns of symbols which we will summaries
-func Sym(i,pos,txt) {
+function Sym(i,pos,txt) {
   Col(i, pos,txt)
   i.is = "Sym"
   has(i,"seen")
   has(i,"bins")
   i.mode=i.most="" }
 
-func _Add(i,x,    d,n) {
+function _Add(i,x,    d,n) {
   if (x!="?") {
     n = ++i.some[x]
    if(n>i.most) { i.most=n; i.mode=x} }
   return x }
 
 ##columns of numbers, from which we will keep a sample
-func Some(i,pos,txt) {
+function Some(i,pos,txt) {
   Col(i,pos,txt)
   i.is="Some"
   i.ok= 1
@@ -68,7 +68,7 @@ func Some(i,pos,txt) {
   i.hi = -1E30
   has(i,"all") }
 
-func _Add(i,x,    len,pos) {
+function _Add(i,x,    len,pos) {
   if (x != "?") {
     i.n++
     len=length(i.all)
@@ -81,25 +81,25 @@ func _Add(i,x,    len,pos) {
       i.all[pos]=x }}
   return x }
 
-func _Ok(i) { i.ok = i.ok ? i.ok : asort(i.all) }
+function _Ok(i) { i.ok = i.ok ? i.ok : asort(i.all) }
 
-func _Mid(i,lo,hi) { return  _Per(i,.5,lo,hi) }
+function _Mid(i,lo,hi) { return  _Per(i,.5,lo,hi) }
 
-func _Sd(i,lo,hi) {
+function _Sd(i,lo,hi) {
   return (  _Per(i,.9,lo,hi) -  _Per(i,.1,lo,hi))/2.54 }
 
-func _Per(i,p,lo,hi) { 
+function _Per(i,p,lo,hi) { 
    _Ok(i)
   lo = lo?lo:1
   hi = hi?hi:length(i.all)
   return i.all[ int(lo + p*(hi-lo)) ] }
 
-func _Norm(i,x,   n) {
+function _Norm(i,x,   n) {
   if (x=="?") return x
   x= (x-i.lo) / (i.hi - i.lo +1E-32)
   return x<0 ? 0 : (x>1 ? 1 : x) }
 
-func _Div(i,x,bins,     eps,min,b,n,lo,hi,b4,len) {
+function _Div(i,x,bins,     eps,min,b,n,lo,hi,b4,len) {
    _Ok(i)
   eps = Gold.scale.Some.div.epsilon
   min = Gold.scale.Some.div.min
@@ -120,14 +120,14 @@ func _Div(i,x,bins,     eps,min,b,n,lo,hi,b4,len) {
           hi += n }}}
 
 ### rows of data
-func Row(i,a,t,     j) {
+function Row(i,a,t,     j) {
   Obj(i)
   i.is = "Row"
   i.dom = 0
   has(i,"cells") 
   for(j in a) i.cells[j] = add(t.cols[j], a[j]) }
 
-func _Dom(i,j,t,   
+function _Dom(i,j,t,   
                  n,e,c,w,x,y,sum1,sum2) {
   n = length(t.ys)
   for(c in t.ys) {
@@ -140,7 +140,7 @@ func _Dom(i,j,t,
  return sum1/n < sum2/n }
 
 ### tables store rows, summarized in columns
-func Tab(i) {
+function Tab(i) {
   Obj(i)
   i.is = "Tab"
   has(i,"xs")
@@ -148,7 +148,7 @@ func Tab(i) {
   has(i,"rows")
   has(i,"cols") }
 
-func _What(i,pos,txt,  x,where) {
+function _What(i,pos,txt,  x,where) {
   x="Sym"
   if (txt ~ /[<>:]/) x="Some"
   if (txt ~ /\?/)    x="Skip"
@@ -157,14 +157,14 @@ func _What(i,pos,txt,  x,where) {
     i[where][pos] }
   return x }
  
-func _Add(i,a,    j) {
+function _Add(i,a,    j) {
   if (length(i.cols)>1) 
     hAS(i.rows, int(1E9 * rand()) ,"Row",a,i)
   else 
     for(j in a)
       hAS(i.cols, j,  _What(i,j,a[j]), j, a[j]) }
 
-func _Dom(i,order,   n,j,k) {
+function _Dom(i,order,   n,j,k) {
   for(j in i.rows) {
     n= Gold.scale.Tab.samples
     for(k in i.rows) {
@@ -174,4 +174,4 @@ func _Dom(i,order,   n,j,k) {
   return keysorT(i.rows, order,"dom") 
  }
 
-func _Read(i,f,  a) {  while(csv(a,f)) add(i,a) }  
+unction _Read(i,f,  a) {  while(csv(a,f)) add(i,a) }  
