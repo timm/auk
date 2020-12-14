@@ -5,6 +5,11 @@
 SCALE: StoChAstic LandscapE analysis
 (c) 2020 MIT License, Tim Menzies timm@ieee.org
 Optimization via discretization and contrast sets.
+
+def. SCALE (v):
+-   To climb up or reach by means of a ladder;
+-   To attack with or take by means of scaling ladders;
+-   To reach the highest point of (see also SURMOUNT)
 #>
 
 BEGIN {   
@@ -44,7 +49,7 @@ function _Add(i,x,    d,n) {
    if(n>i.most) { i.most=n; i.mode=x} }
   return x }
 
-## columns of numbers, from which we will keep a sample
+##columns of numbers, from which we will keep a sample
 function Some(i,pos,txt) {
   Col(i,pos,txt)
   i.is="Some"
