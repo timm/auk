@@ -6,18 +6,18 @@ SCALE: StoChAstic LandscapE analysis
 (c) 2020 MIT License, Tim Menzies timm@ieee.org
 Optimization via discretization and contrast sets.
 
-def. SCALE (v):
+def. scale (v):
 -   To climb up or reach by means of a ladder;
 -   To attack with or take by means of scaling ladders;
 -   To reach the highest point of (see also SURMOUNT)
 
                               Hooray!   .
-                                 -.` O /
-                                    ` '
+                                 -. _ O /
+                                     _ '
                                     / \
                                     ())
-        ``     `..--.. .-'`-.     .-d-b-.
-     --'  ``.-'       ``..`. `  .'       `.  `.
+         _ _      _..--.. .-' _-.     .-d-b-.
+     --'   _ _.-'        _ _.. _.  _  .'        _.   _.
         .-'                  a:f          ,-'
 #>
 
@@ -28,11 +28,11 @@ BEGIN {
 }
 
 ### shortcuts
-function add(i,x,  f) { f= i.is"Add"; return @f(i,x) }
+func add(i,x,  f) { f= i.is"Add"; return @f(i,x) }
 
 ### columns
 ## generic column
-function Col(i,pos,txt) {
+func Col(i,pos,txt) {
   Obj(i)
   i.is="Col"
   i.pos=pos
@@ -41,18 +41,18 @@ function Col(i,pos,txt) {
   i.w  =txt ~ /</ ? -1 : 1 }
 
 ## columns whose data we will ignore
-function Skip(i,pos,txt) { Col(i,pos,txt); i.is = "Skip" }
-function `Add(i,x)       { return x }
+func Skip(i,pos,txt) { Col(i,pos,txt); i.is = "Skip" }
+func _Add(i,x)       { return x }
 
 ## columns of symbols which we will summaries
-function Sym(i,pos,txt) {
+func Sym(i,pos,txt) {
   Col(i, pos,txt)
   i.is = "Sym"
   has(i,"seen")
   has(i,"bins")
   i.mode=i.most="" }
 
-function `Add(i,x,    d,n) {
+func _Add(i,x,    d,n) {
   if (x!="?") {
     n = ++i.some[x]
    if(n>i.most) { i.most=n; i.mode=x} }
@@ -68,7 +68,7 @@ func Some(i,pos,txt) {
   i.hi = -1E30
   has(i,"all") }
 
-function `Add(i,x,    len,pos) {
+func _Add(i,x,    len,pos) {
   if (x != "?") {
     i.n++
     len=length(i.all)
@@ -81,29 +81,29 @@ function `Add(i,x,    len,pos) {
       i.all[pos]=x }}
   return x }
 
-function `Ok(i) { i.ok = i.ok ? i.ok : asort(i.all) }
+func _Ok(i) { i.ok = i.ok ? i.ok : asort(i.all) }
 
-function `Mid(i,lo,hi) { return `Per(i,.5,lo,hi) }
+func _Mid(i,lo,hi) { return  _Per(i,.5,lo,hi) }
 
-function `Sd(i,lo,hi) {
-  return ( `Per(i,.9,lo,hi) - `Per(i,.1,lo,hi))/2.54 }
+func _Sd(i,lo,hi) {
+  return (  _Per(i,.9,lo,hi) -  _Per(i,.1,lo,hi))/2.54 }
 
-function `Per(i,p,lo,hi) { 
-  `Ok(i)
+func _Per(i,p,lo,hi) { 
+   _Ok(i)
   lo = lo?lo:1
   hi = hi?hi:length(i.all)
   return i.all[ int(lo + p*(hi-lo)) ] }
 
-function `Norm(i,x,   n) {
+func _Norm(i,x,   n) {
   if (x=="?") return x
   x= (x-i.lo) / (i.hi - i.lo +1E-32)
   return x<0 ? 0 : (x>1 ? 1 : x) }
 
-function `Div(i,x,bins,     eps,min,b,n,lo,hi,b4,len) {
-  `Ok(i)
+func _Div(i,x,bins,     eps,min,b,n,lo,hi,b4,len) {
+   _Ok(i)
   eps = Gold.scale.Some.div.epsilon
   min = Gold.scale.Some.div.min
-  eps = `Sd(i)*eps
+  eps =  _Sd(i)*eps
   len = length(i.all)
   n   = len^min
   while(n < 4 && n < len/2) n *= 1.2
@@ -113,21 +113,21 @@ function `Div(i,x,bins,     eps,min,b,n,lo,hi,b4,len) {
   for(hi=n; hi <= len-n; hi++) {
     if (hi - lo > n) 
       if (i.all[hi] != i.all[hi+1]) 
-        if (b4==0 || (  `Mid(i,lo,hi) - b4) >= eps) {
+        if (b4==0 || (   _Mid(i,lo,hi) - b4) >= eps) {
           i.bins[++b]   = i.all[hi]
-          b4  = `Mid(i,lo,hi)
+          b4  =  _Mid(i,lo,hi)
           lo  = hi
           hi += n }}}
 
 ### rows of data
-function Row(i,a,t,     j) {
+func Row(i,a,t,     j) {
   Obj(i)
   i.is = "Row"
   i.dom = 0
   has(i,"cells") 
   for(j in a) i.cells[j] = add(t.cols[j], a[j]) }
 
-function `Dom(i,j,t,   
+func _Dom(i,j,t,   
                  n,e,c,w,x,y,sum1,sum2) {
   n = length(t.ys)
   for(c in t.ys) {
@@ -140,7 +140,7 @@ function `Dom(i,j,t,
  return sum1/n < sum2/n }
 
 ### tables store rows, summarized in columns
-function Tab(i) {
+func Tab(i) {
   Obj(i)
   i.is = "Tab"
   has(i,"xs")
@@ -148,7 +148,7 @@ function Tab(i) {
   has(i,"rows")
   has(i,"cols") }
 
-function `What(i,pos,txt,  x,where) {
+func _What(i,pos,txt,  x,where) {
   x="Sym"
   if (txt ~ /[<>:]/) x="Some"
   if (txt ~ /\?/)    x="Skip"
@@ -157,14 +157,14 @@ function `What(i,pos,txt,  x,where) {
     i[where][pos] }
   return x }
  
-function `Add(i,a,    j) {
+func _Add(i,a,    j) {
   if (length(i.cols)>1) 
     hAS(i.rows, int(1E9 * rand()) ,"Row",a,i)
   else 
     for(j in a)
-      hAS(i.cols, j, `What(i,j,a[j]), j, a[j]) }
+      hAS(i.cols, j,  _What(i,j,a[j]), j, a[j]) }
 
-function `Dom(i,order,   n,j,k) {
+func _Dom(i,order,   n,j,k) {
   for(j in i.rows) {
     n= Gold.scale.Tab.samples
     for(k in i.rows) {
@@ -174,4 +174,4 @@ function `Dom(i,order,   n,j,k) {
   return keysorT(i.rows, order,"dom") 
  }
 
-function `Read(i,f,  a) {  while(csv(a,f)) add(i,a) }  
+func _Read(i,f,  a) {  while(csv(a,f)) add(i,a) }  

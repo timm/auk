@@ -12,25 +12,25 @@ function Happy(i) {
   i.total = 0
   has(i,"actions") }
 
-## Ready means `actions` are sorted by priority.
-function `Ready(i) {
+## Ready means  _actions _ are sorted by priority.
+function  _Ready(i) {
   if(!i.ready) { i.ready=keysort(i.actions,"when") }}
 
 ## add a new thing, default priority=1
-function `Adds(i,act,when) { 
+function  _Adds(i,act,when) { 
   when     = when ? when : 1 # handle defaults
   i.total += when            # track priority sum
   moRE(i.actions,"Act",act,when) 
   i.ready  = 0 } # since actions may not be sorted correctly
 
 ## read actions from file
-function `Read(i,file,  row) {
+function  _Read(i,file,  row) {
   while(rows(row, file)) {
     adds(i,row[2],row[1])}}
 
-## Print `n` actions, favoring those with higher priorities.
-function `AndYouKnowIt(i,  j,r)  { 
-  `Ready(i) 
+## Print  _n _ actions, favoring those with higher priorities.
+function  _AndYouKnowIt(i,  j,r)  { 
+   _Ready(i) 
   r=rand()
   for(j=length(i.actions); j>=1; j--) {
     r -= i.actions[j].when/i.total
