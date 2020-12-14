@@ -10,6 +10,42 @@ def. SCALE (v):
 -   To climb up or reach by means of a ladder;
 -   To attack with or take by means of scaling ladders;
 -   To reach the highest point of (see also SURMOUNT)
+
+
+                                                        ,:
+                                                      ,' |
+                                                     /   :
+                                                  --'   /
+                                                  \/ />/
+                                                  / <//_\
+                                               __/   /
+                                               )'-. /
+                                               ./  :\
+                                                /.' '
+                                              '/'
+                                              +
+                                             '
+                                           `.
+                                       .-"-
+                                      (    |
+                                   . .-'  '.
+                                  ( (.   )8:
+                              .'    / (_  )
+                               _. :(.   )8P  `
+                           .  (  `-' (  `.   .
+                            .  :  (   .a8a)
+                           /_`( "a `a. )"'
+                       (  (/  .  ' )=='
+                      (   (    )  .8"   +
+                        (`'8a.( _(   (
+                     ..-. `8P    ) `  )  +
+                   -'   (      -ab:  )
+                 '    _  `    (8P"Ya
+               _(    (    )b  -`.  ) +
+              ( 8)  ( _.aP" _a   \( \   *
+            +  )/    (8P   (88    )  )
+               (a:f   "     `"       `
+
 #>
 
 BEGIN {   
