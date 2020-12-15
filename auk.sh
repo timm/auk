@@ -1,4 +1,8 @@
-#!/usr/bin/env bash ### configuration
+#!/usr/bin/env bash 
+
+####------------------------------------------------------------
+## configuration
+
 ##  where to write the generated code
 Lib=$HOME/opt/share/awk
 
@@ -11,6 +15,9 @@ Auk=$(cd $( dirname "${BASH_SOURCE[0]}" ) && pwd )
 ## where to find code to compile
 Awks="$Auk/src $Auk/tests"
 ### end configuration
+
+####------------------------------------------------------------
+## help noted
 
 usage() {  tput bold; tput setaf 6; cat <<'EOF'
 AUK: a preprocessor for AWK code
