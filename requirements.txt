@@ -1,4 +1,5 @@
 # essential
+bash
 gawk > 5.1
 curl
 
