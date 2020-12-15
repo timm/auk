@@ -3,18 +3,15 @@
 @include "scale"
 
 ### main
-function main(f,    c,i,j,n,s,order) {
+function main(f,    c,i,j,n,s,order,len) {
   Tab(i)
   TabRead(i,data(f ? f : "weather") )
-  n=TabDom(i,order)
-  Some(s)
-  for(j=1;j<=n;j++)
-    add(s, order[j].dom)
-  SomeDiv(s)
-  print(last(s.bins), order[n].dom)
-  for(c in i.cols)  {
-    if (i.cols[c].is=="Some") {
-      SomeDiv(i.cols[c]) }} }
+  TabDom(i,order)
+  oo(i.rows)
+  #print(len)
+  #oo(i.rows)
+  for(j=1;j<=len; j++) { oo(i.rows[j]) } # j } # i.rows[j].group }
+}
 
 function data(f) { return Gold.dots "/data/" f Gold.dot "csv" }
 

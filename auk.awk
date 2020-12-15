@@ -1,7 +1,7 @@
 # auk.awk
 # built-ins for the auk language
 # should be all "raw" gawk (no auk extensions)
-
+#201
 BEGIN {
    Gold["dot"] = sprintf("%c",46) 
    Gold["dots"] = Gold["dot"] Gold["dot"]
@@ -29,10 +29,18 @@ function auk2awk(f,  klass,tmp) {
 function Obj(i)   { i["id"] = ++Gold["id"] }
 
 function is(i, new,old) {
-  if ("is" in i) Gold["is"][new][old]
+  if ("is" in i) Gold["is"][new] = old
   i["is"] = new }
 
 function new(i,k) { i[k]["\127"]; delete i[k]["\127"] }
+
+function does(i,f,      s,k0,k) {
+  k = k0 = i["is"]
+  do { s= k f
+       if(s in FUNCTAB) return s
+  } while(k=Gold["is"][k])
+  print "E> method not found "f" in "k0
+  exit 1 }
 
 ## add a nested list to `i` at `k` using constructor `f` (if supplied)
 ## the haS and hAS and HAS variants are the same, 
@@ -110,7 +118,7 @@ function rows(a, f,       g,txt) {
   split($0, a, ",")                      # split on "," into "a"
   return 1 } 
 
-function it(i,  f) { f=i["is"]"It"; return @f(i) }
+function it(i,  f) { f=does(i,"It"); return @f(i) }
 
 ## looping over csvs
 function csv(a, f,       b4, g,txt,i,old,new) {

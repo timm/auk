@@ -28,7 +28,7 @@ BEGIN {
 }
 
 ### shortcuts
-function add(i,x,  f) { f= i.is"Add"; return @f(i,x) }
+function add(i,x,  f) { f=does(i,"Add"); return @f(i,x) }
 
 ### columns
 ## generic column
@@ -66,6 +66,7 @@ function Some(i,pos,txt) {
   i.want=128 # number of samples
   i.lo =  1E30
   i.hi = -1E30
+  has(i,"bins")
   has(i,"all") }
 
 function _Add(i,x,    len,pos) {
@@ -102,25 +103,32 @@ function _Norm(i,x,   n) {
   x= (x-i.lo) / (i.hi - i.lo +1E-32)
   return x<0 ? 0 : (x>1 ? 1 : x) }
 
-function _Div(i,x,bins,     eps,min,b,n,lo,hi,b4,len) {
-   _Ok(i)
-  eps = Gold.scale.Some.div.epsilon
-  min = Gold.scale.Some.div.min
-  eps =  _Sd(i)*eps
-  len = length(i.all)
-  n   = len^min
-  while(n < 4 && n < len/2) n *= 1.2
-  n   = int(n)
-  lo  = 1
-  b   = b4 = 0
-  for(hi=n; hi <= len-n; hi++) {
-    if (hi - lo > n) 
-      if (i.all[hi] != i.all[hi+1]) 
-        if (b4==0 || (   _Mid(i,lo,hi) - b4) >= eps) {
-          i.bins[++b]   = i.all[hi]
-          b4  =  _Mid(i,lo,hi)
-          lo  = hi
-          hi += n }}}
+function _Bin(i,x,     j) {
+  _Bins(i)
+  for(j=1; j<=length(i.bins); j++) 
+    if( x<=i.bins[j] ) return j
+  return j+1 }
+     
+function _Bins(i,     eps,min,b,n,lo,hi,b4,len) {
+  if (!length(i.bins)) {
+     _Ok(i)
+    eps = Gold.scale.Some.div.epsilon
+    min = Gold.scale.Some.div.min
+    eps =  _Sd(i)*eps
+    len = length(i.all)
+    n   = len^min
+    while(n < 4 && n < len/2) n *= 1.2
+    n   = int(n)
+    lo  = 1
+    b   = b4 = 0
+    for(hi=n; hi <= len-n; hi++) {
+      if (hi - lo > n) 
+        if (i.all[hi] != i.all[hi+1]) 
+          if (b4==0 || (   _Mid(i,lo,hi) - b4) >= eps) {
+            i.bins[++b]   = i.all[hi]
+            b4  = _Mid(i,lo,hi)
+            lo  = hi
+            hi += n }}}}
 
 ### rows of data
 function Row(i,a,t,     j) {
@@ -167,14 +175,16 @@ function _Add(i,a,    j) {
     for(j in a)
       hAS(i.cols, j,  _What(i,j,a[j]), j, a[j]) }
 
-function _Dom(i,order,   n,j,k) {
+function _Dom(i,order,   n,j,k,s) {
+  Some(s)
   for(j in i.rows) {
     n= Gold.scale.Tab.samples
     for(k in i.rows) {
        if(--n<0) break
       if(i.rows[j].id > i.rows[k].id) 
-        i.rows[j].dom += RowDom(i.rows[j], i.rows[k],i)}}
-  return keysorT(i.rows, order,"dom") 
- }
+        i.rows[j].dom += RowDom(i.rows[j], i.rows[k],i)}
+    add(s,i.rows[j].dom) }
+   for(j in i.rows)
+      i.rows[j].group = SomeBin(s, i.rows[j].dom)  }
 
 function _Read(i,f,  a) {  while(csv(a,f)) add(i,a) }  

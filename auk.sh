@@ -145,6 +145,19 @@ elif [ "$1" == "-i" ]; then
   fi
   vim +PluginInstall +qall
 
+## profile a .awk file 
+elif [ "$1" == "-p" ]; then
+  f=$2
+  g=$(basename $f)
+  g=$Lib/${g%.*}.awk
+  shift; shift
+  AWKPATH="$Lib:./:$AWKPATH"
+  COM="gawk -p -f $Lib/auk.awk -f $g $*"
+  if [ -t 0 ]
+    then         AWKPATH="$AWKPATH" $COM
+    else cat - | AWKPATH="$AWKPATH" $COM
+  fi
+
 ## run a .awk file 
 elif [ -n "$1" ]; then
   f=$1
