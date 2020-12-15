@@ -21,7 +21,8 @@ Auk adds  the following goodies to standard Gawk:
 attributes, methods, iterators, unit tests, multi-line comments.
 
 
-Strange to say, most of that comes from 20 lines of a Gawk transpiler
+Strange to say, most of that comes from 
+[13 lines of a Gawk transpiler](https://github.com/timm/auk/blob/master/auk.awk#L13-L26)
 from Auk code into the standard Gawk syntax.
 A little auk (awk) goes a long  way.
 
