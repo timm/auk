@@ -2,16 +2,10 @@
 
 ###### Install the tools from [requirements.txt](requirements.txt).
 
-###### Run the following code (which you can run via `bash INSTALL.md`):
- 
-    mkdir src tests data
-    auk="http://raw.githubusercontent.com/timm/auk/master"
-    all="auk.sh auk.awk src/happy.awk tests/happys.awk data/happy.csv"
-    
-    for f in $all; do
-      [ -f "$f" ] || curl -s $auk/$f -o $f
-    done
+###### Download [auk.sj[ to an empty directory
 
+###### Run the following code:
+ 
     chmod +x auk.sh
     ./auk.sh -i
 
@@ -19,3 +13,5 @@
  
     cd tests
     ../auk.sh happier
+
+##### Now your own source code in `./src` and test cases into `./tests`.

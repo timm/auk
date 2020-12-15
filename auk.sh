@@ -55,6 +55,11 @@ EOF
   gawk 'sub(/^[ \t]*alias/,"alias") {print $0}' $Auk/auk.sh
   tput sgr0
 }
+
+####------------------------------------------------------------
+## support code
+
+## ensure file exists, or get download it from $Repo
 exists() {
   want=$Auk/$1
   if [ -f "$want" ]; then
@@ -66,10 +71,25 @@ exists() {
   fi
 }
 
+## any line containing FAIL or PASS gets shown in RED or GREEN
+redgreen() { gawk '
+     /^---/ { $0="\033[01;36m"$0"\033[0m" }
+     /FAIL/ { bad++; $0="\033[31m"$0"\033[0m" }
+     /PASS/ { $0="\033[32m"$0"\033[0m" }
+            { print $0                 }
+     END    { exit bad!=0 }'
+}
+
+####------------------------------------------------------------
+## ensure base system exists
+
 mkdir -p $Lib
 
 exists auk.awk
 cp $Auk/auk.awk $Lib
+
+####------------------------------------------------------------
+## transpile all code in $Aws to $Lib
 
 for i in $(find $Awks -name "*.awk"); do
   f=$i
@@ -80,23 +100,32 @@ for i in $(find $Awks -name "*.awk"); do
   fi
 done
 
+####------------------------------------------------------------
+## process command line
+
+## show help test
 if [ "$1" == "-h" ]; then
   usage
+
+## test one file in $Auk/tests
 elif [ "$1" == "-t" ]; then
   cd $Auk/tests
-  $Auk/auk.sh $2.awk
+  $Auk/auk.sh $2.awk | redgreen
+  exit $?
+
+## test all files in $Auk/tests, 
 elif [ "$1" == "-T" ]; then
   cd $Auk/tests
-  $Auk/auk.sh tests.awk | gawk '
-     /^---/ { $0="\033[01;36m"$0"\033[0m" }
-     /FAIL/ { bad++; $0="\033[31m"$0"\033[0m" }
-     /PASS/ { $0="\033[32m"$0"\033[0m" }
-            { print $0                 }
-     END    { exit bad!=0 }'
-    exit $?
+  $Auk/auk.sh tests.awk | redgreen
+  exit $?
+
+## install lots of important files
 elif [ "$1" == "-i" ]; then
   exists auk.awk
   exists tests/tests.awk
+  exists src/happy.awk
+  exists src/happys.awk
+  exists data/happys.csv
   exists .travis.yml
   exists .gitignore
   exists etc/.tmux.conf
@@ -107,6 +136,8 @@ elif [ "$1" == "-i" ]; then
      vims
   fi
   vim +PluginInstall +qall
+
+## run a .awk file 
 elif [ -n "$1" ]; then
   f=$1
   g=$(basename $f)
@@ -118,6 +149,8 @@ elif [ -n "$1" ]; then
     then         AWKPATH="$AWKPATH" $COM
     else cat - | AWKPATH="$AWKPATH" $COM
   fi
+
+## if none of the above, install some cool Bash toys
 else
   alias auk='$Auk/auk.sh '                 # short cut to this code
   alias gp='git add *;git commit -am save;git push;git status' # gh stuff
