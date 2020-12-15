@@ -1,5 +1,7 @@
+<!--- src="https://raw.githubusercontent.com/timm/auk/master/etc/img/littleauk.png" --->
+
 <img align=right width=250
-src="https://raw.githubusercontent.com/timm/auk/master/etc/img/littleauk.png">
+src="https://cdn.pixabay.com/photo/2017/09/01/13/22/waking-up-2704249_960_720.png">
 
 # AUK= AWK + Goodies
 
