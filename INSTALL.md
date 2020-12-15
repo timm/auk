@@ -1,8 +1,8 @@
 #  INSTALL
 
-####### Install the tools from [requirements.txt](requirements.txt).
+###### Install the tools from [requirements.txt](requirements.txt).
 
-####### Run the following code (which you can run via `bash INSTALL.md`):
+###### Run the following code (which you can run via `bash INSTALL.md`):
  
     mkdir src tests data
     auk="http://raw.githubusercontent.com/timm/auk/master"
@@ -15,7 +15,7 @@
     chmod +x auk.sh
     ./auk.sh -i
 
-###### To get a demo  of the functionality
+##### To get a demo  of the functionality
  
     cd tests
     ../auk.sh happier
