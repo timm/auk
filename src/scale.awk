@@ -34,20 +34,20 @@ function add(i,x,  f) { f= i.is"Add"; return @f(i,x) }
 ## generic column
 function Col(i,pos,txt) {
   Obj(i)
-  i.is="Col"
+  is(i, "Col")
   i.pos=pos
   i.txt=txt
   i.n  =0
   i.w  =txt ~ /</ ? -1 : 1 }
 
 ## columns whose data we will ignore
-function Skip(i,pos,txt) { Col(i,pos,txt); i.is = "Skip" }
+function Skip(i,pos,txt) { Col(i,pos,txt); is(i,"Skip") }
 function _Add(i,x)       { return x }
 
 ## columns of symbols which we will summaries
 function Sym(i,pos,txt) {
   Col(i, pos,txt)
-  i.is = "Sym"
+  is(i,  "Sym")
   has(i,"seen")
   has(i,"bins")
   i.mode=i.most="" }
@@ -61,7 +61,7 @@ function _Add(i,x,    d,n) {
 ##columns of numbers, from which we will keep a sample
 function Some(i,pos,txt) {
   Col(i,pos,txt)
-  i.is="Some"
+  is(i,"Some")
   i.ok= 1
   i.want=128 # number of samples
   i.lo =  1E30
@@ -125,7 +125,7 @@ function _Div(i,x,bins,     eps,min,b,n,lo,hi,b4,len) {
 ### rows of data
 function Row(i,a,t,     j) {
   Obj(i)
-  i.is = "Row"
+  is(i, "Row")
   i.dom = 0
   has(i,"cells") 
   for(j in a) i.cells[j] = add(t.cols[j], a[j]) }
@@ -145,7 +145,7 @@ function _Dom(i,j,t,
 ### tables store rows, summarized in columns
 function Tab(i) {
   Obj(i)
-  i.is = "Tab"
+  is(i,"Tab")
   has(i,"xs")
   has(i,"ys")
   has(i,"rows")

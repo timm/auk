@@ -1,7 +1,6 @@
 # vim: filetype=awk ts=2 sw=2 sts=2  et :
 function CsvDemo(i,f) {
   Obj(i)
-  #is(i, "CsvDemo")
   i.is   = "CsvDemo"  
   i.file = f 
   has(i,"fields") }
