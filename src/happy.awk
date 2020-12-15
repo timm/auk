@@ -4,10 +4,10 @@ function adds(i,x,y,   f) {f=i.is"Adds";  return @f(i,x,y)  }
 
 ### If you are happy and you know it, do some things
 ## Constructor
-function Happy(i) {
+function Bias(i,n) {
   Obj(i)
-  i.is="Happy"
-  i.repeats = 1
+  is(i, "Bias")
+  i.n = n ? n : 10
   i.ready   = 0 # true if actions sorted on priority
   i.total = 0
   has(i,"actions") }
@@ -26,10 +26,11 @@ function  _Adds(i,act,when) {
 ## read actions from file
 function  _Read(i,file,  row) {
   while(rows(row, file)) {
+    Cs
     adds(i,row[2],row[1])}}
 
 ## Print  _n _ actions, favoring those with higher priorities.
-function  _AndYouKnowIt(i,  j,r)  { 
+function  _It(i,  j,r)  { 
    _Ready(i) 
   r=rand()
   for(j=length(i.actions); j>=1; j--) {

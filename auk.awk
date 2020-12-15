@@ -28,6 +28,10 @@ function auk2awk(f,  klass,tmp) {
 ### object creation stuff
 function Obj(i)   { i["id"] = ++Gold["id"] }
 
+function is(i, new,old) {
+  if ("is" in i) Gold["is"][new][old]
+  i["is"] = new }
+
 function new(i,k) { i[k]["\127"]; delete i[k]["\127"] }
 
 ## add a nested list to `i` at `k` using constructor `f` (if supplied)

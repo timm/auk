@@ -14,6 +14,7 @@ Auk=$(cd $( dirname "${BASH_SOURCE[0]}" ) && pwd )
 
 ## where to find code to compile
 Awks="$Auk/src $Auk/tests"
+
 ### end configuration
 
 ####------------------------------------------------------------
