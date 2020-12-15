@@ -19,6 +19,8 @@ src="https://raw.githubusercontent.com/timm/auk/master/etc/img/littleauk.png">
 Auk adds  the following goodies to standard Gawk:
          polymorphism, encapsulation, objects, 
 attributes, methods, iterators, unit tests, multi-line comments.
+
+
 Strange to say, most of that comes from 20 lines of a Gawk transpiler
 from Auk code into the standard Gawk syntax.
 A little auk (awk) goes a long  way.
