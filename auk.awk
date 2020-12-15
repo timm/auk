@@ -106,23 +106,6 @@ function rows(a, f,       g,txt) {
   split($0, a, ",")                      # split on "," into "a"
   return 1 } 
 
-function Csv(i,f) {
-  Obj(i)
-  i["is"]   = "Csv"  
-  i["file"] = f 
-  has(i,"fields") }
-
-function CsvIt(i,     ok,a,j,old,new) {
-  if(ok = rows(a,i["file"])>0)  
-    if(length(a))  {
-      delete i["fields"]
-      for(j in a) {
-        old = a[j]
-        gsub(/([ \t]+|#.*)/,"",old)
-        new = old + 0
-        i["fields"][j] = (new==old) ? new : old a[j] }}
-  return ok}
-
 function it(i,  f) { f=i["is"]"It"; return @f(i) }
 
 ## looping over csvs
