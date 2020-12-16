@@ -1,25 +1,30 @@
 function Some(i) {
   Obj(i); is(i,"Some")
   i.n=0
-  i.max=30
+  i.max=40
   has(i,"all") }
 
 function _Add(i,v, pos) {
   if (v == "?") return
+  if(v=="") print "!!!!"
   i.n++
-  if (i.n <= i.max) {
+  if (i.n < i.max) {
     i.all[ length(i.all)+1 ] = v
     i.ready=0
-  } else {
-    if (i.n == i.max) 
-      _Sorted(i)
-    if (rand() < i.max/i.n) {
-      if (v< i.all[1] || v>i.all[i.max]) {
-        i.all[1+int(rand()* length(i.all))] = v
-        i.ready=0
-      } else 
-        i.all[ binChop(i.all,v) ] = v}} 
-  return v }
+    return v }
+  if (i.n == i.max)  {
+    i.all[i.n] = v
+    _Ready(i) 
+    return v }
+  if (rand() < i.max/i.n) {
+    if (v<= i.all[1] || v>=i.all[i.max]) {
+      i.all[ 1+int(rand()* length(i.all)) ] = v
+      i.ready=0
+      return v
+    } else  {
+      pos=binChop(i.all,v)
+      i.all[ pos ] = v 
+      return v}}}
 
 function _Ready(i) {
   if(!i.ready) {print("-",i.n); 
@@ -28,12 +33,13 @@ function _Ready(i) {
 function binChop(a,x,           y,lo, hi,mid)  {
   lo = 1
   hi = length(a)
-  do {
+  mid = int((hi + lo) / 2)
+  while (lo <= hi)  {
     mid = int((hi + lo) / 2)
     y = a[mid]
     if (x == y) break
     if (x <  y) {hi=mid-1} else {lo=mid+1} 
-  } while (lo <= hi) 
+  }
   return mid }
 
 function main(i,s) {
@@ -44,11 +50,18 @@ function main(i,s) {
      SomeAdd(s,rand()) 
   }
   SomeReady(s)
-  for(i=1;i<=length(s.all);i++) print ":",s.all[i] 
+  print(length(s.all))
+  for(i in s.all) print i,": ["s.all[i]"]" 
 }
+function main1(i,a,j) {
+  for(j=1;j<=100000;j++) a[1+int(30*rand())]= rand()
+  asort(a)
+  for(j in a) print j,a[j] }
 
 BEGIN {
-  srand(ENVIRON["R"]?ENVIRON["R"]:1)
+  R=ENVIRON["R"]
+  srand(R?R:1)
   main()
   rogues()
+  print(R)
 }
