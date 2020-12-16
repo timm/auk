@@ -25,6 +25,6 @@ function main(f,    c,i,j,n,s,order,len) {
 function data(f) { return Gold.dots "/data/" f Gold.dot "csv" }
 
 BEGIN { srand(Gold.seed ? Gold.seed : 1) 
-        combo() #main("auto93")
+        main("auto93")
         rogues()  }
 

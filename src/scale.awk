@@ -29,6 +29,7 @@ BEGIN {
 
 ### shortcuts
 function add(i,x,  f) { f=does(i,"Add"); return @f(i,x) }
+function discretize(i,x,  f) { f=does(i,"Discretize"); return @f(i,x) }
 
 ### columns
 ## generic column
@@ -59,16 +60,20 @@ function _Add(i,x,    d,n) {
     if(n>i.most) { i.most=n; i.mode=x} }
   return x }
 
+function _Discretize(i,x) { if(x!="?") return x }
+
 function _Ent(i,      p,e,x) {
   for(x in i.seen) 
     if((p=i.seen[x] / i.n)>0)
       e -= p*log(p)/log(2);
   return e }
 
-function _Merge(i,j,k,  x) {
+function _Combine(i,j,k,  x) {
   Sym(k) 
   copy(i,k)
   k.n = i.n + j.n
+  k.xlo = i.xlo < j.xlo ? i.xlo : j.xlo
+  k.xhi = i.xhi > j.xhi ? i.xhi : j.xhi
   for(x in j.seen) {
     k.seen[x] += j.seen[x]
     if (k.seen[x] > k.most) {
@@ -76,7 +81,7 @@ function _Merge(i,j,k,  x) {
        k.mode = x  }}}
 
 function _Seperate(i,j,k,       ei,ej,ek) {
-  _Merge(i,j,k) 
+  _Combine(i,j,k) 
   ei = _Ent(i)
   ej = _Ent(j)
   ek = _Ent(k)
@@ -127,11 +132,12 @@ function _Norm(i,x,   n) {
   x= (x-i.lo) / (i.hi - i.lo +1E-32)
   return x<0 ? 0 : (x>1 ? 1 : x) }
 
-function _Bin(i,x,     j) {
-  _Bins(i)
-  for(j=1; j<=length(i.bins); j++) 
-    if( x<=i.bins[j] ) return j
-  return j }
+function _Discretize(i,x,     j) {
+  if (x!="?") {
+    _Bins(i)
+    for(j=1; j<=length(i.bins); j++) 
+      if( x<=i.bins[j] ) return j
+    return j }}
      
 function _Bins(i,     eps,min,b,n,lo,hi,b4,len) {
   if (!length(i.bins)) {
@@ -153,6 +159,19 @@ function _Bins(i,     eps,min,b,n,lo,hi,b4,len) {
             b4  = _Mid(i,lo,hi)
             lo  = hi
             hi += n }}}}
+
+function _Counts(i,rows,    r,x,y,all) {
+ for(r in rows)  {
+   x = _Discretize(i, rows[r].cells[i.pos])
+   y = rows[r].group
+   if(! (x in all)) {
+     has(all,x,"Sym")
+     all[x].xlo =  1E32
+     all[x].xhi = -1E32 }
+   add(all[x], y) 
+   if(x < all[x].xlo) all[x].xlo = x  
+   if(x > all[x].xhi) all[x].xhi = x  }
+ keysort(all,"xlo") }
 
 ### rows of data
 function Row(i,a,t,     j) {
@@ -209,6 +228,24 @@ function _Dom(i,order,   n,j,k,s) {
         i.rows[j].dom += RowDom(i.rows[j], i.rows[k],i)}
     add(s,i.rows[j].dom) }
    for(j in i.rows)
-      i.rows[j].group = SomeBin(s, i.rows[j].dom)  }
+      i.rows[j].group = SomeDiscretize(s, i.rows[j].dom)  }
 
 function _Read(i,f,  a) {  while(csv(a,f)) add(i,a) }  
+
+function Nb(i,cols,rows) {
+  has(i,"f")  # counts of symbols in each column for each class
+  has(i,"h")  # frequency counts for each class
+  has(i,"at") # reverse index, column, symbol to row
+  i.n = 0 
+  _Adds(i,cols,rows) }
+
+function _Adds(i,cols,rows,    r,y,c,x) {
+  for(r in rows)  {
+    i.n++
+    y = rows[r].group
+    i.h[y]++
+    for(c in i.cols) 
+      if(x= discretize(i.cols[c], r.cells[c])) {
+        i.at[c][x][r]
+        i.f[y][c][x]++ }}}
+
