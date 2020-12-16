@@ -6,7 +6,6 @@ function Some(i) {
 
 function _Add(i,v, pos) {
   if (v == "?") return
-  if(v=="") print "!!!!"
   i.n++
   if (i.n < i.max) {
     i.all[ length(i.all)+1 ] = v
@@ -18,7 +17,7 @@ function _Add(i,v, pos) {
     if (v< i.all[1] || v>i.all[i.max]) {
       i.all[ 1+int(rand()* length(i.all)) ] = v
       i.ready=0
-    } else  {
+    } else {
       pos=binChop(i.all,v)
       i.all[ pos ] = v  }}
   return v }
@@ -30,7 +29,6 @@ function _Ready(i) {
 function binChop(a,x,           y,lo, hi,mid)  {
   lo = 1
   hi = length(a)
-  mid = int((hi + lo) / 2)
   while (lo <= hi)  {
     mid = int((hi + lo) / 2)
     y = a[mid]
