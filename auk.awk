@@ -20,7 +20,7 @@ function auk2awk(f,  klass,tmp) {
       split($0,tmp,/[ \t\(]/); klass = tmp[2] 
     }
     # expand " _" to the current class
-    gsub(/ _/," " klass)
+    gsub(/[ \t]_/," " klass)
     # turn a.b.c[1] into a["b"]["c"][2]
     print  gensub(/\.([^0-9\\*\\$\\+])([a-zA-Z0-9_]*)/, 
                   "[\"\\1\\2\"]","g", $0) }}
@@ -65,6 +65,13 @@ function push(x,a) { a[length(a)+1]=x; return x }
 
 ## return  end of list
 function last(a)  { return a[length(a)] }
+
+# recursive copy of `a` into `b`
+function copy(a,b,   j) { 
+  for(j in a) 
+    if(isarray(a[j]))  { new(b,j); copy(a[j], b[j]) }
+    else
+      b[j] = a[j] }
 
 ### sort a list on some named field `k`
 # `keysort` modifies the urinal list while `keysorT` returns

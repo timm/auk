@@ -54,9 +54,33 @@ function Sym(i,pos,txt) {
 
 function _Add(i,x,    d,n) {
   if (x!="?") {
-    n = ++i.some[x]
-   if(n>i.most) { i.most=n; i.mode=x} }
+    i.n++
+    n = ++i.seen[x]
+    if(n>i.most) { i.most=n; i.mode=x} }
   return x }
+
+function _Ent(i,      p,e,x) {
+  for(x in i.seen) 
+    if((p=i.seen[x] / i.n)>0)
+      e -= p*log(p)/log(2);
+  return e }
+
+function _Merge(i,j,k,  x) {
+  Sym(k) 
+  copy(i,k)
+  k.n = i.n + j.n
+  for(x in j.seen) {
+    k.seen[x] += j.seen[x]
+    if (k.seen[x] > k.most) {
+       k.most = k.seen[x]
+       k.mode = x  }}}
+
+function _Seperate(i,j,k,       ei,ej,ek) {
+  _Merge(i,j,k) 
+  ei = _Ent(i)
+  ej = _Ent(j)
+  ek = _Ent(k)
+  return (ei*i.n + ej*j.n)/k.n < ek }
 
 ##columns of numbers, from which we will keep a sample
 function Some(i,pos,txt) {
@@ -107,7 +131,7 @@ function _Bin(i,x,     j) {
   _Bins(i)
   for(j=1; j<=length(i.bins); j++) 
     if( x<=i.bins[j] ) return j
-  return j+1 }
+  return j }
      
 function _Bins(i,     eps,min,b,n,lo,hi,b4,len) {
   if (!length(i.bins)) {
