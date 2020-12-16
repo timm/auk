@@ -11,23 +11,20 @@ function _Add(i,v, pos) {
   if (i.n < i.max) {
     i.all[ length(i.all)+1 ] = v
     i.ready=0
-    return v }
-  if (i.n == i.max)  {
+  } else if (i.n == i.max)  {
     i.all[i.n] = v
     _Ready(i) 
-    return v }
-  if (rand() < i.max/i.n) {
-    if (v<= i.all[1] || v>=i.all[i.max]) {
+  } else if (rand() < i.max/i.n) {
+    if (v< i.all[1] || v>i.all[i.max]) {
       i.all[ 1+int(rand()* length(i.all)) ] = v
       i.ready=0
-      return v
     } else  {
       pos=binChop(i.all,v)
-      i.all[ pos ] = v 
-      return v}}}
+      i.all[ pos ] = v  }}
+  return v }
 
 function _Ready(i) {
-  if(!i.ready) {print("-",i.n); 
+  if(!i.ready) {
       i.ready=asort(i.all) }}
 
 function binChop(a,x,           y,lo, hi,mid)  {
@@ -44,11 +41,9 @@ function binChop(a,x,           y,lo, hi,mid)  {
 
 function main(i,s) {
   Some(s)
-  #for(i=30000;i>=1;i--) {
   for(i=1;i<=100000;i++) {
      if(!(i%100)) SomeReady(s)
-     SomeAdd(s,rand()) 
-  }
+     SomeAdd(s,rand()) } 
   SomeReady(s)
   print(length(s.all))
   for(i in s.all) print i,": ["s.all[i]"]" 
