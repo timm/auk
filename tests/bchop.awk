@@ -22,7 +22,7 @@ function _Add(i,v, pos) {
   return v }
 
 function _Ready(i) {
-  if(!i.ready) {#print("-",i.n); 
+  if(!i.ready) {print("-",i.n); 
       i.ready=asort(i.all) }}
 
 function binChop(a,x,           y,lo, hi,mid)  {
@@ -41,10 +41,10 @@ function main(i,s) {
   #for(i=30000;i>=1;i--) {
   for(i=1;i<=100000;i++) {
      if(!(i%100)) SomeReady(s)
-     SomeAdd(s,i) #rand()) 
+     SomeAdd(s,rand()) 
   }
   SomeReady(s)
-  #for(i=1;i<=length(s.all);i++) print ":",s.all[i] 
+  for(i=1;i<=length(s.all);i++) print ":",s.all[i] 
 }
 
 BEGIN {
