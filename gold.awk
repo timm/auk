@@ -1,17 +1,18 @@
-# auk.awk
-# built-ins for the auk language
-# should be all "raw" gawk (no auk extensions)
-#201
+# vim: filetype=awk ts=2 sw=2 sts=2  et :
+
+# built-ins for the Gold language
+# should be all "raw" gawk (no Gold extensions)
+
 BEGIN {
-   Gold["dot"] = sprintf("%c",46) 
+   Gold["dot"]  = sprintf("%c",46) 
    Gold["dots"] = Gold["dot"] Gold["dot"]
    Gold["seed"] = 1
-   Gold["pi"]  = 3.1415926535
-   Gold["e"]   = 2.7182818284
-   Gold["id"]  = 0 }
+   Gold["pi"]   = 3.1415926535
+   Gold["e"]    = 2.7182818284
+   Gold["id"]   = 0 }
 
 ### transpile stuff
-function auk2awk(f,  klass,tmp) {
+function gold2awk(f,  klass,tmp) {
   while (getline <f) {
     # multi line comments delimited with #< ... >#
     if(/^#</) {do {print "# " $0} while((getline<f) && (! /^#>/));  print $0}

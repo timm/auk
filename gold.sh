@@ -7,13 +7,13 @@
 Lib=$HOME/opt/share/awk
 
 ## Where to get missing files
-Repo="https://raw.githubusercontent.com/timm/auk/master"
+Repo="https://raw.githubusercontent.com/timm/gold/master"
 
-## install directory for auk. defaults to where the auk.sh is
-Auk=$(cd $( dirname "${BASH_SOURCE[0]}" ) && pwd )
+## install directory for gold. defaults to where the gold.sh is
+Gold=$(cd $( dirname "${BASH_SOURCE[0]}" ) && pwd )
 
 ## where to find code to compile
-Awks="$Auk/src $Auk/tests"
+Golds="$Gold/src $Gold/tests"
 
 ### end configuration
 
@@ -21,19 +21,23 @@ Awks="$Auk/src $Auk/tests"
 ## help noted
 
 usage() {  tput bold; tput setaf 6; cat <<'EOF'
-AUK: a preprocessor for AWK code
+GOLD: a preprocessor for AWK code
 (c) 2020 MIT License, Tim Menzies timm@ieee.org
 
-         .-"-.
-       /  ,~a\_
-       \  \__))>  a little auk (awk) goes a long way
-       ,) ." \    
-      /  (    \
-     /   )    ;
-    /   /     /
-  ,/_."`  _.-`
-   /_/`"\\___
-        `~~~`
+        _.-'~~`~~'-._
+     .'`  J   E   C  `'.
+    / B               T \
+  /`       .-'~"-.       `\
+ ; O      / `-    \      S ;
+;        />  `.  -.|        ;
+|       /_     '-.__)       |
+|        |-  _.' \ |        |
+;        `~~;     \\        ;
+ ; IN GAWK  /      \\)P    ;
+  \WE TRUST '.___.-'`"     /
+   `\                   /`
+     '._   2 0 2 0   _.'
+ jgs    `'-..,,,..-'`
 
 EOF
   tput sgr0; tput setaf 7; cat<<'EOF'
@@ -41,26 +45,26 @@ Augments standard gawk with polymorphism, encapsulation, objects,
 attributes, methods, iterators, unit tests, multi-line comments.
 
 INSTALL:
-   chmod +x auk.sh; ./auk.sh -i
+   chmod +x gold.sh; ./gold.sh -i
 
 USAGE:
-  ./auk.sh               convert .awk files in src and test to shared
-  ./auk.sh -h            as above, also prints this help text
-  ./auk.sh xx.awk        as above, then runs xx.awk
-  ./auk.sh xx            ditto
-  Com | ./auk.sh xx.awk  as above, taking input from Com
-  Com | ./auk.sh xx      ditto
-  . auk.sh               adds some bash tools to local enviroment
+  ./gold.sh               convert .awk files in src and test to shared
+  ./gold.sh -h            as above, also prints this help text
+  ./gold.sh xx.awk        as above, then runs xx.awk
+  ./gold.sh xx            ditto
+  Com | ./gold.sh xx.awk  as above, taking input from Com
+  Com | ./gold.sh xx      ditto
+  . gold.sh               adds some bash tools to local enviroment
 
 Alternatively, to execute your source file directly using ./xx.awk,
 chmod +x xx.awk and add the top line:
 
-  #!/usr/bin/env path2auk.sh
+  #!/usr/bin/env path2gold.sh
 
-If called via ". auk.sh" then the following alias are defined:
+If called via ". gold.sh" then the following alias are defined:
 EOF
   tput setaf 9; echo ""
-  gawk 'sub(/^[ \t]*alias/,"alias") {print $0}' $Auk/auk.sh
+  awk 'sub(/^[ \t]*alias/,"alias") {print $0}' $Gold/gold.sh
   tput sgr0
 }
 
@@ -69,7 +73,7 @@ EOF
 
 ## ensure file exists, or get download it from $Repo
 exists() {
-  want=$Auk/$1
+  want=$Gold/$1
   if [ -f "$want" ]; then
      true
   else
@@ -80,7 +84,7 @@ exists() {
 }
 
 ## any line containing FAIL or PASS gets shown in RED or GREEN
-redgreen() { gawk '
+redgreen() { awk '
      /^---/ { $0="\033[01;36m"$0"\033[0m" }
      /FAIL/ { bad++; $0="\033[31m"$0"\033[0m" }
      /PASS/ { $0="\033[32m"$0"\033[0m" }
@@ -93,18 +97,18 @@ redgreen() { gawk '
 
 mkdir -p $Lib
 
-exists auk.awk
-cp $Auk/auk.awk $Lib
+exists gold.awk
+cp $Gold/gold.awk $Lib
 
 ####------------------------------------------------------------
-## transpile all code in $Aws to $Lib
+## transpile all code in $Golds to $Lib
 
-for i in $(find $Awks -name "*.awk"); do
+for i in $(find $Golds -name "*.awk"); do
   f=$i
   g=$(basename $f)
   g=$Lib/${g%.*}.awk
   if [ "$f" -nt "$g" ]; then 
-     gawk -f $Lib/auk.awk --source 'BEGIN { auk2awk("'$f'")}' > $g 
+     awk -f $Lib/gold.awk --source 'BEGIN { gold2awk("'$f'")}' > $g 
   fi
 done
 
@@ -115,21 +119,21 @@ done
 if [ "$1" == "-h" ]; then
   usage
 
-## test one file in $Auk/tests
+## test one file in $Gold/tests
 elif [ "$1" == "-t" ]; then
-  cd $Auk/tests
-  $Auk/auk.sh $2.awk | redgreen
+  cd $Gold/tests
+  $Gold/gold.sh $2.awk | redgreen
   exit $?
 
-## test all files in $Auk/tests, 
+## test all files in $Gold/tests, 
 elif [ "$1" == "-T" ]; then
-  cd $Auk/tests
-  $Auk/auk.sh tests.awk | redgreen
+  cd $Gold/tests
+  $Gold/gold.sh tests.awk | redgreen
   exit $?
 
 ## install lots of important files
 elif [ "$1" == "-i" ]; then
-  exists auk.awk
+  exists gold.awk
   exists tests/tests.awk
   exists src/happy.awk
   exists src/happys.awk
@@ -152,7 +156,7 @@ elif [ "$1" == "-p" ]; then
   g=$Lib/${g%.*}.awk
   shift; shift
   AWKPATH="$Lib:./:$AWKPATH"
-  COM="gawk -p -f $Lib/auk.awk -f $g $*"
+  COM="awk -p -f $Lib/gold.awk -f $g $*"
   if [ -t 0 ]
     then         AWKPATH="$AWKPATH" $COM
     else cat - | AWKPATH="$AWKPATH" $COM
@@ -165,7 +169,7 @@ elif [ -n "$1" ]; then
   g=$Lib/${g%.*}.awk
   shift
   AWKPATH="$Lib:./:$AWKPATH"
-  COM="gawk -f $Lib/auk.awk -f $g $*"
+  COM="awk -f $Lib/gold.awk -f $g $*"
   if [ -t 0 ]
     then         AWKPATH="$AWKPATH" $COM
     else cat - | AWKPATH="$AWKPATH" $COM
@@ -173,11 +177,11 @@ elif [ -n "$1" ]; then
 
 ## if none of the above, install some cool Bash toys
 else
-  alias auk='$Auk/auk.sh '                 # short cut to this code
+  alias gold='$Gold/gold.sh '                 # short cut to this code
   alias gp='git add *;git commit -am save;git push;git status' # gh stuff
   alias gs='git status'                    # status 
   alias ls='ls -G'                         # ls
-  alias reload='. $Auk/auk.sh'             # reload these tools
+  alias reload='. $Gold/gold.sh'             # reload these tools
   alias vims="vim +PluginInstall +qall"    # install vim plugins 
-  alias vi="vim -u $Auk/etc/.vimrc"        # run a configured vim
+  alias vi="vim -u $Gold/etc/.vimrc"        # run a configured vim
 fi

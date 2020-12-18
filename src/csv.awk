@@ -1,4 +1,3 @@
-#!/usr/bin/env ./auk.sh
 # vim: filetype=awk ts=2 sw=2 sts=2  et :
 
 function Csv(i,f) {

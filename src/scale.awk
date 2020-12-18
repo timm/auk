@@ -1,4 +1,3 @@
-#!/usr/bin/env ./auk.sh
 # vim: filetype=awk ts=2 sw=2 sts=2  et :
 
 #<
@@ -159,19 +158,6 @@ function _Bins(i,     eps,min,b,n,lo,hi,b4,len) {
             b4  = _Mid(i,lo,hi)
             lo  = hi
             hi += n }}}}
-
-function _Counts(i,rows,    r,x,y,all) {
- for(r in rows)  {
-   x = _Discretize(i, rows[r].cells[i.pos])
-   y = rows[r].group
-   if(! (x in all)) {
-     has(all,x,"Sym")
-     all[x].xlo =  1E32
-     all[x].xhi = -1E32 }
-   add(all[x], y) 
-   if(x < all[x].xlo) all[x].xlo = x  
-   if(x > all[x].xhi) all[x].xhi = x  }
- keysort(all,"xlo") }
 
 ### rows of data
 function Row(i,a,t,     j) {
