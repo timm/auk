@@ -23,5 +23,5 @@ ok:
 	mkdir -p $(opt)
 
 $(opt)/%.awk : %.auk  Makefile 
-	@echo "awk-ing $@..."
-	@$(awk) -f auk.awk 'BEGIN {gold2awk("'$<'"}' > $@
+	@echo "awk-ing $< ==> $@"
+	@$(awk) -f auk.awk --source 'BEGIN {gold2awk("$<")}' > $@

@@ -1,24 +1,24 @@
 #!/usr/bin/env bash
 # vim: ft=bash ts=2 sw=2 sts=2 et :
+clear
  
 what=duo
 hi() { 
   clear
   tput bold; tput setaf 5
   cat<<-'EOF'
-    
-    
-              .--.      AUK: the awk pre-processor
-             / ,~a`-,   (c) Tim Menzies, 2022, MIT license
-             \ \_.-"`  
-              ) (       
-            ,/ ."\     "A little auk backspace backspace
-           /  (  |      awk goes a long way."
-          /   )  ;      
-     jgs /   /  /
-       ,/_."` /`
-        /_/\ |___
-           `~~~~~`
+  
+            .--.      AUK: the awk pre-processor
+           / ,~a`-,   (c) Tim Menzies, 2022, MIT license
+           \ \_.-"`  
+            ) (       
+          ,/ ."\     "A little auk backspace backspace
+         /  (  |      awk goes a long way."
+        /   )  ;      
+   jgs /   /  /
+     ,/_."` /`
+      /_/\ |___
+         `~~~~~`
     
 	EOF
   tput bold; tput setaf 241
@@ -36,7 +36,6 @@ alias ...='cd ../../../'
 alias bye="gp; tmux detach"
 alias egrep='egrep --color=auto'
 alias fgrep='fgrep --color=auto'
-alias awk='make all; AWKPATH="$HOME/opt/awk:$AWKPATH" \gawk ' 
 alias gp="git add *;git commit -am save;git push;git status"
 alias grep='grep --color=auto'
 alias h="history"
@@ -50,6 +49,14 @@ alias vims="vim +PluginInstall +qall"
 export BASH_SILENCE_DEPRECATION_WARNING=1
 export PATH="$PWD:/opt/homebrew/bin:$PATH"
 export EDITOR=$(which pico)
+
+pathadd() {
+    if [ -d "$1" ] && [[ ":$AWKPATH:" != *":$1:"* ]]; then
+        AWKPATH="${AWKPATH:+"$AWKPATH:"}$1"
+    fi
+}
+
+pathadd $HOME/opt/awk
 
 here() { cd $1; basename `pwd`; }
 #!/usr/bin/env bash
@@ -70,7 +77,7 @@ mytmux() {
 
     tmux splitw -h -p 30
     tmux selectp -t 1
-    tmux send-keys C-m  "etc/h"  C-m
+    tmux send-keys C-m  "clear" C-m "etc/h"  C-m
 
     tmux splitw -v  -p 20
     tmux selectp -t 2

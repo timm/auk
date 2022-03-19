@@ -3,13 +3,7 @@
 
 BEGIN{ DOT=sprintf("%c",46)}
 
-function gold2awk1(f,  klass,a) {
-  print f
-  while ((getline line < f) > 0)
-    print ":: " line}
-
 function gold2awk(f,  klass,a) {
-  print f
   while ((getline line <f) >0) {
     # multi line comments delimited with #< ... >#
     if(/^#</) {do {print "# " line} while((getline<f) && (! /^#>/));  print line}
@@ -20,7 +14,7 @@ function gold2awk(f,  klass,a) {
     print gensub(/\.([^0-9\\*\\$\\+])([a-zA-Z0-9_]*)/,"[\"\\1\\2\"]","g", line)}}
 
 function new(i) { split("",i,"") }
-function Object(i)   { new(i); i["isa"]="Object"; i["oid"] = ++OID }
+function Object(i)   { new(i); i["is"]="Object"; i["oid"] = ++OID }
 
 function is(f,got,want,    pre) {
   if (want == "") want=1
