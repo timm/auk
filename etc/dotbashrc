@@ -34,6 +34,7 @@ alias ..='cd ..'
 alias ...='cd ../../../'
 
 alias bye="gp; tmux detach"
+alias auk='AWKPATH="$HOME/opt/awk:./" gawk '
 alias egrep='egrep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias gp="git add *;git commit -am save;git push;git status"
@@ -56,6 +57,7 @@ pathadd() {
     fi
 }
 
+pathadd ./
 pathadd $HOME/opt/awk
 
 here() { cd $1; basename `pwd`; }
