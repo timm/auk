@@ -1,3 +1,4 @@
+SHELL := bash
 opt=$(HOME)/opt/awk
 awk=$(shell which gawk)
 

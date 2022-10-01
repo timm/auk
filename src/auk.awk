@@ -45,6 +45,12 @@ function fyi(x) { print x >> "/dev/stderr" }
 function warning(txt) { print "#E> " txt > "/dev/stderr" }
 function error(txt)   { warning(txt); fflush("/dev/stderr");  exit 1 }
 
+function copy(t,u,    i) { 
+  for(i in t) 
+    if (isarray(t[i]) {
+      u[i]["\t"]=""; delete u[i]["\t"]; copy(t[i], u[i]) 
+    } else {u[i]=t[i]}}
+
 function tests(what, all,   one,a,i,n) {
    n = split(all,a,",")
    print " "
